@@ -41,7 +41,7 @@ function organiseCommits (list) {
 
 function commitTags (list, callback) {
   var sublist = list.filter(function (commit) {
-    return typeof commit.ghIssue == 'number' && !commit.ghUser && !commit.ghProject
+    return typeof commit.ghIssue == 'number' && commit.ghUser && commit.ghProject
   })
 
   if (!sublist.length)
