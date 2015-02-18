@@ -1,0 +1,21 @@
+{
+  "name": "changelog-maker",
+  "version": "1.0.0",
+  "description": "A git log to CHANGELOG.md tool",
+  "main": "changelog-maker.js",
+  "bin": {
+    "changelog-maker": "./changelog-maker.js"
+  },
+  "author": "Rod <rod@vagg.org> (http://r.va.gg/)",
+  "license": "MIT",
+  "dependencies": {
+    "after": "~0.8.1",
+    "bl": "~0.9.4",
+    "chalk": "~0.5.1",
+    "ghauth": "~2.0.0",
+    "ghissues": "~0.1.0",
+    "list-stream": "~1.0.0",
+    "split2": "~0.2.1",
+    "through2": "~0.6.3"
+  }
+}
