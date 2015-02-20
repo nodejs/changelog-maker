@@ -15,6 +15,7 @@
     "ghauth": "~2.0.0",
     "ghissues": "~0.1.0",
     "list-stream": "~1.0.0",
+    "minimist": "~1.1.0",
     "split2": "~0.2.1",
     "through2": "~0.6.3"
   },

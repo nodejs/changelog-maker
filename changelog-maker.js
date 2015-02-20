@@ -11,11 +11,12 @@ const spawn    = require('child_process').spawn
     , ghauth   = require('ghauth')
     , ghissues = require('ghissues')
     , chalk    = require('chalk')
+    , argv     = require('minimist')(process.argv.slice(2))
 
     , commitStream = require('./commit-stream')
 
-    , ghUser        = process.argv[2] || 'iojs'
-    , ghProject     = process.argv[3] || 'io.js'
+    , ghUser        = argv._[0] || 'iojs'
+    , ghProject     = argv._[1] || 'io.js'
     , authOptions   = {
           configName : `changelog-maker`
         , scopes     : []
@@ -35,7 +36,7 @@ function organiseCommits (list) {
       started = true
 
     return !started
-  }).reverse()
+  })
 }
 
 
@@ -71,25 +72,54 @@ function commitTags (list, callback) {
 }
 
 
+function commitToGroup (commit) {
+  return (/^\w+:/.test(commit.summary) && commit.summary.split(':')[0]) || null
+}
+
+
 function commitToOutput (commit) {
   var semver     = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
-    , mod        = (/^\w+:/.test(commit.summary) && commit.summary.split(':')[0]) || ''
-    , summaryOut = !mod ? commit.summary : commit.summary.substr(mod.length + 2)
+    , group      = commitToGroup(commit) || ''
+    , summaryOut = !group ? commit.summary : commit.summary.substr(group.length + 2)
     , shaOut     = `[\`${commit.sha.substr(0,10)}\`](https://github.com/${ghUser}/${ghProject}/commit/${commit.sha.substr(0,10)})`
-    , labelOut   = (semver.length ? '(' + semver.join(', ').toUpperCase() + ') ' : '') + mod
+    , labelOut   = (semver.length ? '(' + semver.join(', ').toUpperCase() + ') ' : '') + group
     , prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
     , out
 
-  if (labelOut.length)
-    summaryOut = `**${labelOut}**: ${summaryOut}`
-  out = `* [${shaOut}] - ${summaryOut} (${commit.author.name})`
+  if (argv.simple) { 
+    if (labelOut.length)
+      summaryOut = `${labelOut}: ${summaryOut}`
+    out = `* [${commit.sha.substr(0,10)}] - ${summaryOut} (${commit.author.name})`
 
-  if (prUrlMatch)
-    out += ` [${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}](${commit.prUrl})`
+    if (prUrlMatch)
+      out += ` ${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}`
+  } else {
+    if (labelOut.length)
+      summaryOut = `**${labelOut}**: ${summaryOut}`
+    out = `* [${shaOut}] - ${summaryOut} (${commit.author.name})`
+
+    if (prUrlMatch)
+      out += ` [${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}](${commit.prUrl})`
+  }
 
   return semver.length
       ? chalk.green(chalk.bold(out))
-      : mod == 'doc' ? chalk.grey(out) : out
+      : group == 'doc' ? chalk.grey(out) : out
+}
+
+
+function groupCommits (list) {
+  var groups = list.reduce(function (groups, commit) {
+    var group = commitToGroup(commit) || '*'
+    if (!groups[group])
+      groups[group] = []
+    groups[group].push(commit)
+    return groups
+  }, {})
+
+  return Object.keys(groups).sort().reduce(function (p, group) {
+    return p.concat(groups[group])
+  }, [])
 }
 
 
@@ -112,6 +142,9 @@ function onCommitList (err, list) {
   commitTags(list, function (err) {
     if (err)
       throw err
+
+    if (argv.group)
+      list = groupCommits(list)
 
     list = list.map(commitToOutput)
 

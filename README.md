@@ -13,7 +13,7 @@
 
 After collecting the list of commits, any that have `PR-URL: <url>` in them are looked up on GitHub and the labels of the pull request are collected, specifically looking for labels that start with `semver` (the assumption is that `semver-minor`, `semver-major` labels are used to indicate non-patch version bumps).
 
-Finally, the list will be reversed, formatted as Markdown and printed to stdout.
+Finally, the list is formatted as Markdown and printed to stdout.
 
 Each commit will come out something like this (on one line):
 
@@ -35,6 +35,15 @@ When printing to a console some special behaviours are invoked:
 
 * Commits with a summary that starts with `doc:` are rendered in grey
 * Commits that have a `semver*` label on the pull request referred to in their `PR-URL` are rendered in bold green
+
+## Usage
+
+**`changelog-maker [--simple] [--group] [github-user[, github-project]]`**
+
+* `github-user` and `github-project` should point to the GitHub repository that can be used to find the `PR-URL` data if just an issue number is provided and will also impact how the PR-URL issue numbers are displayed
+* `--simple` will print a simple form, not with additional Markdown cruft
+* `--group` will reorder commits so that they are listed in groups where the `xyz:` prefix of the commit message defines the group. Commits are listed in original order _within_ group.
+
 
 ## License
 
