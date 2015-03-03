@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
-const gitcmd = 'git log --pretty=full --since="$(git show -s --format=%ad `git rev-list --tags --max-count=1`)"'
+const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
+    , commitdatecmd = '$(git show -s --format=%ad `{{refcmd}}`)'
+    , untilcmd      = ''
+    , refcmd        = 'git rev-list --max-count=1 {{ref}}'
+    , defaultRef    = '--tags'
 
 
 const spawn    = require('child_process').spawn
@@ -23,8 +27,19 @@ const spawn    = require('child_process').spawn
       }
 
 
+function replace (s, m) {
+  Object.keys(m).forEach(function (k) {
+    s = s.replace(new RegExp('\\{\\{' + k + '\\}\\}', 'g'), m[k])
+  })
+  return s
+}
+
+
 function organiseCommits (list) {
-    // filter commits to those _before_ 'working on ...'
+  if (argv['start-ref'])
+    return list
+
+  // filter commits to those _before_ 'working on ...'
   var started = false
   return list.filter(function (commit) {
     if (started)
@@ -153,11 +168,16 @@ function onCommitList (err, list) {
 }
 
 
-var cmd = spawn('bash', [ '-c', gitcmd ])
+var _startrefcmd = replace(refcmd, { ref: argv['start-ref'] || defaultRef })
+  , _endrefcmd   = argv['end-ref'] && replace(refcmd, { ref: argv['end-ref'] })
+  , _sincecmd    = replace(commitdatecmd, { refcmd: _startrefcmd })
+  , _untilcmd    = argv['end-ref'] ? replace(commitdatecmd, { refcmd: _endrefcmd }) : untilcmd
+  , _gitcmd      = replace(gitcmd, { sincecmd: _sincecmd, untilcmd: _untilcmd })
+  , child        = spawn('bash', [ '-c', _gitcmd ])
 
-cmd.stdout.pipe(split2()).pipe(commitStream(ghUser, ghProject)).pipe(list.obj(onCommitList))
+child.stdout.pipe(split2()).pipe(commitStream(ghUser, ghProject)).pipe(list.obj(onCommitList))
 
-cmd.stderr.pipe(bl(function (err, _data) {
+child.stderr.pipe(bl(function (err, _data) {
   if (err)
     throw err
 
@@ -165,7 +185,7 @@ cmd.stderr.pipe(bl(function (err, _data) {
     process.stderr.write(_data)
 }))
 
-cmd.on('close', function (code) {
+child.on('close', function (code) {
   if (code)
     throw new Error(`git command [${gitcmd}] exited with code ${code}`)
 })
