@@ -88,7 +88,7 @@ function commitTags (list, callback) {
 
 
 function commitToGroup (commit) {
-  return (/^\w+:/.test(commit.summary) && commit.summary.split(':')[0]) || null
+  return (/^[\w,]+:/.test(commit.summary) && commit.summary.split(':')[0]) || null
 }
 
 
