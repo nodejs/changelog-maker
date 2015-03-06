@@ -28,7 +28,7 @@ function commitStream (ghUser, ghProject) {
       if (!commit.reviewers)
         commit.reviewers = []
       commit.reviewers.push({ name: m[1], email: m[2] })
-    } else if (m = line.match(/^\s+PR[- ]?URL:?\s*(.+)\s*$/i)) {
+    } else if (m = line.match(/^\s+PR(?:[- ]?URL)?:?\s*(.+)\s*$/i)) {
       commit.prUrl = m[1]
       if (m = commit.prUrl.match(/^\s*#?(\d+)\s*$/))
         commit.prUrl = `https://github.com/${ghUser}/${ghProject}/pull/${m[1]}`
