@@ -22,7 +22,7 @@ const spawn    = require('child_process').spawn
     , ghUser        = argv._[0] || 'iojs'
     , ghProject     = argv._[1] || 'io.js'
     , authOptions   = {
-          configName : `changelog-maker`
+          configName : 'changelog-maker'
         , scopes     : []
       }
 
