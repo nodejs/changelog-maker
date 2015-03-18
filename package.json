@@ -13,7 +13,7 @@
     "bl": "~0.9.4",
     "chalk": "~0.5.1",
     "ghauth": "~2.0.0",
-    "ghissues": "~0.1.0",
+    "ghissues": "~1.0.0",
     "list-stream": "~1.0.0",
     "minimist": "~1.1.0",
     "split2": "~0.2.1",
