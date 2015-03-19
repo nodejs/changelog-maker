@@ -1,11 +1,13 @@
 {
   "name": "changelog-maker",
+  "version": "1.2.5",
   "description": "A git log to CHANGELOG.md tool",
-  "version": "1.2.4",
-  "author": "Rod <rod@vagg.org> (http://r.va.gg/)",
+  "main": "changelog-maker.js",
   "bin": {
     "changelog-maker": "./changelog-maker.js"
   },
+  "author": "Rod <rod@vagg.org> (http://r.va.gg/)",
+  "license": "MIT",
   "dependencies": {
     "after": "~0.8.1",
     "bl": "~0.9.4",
@@ -15,14 +17,12 @@
     "list-stream": "~1.0.0",
     "minimist": "~1.1.0",
     "split2": "~0.2.1",
-    "strip-ansi": "^2.0.1",
+    "strip-ansi": "~2.0.1",
     "through2": "~0.6.3"
   },
-  "license": "MIT",
-  "main": "changelog-maker.js",
-  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/rvagg/changelog-maker.git"
-  }
+  },
+  "preferGlobal": true
 }
