@@ -92,6 +92,12 @@ function commitToGroup (commit) {
 }
 
 
+function cleanMarkdown (txt) {
+  // just escape '[' & ']'
+  return txt.replace(/([\[\]])/g, '\\$1')
+}
+
+
 function commitToOutput (commit) {
   var semver     = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
     , group      = commitToGroup(commit) || ''
@@ -111,7 +117,7 @@ function commitToOutput (commit) {
   } else {
     if (labelOut.length)
       summaryOut = `**${labelOut}**: ${summaryOut}`
-    out = `* [${shaOut}] - ${summaryOut} (${commit.author.name})`
+    out = `* [${shaOut}] - ${cleanMarkdown(summaryOut)} (${commit.author.name})`
 
     if (prUrlMatch)
       out += ` [${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}](${commit.prUrl})`
