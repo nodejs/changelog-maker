@@ -1,4 +1,5 @@
-const through2 = require('through2')
+const through2  = require('through2')
+    , stripAnsi = require('strip-ansi')
 
 
 module.exports = commitStream
@@ -10,6 +11,8 @@ function commitStream (ghUser, ghProject) {
   return through2.obj(onLine, onEnd)
 
   function addLine (line) {
+    line = stripAnsi(line)
+
     if (!line)
       return
 
