@@ -27,7 +27,7 @@ Each commit will come out something like this (on one line):
 
 Note:
 
-* When running `changelog-maker` on the command-line, the default GitHub repo is iojs/io.js, you can change this by supplying the user/org as the first argument and project as the second. e.g `changelog-maker joyent/node`.
+* When running `changelog-maker` on the command-line, the default GitHub repo is iojs/io.js, you can change this by supplying the user/org as the first argument and project as the second. e.g `changelog-maker joyent node`.
 * Commit links will go to the assumed repo (default: iojs/io.js)
 * If a commit summary starts with a word, followed by a `:`, this is treated as a special label and rendered in bold
 * Commits that have `semver*` labels on the pull request referred to in their `PR-URL` have those labels printed out at the start of the summary, in bold, upper cased.
