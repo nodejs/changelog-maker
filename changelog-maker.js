@@ -112,8 +112,8 @@ function toStringSimple (data) {
     ${data.semver.length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''}
     ${data.revert ? 'Revert "' : ''}
     ${data.group ? data.group + ': ' : ''}
-    ${data.summary} 
-    ${data.revert ? '"' : ''}
+    ${data.summary}
+    ${data.revert ? '"' : ''} 
     ${data.author ? '(' + data.author + ') ' : ''}
     ${data.pr}
 
@@ -134,8 +134,8 @@ function toStringMarkdown (data) {
     ${data.semver.length ? '**(' + data.semver.join(', ').toUpperCase() + ')** ' : ''}
     ${data.revert ? '***Revert*** "' : ''}
     ${data.group ? '**' + data.group + '**: ' : ''}
-    ${cleanMarkdown(data.summary)} 
-    ${data.revert ? '"' : ''}
+    ${cleanMarkdown(data.summary)}
+    ${data.revert ? '"' : ''} 
     ${data.author ? '(' + data.author + ') ' : ''}
     ${data.pr ? '[' + data.pr + '](' + data.prUrl + ')' : ''}
 
