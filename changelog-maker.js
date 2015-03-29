@@ -16,6 +16,7 @@ const spawn    = require('child_process').spawn
     , ghissues = require('ghissues')
     , chalk    = require('chalk')
     , argv     = require('minimist')(process.argv.slice(2))
+    , tsml     = require('tsml')
 
     , commitStream = require('./commit-stream')
 
@@ -87,8 +88,14 @@ function commitTags (list, callback) {
 }
 
 
+var revertRe = /^revert\s+"?/i
+  , groupRe  = /^([\w,\-]+):\s*/i
+
 function commitToGroup (commit) {
-  return (/^[\w,]+:/.test(commit.summary) && commit.summary.split(':')[0]) || null
+  var summary = commit.summary.replace(revertRe, '')
+    , m       = summary.match(groupRe)
+
+  return m && m[1]
 }
 
 
@@ -98,34 +105,65 @@ function cleanMarkdown (txt) {
 }
 
 
+function toStringSimple (data) {
+  var s = tsml`
+
+    * [${data.sha.substr(0, 10)}] - 
+    ${data.semver.length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''}
+    ${data.revert ? 'Revert "' : ''}
+    ${data.group ? data.group + ': ' : ''}
+    ${data.summary} 
+    ${data.revert ? '"' : ''}
+    ${data.author ? '(' + data.author + ') ' : ''}
+    ${data.pr}
+
+  `
+
+  return data.semver.length
+      ? chalk.green(chalk.bold(s))
+      : data.group == 'doc'
+        ? chalk.grey(s)
+	: s
+}
+
+
+function toStringMarkdown (data) {
+  var s = tsml`
+
+    * [[\`${data.sha.substr(0, 10)}\`](${data.shaUrl})] - 
+    ${data.semver.length ? '**(' + data.semver.join(', ').toUpperCase() + ')** ' : ''}
+    ${data.revert ? '***Revert*** "' : ''}
+    ${data.group ? '**' + data.group + '**: ' : ''}
+    ${cleanMarkdown(data.summary)} 
+    ${data.revert ? '"' : ''}
+    ${data.author ? '(' + data.author + ') ' : ''}
+    ${data.pr ? '[' + data.pr + '](' + data.prUrl + ')' : ''}
+
+  `
+
+  return data.semver.length
+      ? chalk.green(chalk.bold(s))
+      : data.group == 'doc'
+        ? chalk.grey(s)
+	: s
+}
+
+
 function commitToOutput (commit) {
-  var semver     = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
-    , group      = commitToGroup(commit) || ''
-    , summaryOut = !group ? commit.summary : commit.summary.substr(group.length + 2)
-    , shaOut     = `[\`${commit.sha.substr(0,10)}\`](https://github.com/${ghUser}/${ghProject}/commit/${commit.sha.substr(0,10)})`
-    , labelOut   = (semver.length ? '(' + semver.join(', ').toUpperCase() + ') ' : '') + group
+  var data       = {}
     , prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
-    , out
 
-  if (argv.simple) { 
-    if (labelOut.length)
-      summaryOut = `${labelOut}: ${summaryOut}`
-    out = `* [${commit.sha.substr(0,10)}] - ${summaryOut} (${commit.author.name})`
+  data.sha     = commit.sha
+  data.shaUrl  = `https://github.com/${ghUser}/${ghProject}/commit/${commit.sha.substr(0,10)}`
+  data.semver  = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
+  data.revert  = revertRe.test(commit.summary)
+  data.group   = commitToGroup(commit) || ''
+  data.summary = commit.summary.replace(revertRe, '').replace(/"$/, '').replace(groupRe, '')
+  data.author  = (commit.author && commit.author.name) || ''
+  data.pr      = prUrlMatch && `${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}`
+  data.prUrl   = prUrlMatch && commit.prUrl
 
-    if (prUrlMatch)
-      out += ` ${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}`
-  } else {
-    if (labelOut.length)
-      summaryOut = `**${labelOut}**: ${summaryOut}`
-    out = `* [${shaOut}] - ${cleanMarkdown(summaryOut)} (${commit.author.name})`
-
-    if (prUrlMatch)
-      out += ` [${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}](${commit.prUrl})`
-  }
-
-  return semver.length
-      ? chalk.green(chalk.bold(out))
-      : group == 'doc' ? chalk.grey(out) : out
+  return (argv.simple ? toStringSimple : toStringMarkdown)(data)
 }
 
 
