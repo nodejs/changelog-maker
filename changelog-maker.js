@@ -89,7 +89,7 @@ function commitTags (list, callback) {
 
 
 var revertRe = /^revert\s+"?/i
-  , groupRe  = /^([\w,\-]+):\s*/i
+  , groupRe  = /^((:?\w|\-|,|, )+):\s*/i
 
 function commitToGroup (commit) {
   var summary = commit.summary.replace(revertRe, '')
