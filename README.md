@@ -38,6 +38,12 @@ When printing to a console some special behaviours are invoked:
 * Commits with a summary that starts with `doc:` are rendered in grey
 * Commits that have a `semver*` label on the pull request referred to in their `PR-URL` are rendered in bold green
 
+## Install
+
+```
+$ npm i changelog-maker -g
+```
+
 ## Usage
 
 **`changelog-maker [--simple] [--group] [--start-ref=<ref>] [--end-ref=<ref>] [github-user[, github-project]]`**
