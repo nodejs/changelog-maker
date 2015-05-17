@@ -20,7 +20,7 @@ const spawn    = require('child_process').spawn
 
     , commitStream = require('./commit-stream')
 
-    , ghUser        = argv._[0] || 'iojs'
+    , ghUser        = argv._[0] || 'nodejs'
     , ghProject     = argv._[1] || 'io.js'
     , authOptions   = {
           configName : 'changelog-maker'
