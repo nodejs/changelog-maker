@@ -84,7 +84,7 @@ function commitTags (list, callback) {
 
       if (commit.ghUser == 'iojs')
         commit.ghUser = 'nodejs' // forcably rewrite as the GH API doesn't do it for us
-      console.log(`ghissues commitUser=${commit.ghUser}, project=${commit.ghProject}, issue=${commit.ghIssue}`)
+
       ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, onFetch)
     })
   })
