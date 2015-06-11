@@ -1,6 +1,6 @@
 {
   "name": "changelog-maker",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "A git log to CHANGELOG.md tool",
   "main": "changelog-maker.js",
   "bin": {
@@ -25,5 +25,6 @@
     "type": "git",
     "url": "https://github.com/rvagg/changelog-maker.git"
   },
-  "preferGlobal": true
+  "preferGlobal": true,
+  "scripts": {}
 }
