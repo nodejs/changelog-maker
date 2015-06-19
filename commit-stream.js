@@ -1,4 +1,5 @@
-const through2  = require('through2')
+var through2  = require('through2')
+    , _        = require('underscore')
     , stripAnsi = require('strip-ansi')
 
 
@@ -34,7 +35,7 @@ function commitStream (ghUser, ghProject) {
     } else if (m = line.match(/^\s+PR(?:[- ]?URL)?:?\s*(.+)\s*$/i)) {
       commit.prUrl = m[1]
       if (m = commit.prUrl.match(/^\s*#?(\d+)\s*$/))
-        commit.prUrl = `https://github.com/${ghUser}/${ghProject}/pull/${m[1]}`
+        commit.prUrl = _.template('https://github.com/${ghUser}/${ghProject}/pull/${m[1]}')({ghUser: ghUser, ghProject: ghProject, m: m})
       if (m = commit.prUrl.match(/^(https?:\/\/.+\/([^\/]+)\/([^\/]+))\/\w+\/(\d+)$/i)) {
         commit.ghIssue   = +m[4]
         commit.ghUser    = m[2]

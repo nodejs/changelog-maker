@@ -19,7 +19,8 @@
     "split2": "~0.2.1",
     "strip-ansi": "~2.0.1",
     "through2": "~0.6.3",
-    "tsml": "~1.0.0"
+    "tsml": "~1.0.0",
+    "underscore": "^1.8.3"
   },
   "repository": {
     "type": "git",

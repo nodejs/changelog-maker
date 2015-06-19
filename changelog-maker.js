@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
-const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
+var gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
     , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
     , untilcmd      = ''
     , refcmd        = 'git rev-list --max-count=1 {{ref}}'
     , defaultRef    = '--tags=v*.*.*'
 
 
-const spawn    = require('child_process').spawn
+var spawn    = require('child_process').spawn
+    , _        = require('underscore')
     , bl       = require('bl')
     , split2   = require('split2')
     , list     = require('list-stream')
@@ -16,7 +17,6 @@ const spawn    = require('child_process').spawn
     , ghissues = require('ghissues')
     , chalk    = require('chalk')
     , argv     = require('minimist')(process.argv.slice(2))
-    , tsml     = require('tsml')
 
     , commitStream = require('./commit-stream')
 
@@ -27,6 +27,10 @@ const spawn    = require('child_process').spawn
         , scopes     : []
       }
 
+
+    _.templateSettings = {
+      interpolate: /\$\{(.+?)\}/g
+    };
 
 function replace (s, m) {
   Object.keys(m).forEach(function (k) {
@@ -73,7 +77,8 @@ function commitTags (list, callback) {
     sublist.forEach(function (commit) {
       function onFetch (err, issue) {
         if (err) {
-          console.error(`Error fetching issue #${commit.ghIssue}: ${err.message}`)
+          console.error(_.template('Error fetching issue #${commit.ghIssue}: ${err.message}')
+          ({commit: commit, err: err}) );
           return done()
         }
 
@@ -95,7 +100,7 @@ var revertRe = /^revert\s+"?/i
   , groupRe  = /^((:?\w|\-|,|, )+):\s*/i
 
 function commitToGroup (commit) {
-  var summary = commit.summary.replace(revertRe, '')
+  var summary = (''+commit.summary).replace(revertRe, '')
     , m       = summary.match(groupRe)
 
   return m && m[1]
@@ -109,18 +114,16 @@ function cleanMarkdown (txt) {
 
 
 function toStringSimple (data) {
-  var s = tsml`
-
-    * [${data.sha.substr(0, 10)}] - 
-    ${data.semver.length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''}
-    ${data.revert ? 'Revert "' : ''}
-    ${data.group ? data.group + ': ' : ''}
-    ${data.summary}
-    ${data.revert ? '"' : ''} 
-    ${data.author ? '(' + data.author + ') ' : ''}
-    ${data.pr}
-
-  `
+  var s = _.template(
+  "* [${data.sha.substr(0, 10)}] - " +
+  "${data.semver.length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''}" +
+  "${data.revert ? 'Revert \"' : ''}" +
+  "${data.group ? data.group + ': ' : ''}" +
+  "${data.summary}" +
+  "${data.revert ? '\"' : ''} " +
+  "${data.author ? '(' + data.author + ') ' : ''}" +
+  "${data.pr}" +
+  "")({data: data});
 
   return data.semver.length
       ? chalk.green(chalk.bold(s))
@@ -131,18 +134,16 @@ function toStringSimple (data) {
 
 
 function toStringMarkdown (data) {
-  var s = tsml`
-
-    * [[\`${data.sha.substr(0, 10)}\`](${data.shaUrl})] - 
-    ${data.semver.length ? '**(' + data.semver.join(', ').toUpperCase() + ')** ' : ''}
-    ${data.revert ? '***Revert*** "' : ''}
-    ${data.group ? '**' + data.group + '**: ' : ''}
-    ${cleanMarkdown(data.summary)}
-    ${data.revert ? '"' : ''} 
-    ${data.author ? '(' + data.author + ') ' : ''}
-    ${data.pr ? '[' + data.pr + '](' + data.prUrl + ')' : ''}
-
-  `
+  var s = _.template(
+  "* [${data.sha.substr(0, 10)}] - " +
+  "${data.semver.length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''}" +
+  "${data.revert ? 'Revert \"' : ''}" +
+  "${data.group ? data.group + ': ' : ''}" +
+  "${data.summary}" +
+  "${data.revert ? '\"' : ''} " +
+  "${data.author ? '(' + data.author + ') ' : ''}" +
+  "${data.pr}" +
+  "")({data: data});
 
   return data.semver.length
       ? chalk.green(chalk.bold(s))
@@ -155,15 +156,16 @@ function toStringMarkdown (data) {
 function commitToOutput (commit) {
   var data       = {}
     , prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
+    , templateData = {ghUser: ghUser, ghProject: ghProject, commit: commit, prUrlMatch: prUrlMatch}
 
   data.sha     = commit.sha
-  data.shaUrl  = `https://github.com/${ghUser}/${ghProject}/commit/${commit.sha.substr(0,10)}`
+  data.shaUrl  = _.template('https://github.com/${ghUser}/${ghProject}/commit/${commit.sha.substr(0,10)}')(templateData)
   data.semver  = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
   data.revert  = revertRe.test(commit.summary)
   data.group   = commitToGroup(commit) || ''
-  data.summary = commit.summary.replace(revertRe, '').replace(/"$/, '').replace(groupRe, '')
+  data.summary = (''+commit.summary).replace(revertRe, '').replace(/"$/, '').replace(groupRe, '')
   data.author  = (commit.author && commit.author.name) || ''
-  data.pr      = prUrlMatch && `${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}`
+  data.pr      = prUrlMatch && _.template("${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}")(templateData)
   data.prUrl   = prUrlMatch && commit.prUrl
 
   return (argv.simple ? toStringSimple : toStringMarkdown)(data)
@@ -186,7 +188,7 @@ function groupCommits (list) {
 
 
 function printCommits (list) {
-  var out = `${list.join('\n')} \n`
+  var out = _.template("${list.join('\\n')} \n")({list: list})
 
   if (!process.stdout.isTTY)
     out = chalk.stripColor(out)
@@ -234,5 +236,5 @@ child.stderr.pipe(bl(function (err, _data) {
 
 child.on('close', function (code) {
   if (code)
-    throw new Error(`git command [${gitcmd}] exited with code ${code}`)
+    throw new Error(_.template("git command [${gitcmd}] exited with code ${code}")({gitcmd: gitcmd, code:code}))
 })
