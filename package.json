@@ -26,5 +26,7 @@
     "url": "https://github.com/rvagg/changelog-maker.git"
   },
   "preferGlobal": true,
-  "scripts": {}
+  "scripts": {
+    "lint": "jshint ./*js"
+  }
 }
