@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
-    , commitdatecmd = '$(git show -s --format=%ad `{{refcmd}}`)'
+    , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
     , untilcmd      = ''
     , refcmd        = 'git rev-list --max-count=1 {{ref}}'
-    , defaultRef    = '--tags'
+    , defaultRef    = '--tags=v*.*.*'
 
 
 const spawn    = require('child_process').spawn
