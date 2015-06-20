@@ -1,14 +1,5 @@
 #!/usr/bin/env node
 
-const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
-    , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
-    , untilcmd      = ''
-    , refcmd        = 'git rev-list --max-count=1 {{ref}}'
-    , defaultRef    = '--tags=v*.*.* 2> /dev/null ' +
-    '|| git rev-list --max-count=1 --tags=*.*.* 2> /dev/null ' +
-    '|| git rev-list --max-count=1 HEAD'
-
-
 const spawn    = require('child_process').spawn
     , bl       = require('bl')
     , split2   = require('split2')
@@ -43,6 +34,14 @@ const spawn    = require('child_process').spawn
         , scopes     : []
     }
 
+const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
+  , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
+  , untilcmd      = ''
+  , refcmd        = argv.a||argv.all ? 'git rev-list --max-parents=0 HEAD' : 'git rev-list --max-count=1 {{ref}}'
+  , defaultRef    = '--tags=v*.*.* 2> /dev/null ' +
+    '|| git rev-list --max-count=1 --tags=*.*.* 2> /dev/null ' +
+    '|| git rev-list --max-count=1 HEAD'
+
 debug(ghId)
 
 function replace (s, m) {
@@ -55,6 +54,8 @@ function replace (s, m) {
 
 function organiseCommits (list) {
   if (argv['start-ref'])
+    return list
+  else if (argv.a||argv.all)
     return list
 
   // filter commits to those _before_ 'working on ...'
