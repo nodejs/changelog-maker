@@ -4,7 +4,9 @@ const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{u
     , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
     , untilcmd      = ''
     , refcmd        = 'git rev-list --max-count=1 {{ref}}'
-    , defaultRef    = '--tags=v*.*.* 2> /dev/null || git rev-list --max-count=1 --tags=*.*.* 2> /dev/null || git rev-list --max-count=1 HEAD'
+    , defaultRef    = '--tags=v*.*.* 2> /dev/null ' +
+    '|| git rev-list --max-count=1 --tags=*.*.* 2> /dev/null ' +
+    '|| git rev-list --max-count=1 HEAD'
 
 
 const spawn    = require('child_process').spawn
