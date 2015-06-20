@@ -12,6 +12,7 @@ const spawn    = require('child_process').spawn
     , split2   = require('split2')
     , list     = require('list-stream')
     , after    = require('after')
+    , path     = require('path')
     , ghauth   = require('ghauth')
     , ghissues = require('ghissues')
     , chalk    = require('chalk')
