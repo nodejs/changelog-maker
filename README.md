@@ -5,8 +5,6 @@
 [![npm](https://nodei.co/npm/changelog-maker.png?downloads=true&downloadRank=true)](https://nodei.co/npm/changelog-maker/)
 [![npm](https://nodei.co/npm-dl/changelog-maker.png?months=6&height=3)](https://nodei.co/npm/changelog-maker/)
 
-***Note: changelog-maker can currently only be run with [io.js](https://iojs.org/) installed.***
-
 ## Eh?
 
 **changelog-maker** is a formalisation of the [io.js](https://github.com/nodejs/io.js) CHANGELOG.md entry process but flexible enough to be used on other repositories.
