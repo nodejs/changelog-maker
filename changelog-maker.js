@@ -4,7 +4,7 @@ const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{u
     , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
     , untilcmd      = ''
     , refcmd        = 'git rev-list --max-count=1 {{ref}}'
-    , defaultRef    = '--tags=v*.*.*'
+    , defaultRef    = '--tags=v*.*.* 2> /dev/null || git rev-list --max-count=1 --tags=*.*.* 2> /dev/null || git rev-list --max-count=1 HEAD'
 
 
 const spawn    = require('child_process').spawn
@@ -12,28 +12,36 @@ const spawn    = require('child_process').spawn
     , split2   = require('split2')
     , list     = require('list-stream')
     , after    = require('after')
+    , fs       = require('fs')
     , path     = require('path')
     , ghauth   = require('ghauth')
     , ghissues = require('ghissues')
     , chalk    = require('chalk')
     , pkgtoId  = require('pkg-to-id')
     , commitStream = require('./commit-stream')
+
     , argv     = require('minimist')(process.argv.slice(2))
+
+    , quiet    = argv.quiet || argv.q || false
+
+    , pkg      = require('./package.json')
+    , debug    = require('debug')(pkg.name)
 
     , cwd      = process.cwd()
     , pkgFile  = path.join(cwd, 'package.json')
-    , pkg      = fs.existsSync(pkgFile) ? require(pkgFile):{}
-    , pkgId    = pkgtoId(pkg)
-    , argsId   = {
-        user: argv._[0] || 'nodejs',
-        project: argv._[1] || 'io.js'
-    }
+    , pkgData  = fs.existsSync(pkgFile) ? require(pkgFile) : {}
+    , pkgId    = pkgtoId(pkgData)
 
-    , ghId          = pkgId || argsId
+    , ghId          = {
+      user: argv._[0] || pkgId.user || 'nodejs',
+      name: argv._[1] || pkgId.name || 'io.js'
+    }
     , authOptions   = {
           configName : 'changelog-maker'
         , scopes     : []
-      }
+    }
+
+debug(ghId)
 
 function replace (s, m) {
   Object.keys(m).forEach(function (k) {
@@ -136,7 +144,7 @@ function toStringSimple (data) {
 
 function toStringMarkdown (data) {
   var s = '';
-  s += '* [' + data.sha.substr(0, 10) + '] - '
+  s += '* [[' + data.sha.substr(0, 10) + '](' + data.shaUrl + ') - '
   s += (data.semver || []).length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''
   s += data.revert ? 'Revert "' : ''
   s += data.group ? data.group + ': ' : ''
@@ -160,9 +168,9 @@ function commitToOutput (commit) {
     , ghUrl = ghId.user + '/' + ghId.name
 
   data.sha     = commit.sha
-  data.shaUrl  = 'https://github.com/' + ghId.user + '/' + ghId.name + '/commit/' + commit.sha.substr(0,10)
+  data.shaUrl  = 'https://github.com/' + ghUrl + '/commit/' + commit.sha.substr(0,10)
   data.semver  = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
-  data.revert  = revertRe.test(commit.summary)
+  data.revert  = revertRe.test(commit.summary);
   data.group   = commitToGroup(commit) || ''
   data.summary = commit.summary && commit.summary.replace(revertRe, '').replace(/"$/, '').replace(groupRe, '')
   data.author  = (commit.author && commit.author.name) || ''
@@ -213,7 +221,9 @@ function onCommitList (err, list) {
 
     list = list.map(commitToOutput)
 
-    printCommits(list)
+    if( !quiet ){
+      printCommits(list)
+    }
   })
 }
 
@@ -224,6 +234,12 @@ var _startrefcmd = replace(refcmd, { ref: argv['start-ref'] || defaultRef })
   , _untilcmd    = argv['end-ref'] ? replace(commitdatecmd, { refcmd: _endrefcmd }) : untilcmd
   , _gitcmd      = replace(gitcmd, { sincecmd: _sincecmd, untilcmd: _untilcmd })
   , child        = spawn('bash', [ '-c', _gitcmd ])
+
+debug('%s', _startrefcmd)
+debug('%s', _endrefcmd)
+debug('%s', _sincecmd)
+debug('%s', _untilcmd)
+debug('%s', _gitcmd)
 
 child.stdout.pipe(split2()).pipe(commitStream(ghId.user, ghId.name)).pipe(list.obj(onCommitList))
 
