@@ -15,12 +15,20 @@ const spawn    = require('child_process').spawn
     , ghauth   = require('ghauth')
     , ghissues = require('ghissues')
     , chalk    = require('chalk')
+    , pkgtoId  = require('pkg-to-id')
+    , commitStream = require('./commit-stream')
     , argv     = require('minimist')(process.argv.slice(2))
 
-    , commitStream = require('./commit-stream')
+    , cwd      = process.cwd()
+    , pkgFile  = path.join(cwd, 'package.json')
+    , pkg      = fs.existsSync(pkgFile) ? require(pkgFile):{}
+    , pkgId    = pkgtoId(pkg)
+    , argsId   = {
+        user: argv._[0] || 'nodejs',
+        project: argv._[1] || 'io.js'
+    }
 
-    , ghUser        = argv._[0] || 'nodejs'
-    , ghProject     = argv._[1] || 'io.js'
+    , ghId          = pkgId || argsId
     , authOptions   = {
           configName : 'changelog-maker'
         , scopes     : []
@@ -148,10 +156,10 @@ function commitToOutput (commit) {
   var data       = {}
     , prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
     , urlHash = '#'+commit.ghIssue || commit.prUrl
-    , ghUrl = ghUser + '/' + ghProject
+    , ghUrl = ghId.user + '/' + ghId.name
 
   data.sha     = commit.sha
-  data.shaUrl  = 'https://github.com/' + ghUser + '/' + ghProject + '/commit/' + commit.sha.substr(0,10)
+  data.shaUrl  = 'https://github.com/' + ghId.user + '/' + ghId.name + '/commit/' + commit.sha.substr(0,10)
   data.semver  = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
   data.revert  = revertRe.test(commit.summary)
   data.group   = commitToGroup(commit) || ''
@@ -216,7 +224,7 @@ var _startrefcmd = replace(refcmd, { ref: argv['start-ref'] || defaultRef })
   , _gitcmd      = replace(gitcmd, { sincecmd: _sincecmd, untilcmd: _untilcmd })
   , child        = spawn('bash', [ '-c', _gitcmd ])
 
-child.stdout.pipe(split2()).pipe(commitStream(ghUser, ghProject)).pipe(list.obj(onCommitList))
+child.stdout.pipe(split2()).pipe(commitStream(ghId.user, ghId.name)).pipe(list.obj(onCommitList))
 
 child.stderr.pipe(bl(function (err, _data) {
   if (err)
