@@ -115,7 +115,7 @@ function toStringSimple (data) {
   s += data.summary
   s += data.revert ? '"' : '' + ' '
   s += data.author ? '(' + data.author + ') ' : ''
-  s += data.pr;
+  s += data.pr ?  data.pr  : ''
 
   return data.semver.length
       ? chalk.green(chalk.bold(s))
@@ -134,7 +134,7 @@ function toStringMarkdown (data) {
   s += data.summary
   s += data.revert ? '"' : '' + ' '
   s += data.author ? '(' + data.author + ') ' : ''
-  s += data.pr;
+  s += data.pr ?  data.pr  : ''
 
   return data.semver.length
       ? chalk.green(chalk.bold(s))
