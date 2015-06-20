@@ -127,7 +127,7 @@ function toStringSimple (data) {
 
 function toStringMarkdown (data) {
   var s = '';
-  s += '* [' + data.sha.substr(0, 10) + '] - '
+  s += '* [[' + data.sha.substr(0, 10) + '](' + data.shaUrl + ') - '
   s += (data.semver || []).length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''
   s += data.revert ? 'Revert "' : ''
   s += data.group ? data.group + ': ' : ''
