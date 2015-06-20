@@ -1,4 +1,4 @@
-var through2  = require('through2')
+const through2  = require('through2')
     , stripAnsi = require('strip-ansi')
 
 
