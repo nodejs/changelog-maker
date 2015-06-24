@@ -145,10 +145,10 @@ function toStringMarkdown (data) {
 
 
 function commitToOutput (commit) {
-  var data       = {}
-    , prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
-    , urlHash = '#'+commit.ghIssue || commit.prUrl
-    , ghUrl = ghUser + '/' + ghProject
+  var data        = {}
+    , prUrlMatch  = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
+    , urlHash     = '#'+commit.ghIssue || commit.prUrl
+    , ghUrl       = ghUser + '/' + ghProject
 
   data.sha     = commit.sha
   data.shaUrl  = 'https://github.com/' + ghUser + '/' + ghProject + '/commit/' + commit.sha.substr(0,10)
@@ -157,7 +157,7 @@ function commitToOutput (commit) {
   data.group   = commitToGroup(commit) || ''
   data.summary = commit.summary && commit.summary.replace(revertRe, '').replace(/"$/, '').replace(groupRe, '')
   data.author  = (commit.author && commit.author.name) || ''
-  data.pr      = prUrlMatch && ((prUrlMatch[1] != ghUrl ? prUrlMatch[1] : '')+urlHash)
+  data.pr      = prUrlMatch && ((prUrlMatch[1] != ghUrl ? prUrlMatch[1] : '') + urlHash)
   data.prUrl   = prUrlMatch && commit.prUrl
 
   return (argv.simple ? toStringSimple : toStringMarkdown)(data)
@@ -228,5 +228,5 @@ child.stderr.pipe(bl(function (err, _data) {
 
 child.on('close', function (code) {
   if (code)
-    throw new Error('git command [' + gitcmd + '] exited with code ' + code);
+    throw new Error('git command [' + gitcmd + '] exited with code ' + code)
 })
