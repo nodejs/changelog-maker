@@ -46,13 +46,14 @@ $ npm i changelog-maker -g
 
 ## Usage
 
-**`changelog-maker [--simple] [--group] [--start-ref=<ref>] [--end-ref=<ref>] [github-user[, github-project]]`**
+**`changelog-maker [--simple] [--group] [--start-ref=<ref>] [--end-ref=<ref>] [github-user[, github-project]] [--private]`**
 
 * `github-user` and `github-project` should point to the GitHub repository that can be used to find the `PR-URL` data if just an issue number is provided and will also impact how the PR-URL issue numbers are displayed
 * `--simple` will print a simple form, not with additional Markdown cruft
 * `--group` will reorder commits so that they are listed in groups where the `xyz:` prefix of the commit message defines the group. Commits are listed in original order _within_ group.
 * `--start-ref=<ref>` will use the given git `<ref>` as a starting point rather than the _last tag_. The `<ref>` can be anything commit-ish including a commit sha, tag, branch name. If you specify a `--start-ref` argument the commit log will not be pruned so that version commits and `working on <version>` commits are left in the list.
 * `--end-ref=<ref>` will use the given git `<ref>` as a end-point rather than the _now_. The `<ref>` can be anything commit-ish including a commit sha, tag, branch name.
+* `--private` will set the proper scope when working with private repositories.
 
 ## License
 
