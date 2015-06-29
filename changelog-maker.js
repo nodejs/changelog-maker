@@ -24,7 +24,7 @@ const spawn    = require('child_process').spawn
     , ghProject     = argv._[1] || 'io.js'
     , authOptions   = {
           configName : 'changelog-maker'
-        , scopes     : argv.private ? ['repo'] : []
+        , scopes     : ['repo']
       }
 
 function replace (s, m) {
