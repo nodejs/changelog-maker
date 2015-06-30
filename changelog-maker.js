@@ -26,13 +26,13 @@ const spawn    = require('child_process').spawn
     , pkgId    = pkgtoId(pkgData)
 
     , ghId     = {
-        user: argv._[0] || pkgId.user || 'nodejs'
-      , name: argv._[1] || pkgId.name || 'io.js'
-    }
+          user: argv._[0] || pkgId.user || 'nodejs'
+        , name: argv._[1] || pkgId.name || 'io.js'
+      }
     , authOptions   = {
           configName : 'changelog-maker'
         , scopes     : []
-    }
+      }
 
 const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
     , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
