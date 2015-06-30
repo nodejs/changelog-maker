@@ -25,7 +25,7 @@ const spawn    = require('child_process').spawn
     , pkgData  = fs.existsSync(pkgFile) ? require(pkgFile) : {}
     , pkgId    = pkgtoId(pkgData)
 
-    , ghId          = {
+    , ghId     = {
         user: argv._[0] || pkgId.user || 'nodejs'
       , name: argv._[1] || pkgId.name || 'io.js'
     }
@@ -34,11 +34,11 @@ const spawn    = require('child_process').spawn
         , scopes     : []
     }
 
-const gitcmd      = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
-  , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
-  , untilcmd      = ''
-  , refcmd        = argv.a || argv.all ? 'git rev-list --max-parents=0 HEAD' : 'git rev-list --max-count=1 {{ref}}'
-  , defaultRef    = '--tags=v*.*.* 2> /dev/null ' +
+const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
+    , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
+    , untilcmd      = ''
+    , refcmd        = argv.a || argv.all ? 'git rev-list --max-parents=0 HEAD' : 'git rev-list --max-count=1 {{ref}}'
+    , defaultRef    = '--tags=v*.*.* 2> /dev/null ' +
     '|| git rev-list --max-count=1 --tags=*.*.* 2> /dev/null ' +
     '|| git rev-list --max-count=1 HEAD'
 
