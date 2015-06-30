@@ -1,31 +1,48 @@
 #!/usr/bin/env node
 
-const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
-    , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
-    , untilcmd      = ''
-    , refcmd        = 'git rev-list --max-count=1 {{ref}}'
-    , defaultRef    = '--tags=v*.*.*'
-
-
 const spawn    = require('child_process').spawn
     , bl       = require('bl')
     , split2   = require('split2')
     , list     = require('list-stream')
     , after    = require('after')
+    , fs       = require('fs')
+    , path     = require('path')
     , ghauth   = require('ghauth')
     , ghissues = require('ghissues')
     , chalk    = require('chalk')
-    , argv     = require('minimist')(process.argv.slice(2))
-    , tsml     = require('tsml')
-
+    , pkgtoId  = require('pkg-to-id')
     , commitStream = require('./commit-stream')
 
-    , ghUser        = argv._[0] || 'nodejs'
-    , ghProject     = argv._[1] || 'io.js'
+    , argv     = require('minimist')(process.argv.slice(2))
+
+    , quiet    = argv.quiet || argv.q || false
+
+    , pkg      = require('./package.json')
+    , debug    = require('debug')(pkg.name)
+
+    , cwd      = process.cwd()
+    , pkgFile  = path.join(cwd, 'package.json')
+    , pkgData  = fs.existsSync(pkgFile) ? require(pkgFile) : {}
+    , pkgId    = pkgtoId(pkgData)
+
+    , ghId     = {
+          user: argv._[0] || pkgId.user || 'nodejs'
+        , name: argv._[1] || pkgId.name || 'io.js'
+      }
     , authOptions   = {
           configName : 'changelog-maker'
         , scopes     : ['repo']
       }
+
+const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
+    , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
+    , untilcmd      = ''
+    , refcmd        = argv.a || argv.all ? 'git rev-list --max-parents=0 HEAD' : 'git rev-list --max-count=1 {{ref}}'
+    , defaultRef    = '--tags=v*.*.* 2> /dev/null ' +
+    '|| git rev-list --max-count=1 --tags=*.*.* 2> /dev/null ' +
+    '|| git rev-list --max-count=1 HEAD'
+
+debug(ghId)
 
 function replace (s, m) {
   Object.keys(m).forEach(function (k) {
@@ -37,6 +54,8 @@ function replace (s, m) {
 
 function organiseCommits (list) {
   if (argv['start-ref'])
+    return list
+  else if (argv.a || argv.all)
     return list
 
   // filter commits to those _before_ 'working on ...'
@@ -72,7 +91,7 @@ function commitTags (list, callback) {
     sublist.forEach(function (commit) {
       function onFetch (err, issue) {
         if (err) {
-          console.error(`Error fetching issue #${commit.ghIssue}: ${err.message}`)
+          console.error('Error fetching issue #%s: %s', commit.ghIssue, err.message );
           return done()
         }
 
@@ -94,32 +113,23 @@ var revertRe = /^revert\s+"?/i
   , groupRe  = /^((:?\w|\-|,|, )+):\s*/i
 
 function commitToGroup (commit) {
-  var summary = commit.summary.replace(revertRe, '')
+  var summary = (commit.summary || '').replace(revertRe, '')
     , m       = summary.match(groupRe)
 
   return m && m[1]
 }
 
 
-function cleanMarkdown (txt) {
-  // just escape '[' & ']'
-  return txt.replace(/([\[\]])/g, '\\$1')
-}
-
-
 function toStringSimple (data) {
-  var s = tsml`
-
-    * [${data.sha.substr(0, 10)}] - 
-    ${data.semver.length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''}
-    ${data.revert ? 'Revert "' : ''}
-    ${data.group ? data.group + ': ' : ''}
-    ${data.summary}
-    ${data.revert ? '"' : ''} 
-    ${data.author ? '(' + data.author + ') ' : ''}
-    ${data.pr}
-
-  `
+  var s = ''
+  s += '* [' + data.sha.substr(0, 10) + '] - '
+  s += (data.semver || []).length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''
+  s += data.revert ? 'Revert "' : ''
+  s += data.group ? data.group + ': ' : ''
+  s += data.summary
+  s += data.revert ? '"' : '' + ' '
+  s += data.author ? '(' + data.author + ') ' : ''
+  s += data.pr ?  data.pr  : ''
 
   return data.semver.length
       ? chalk.green(chalk.bold(s))
@@ -130,18 +140,15 @@ function toStringSimple (data) {
 
 
 function toStringMarkdown (data) {
-  var s = tsml`
-
-    * [[\`${data.sha.substr(0, 10)}\`](${data.shaUrl})] - 
-    ${data.semver.length ? '**(' + data.semver.join(', ').toUpperCase() + ')** ' : ''}
-    ${data.revert ? '***Revert*** "' : ''}
-    ${data.group ? '**' + data.group + '**: ' : ''}
-    ${cleanMarkdown(data.summary)}
-    ${data.revert ? '"' : ''} 
-    ${data.author ? '(' + data.author + ') ' : ''}
-    ${data.pr ? '[' + data.pr + '](' + data.prUrl + ')' : ''}
-
-  `
+  var s = ''
+  s += '* [[' + data.sha.substr(0, 10) + '](' + data.shaUrl + ') - '
+  s += (data.semver || []).length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''
+  s += data.revert ? 'Revert "' : ''
+  s += data.group ? data.group + ': ' : ''
+  s += data.summary
+  s += data.revert ? '"' : '' + ' '
+  s += data.author ? '(' + data.author + ') ' : ''
+  s += data.pr ?  data.pr  : ''
 
   return data.semver.length
       ? chalk.green(chalk.bold(s))
@@ -152,17 +159,19 @@ function toStringMarkdown (data) {
 
 
 function commitToOutput (commit) {
-  var data       = {}
-    , prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
+  var data        = {}
+    , prUrlMatch  = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
+    , urlHash     = '#'+commit.ghIssue || commit.prUrl
+    , ghUrl       = ghId.user + '/' + ghId.name
 
   data.sha     = commit.sha
-  data.shaUrl  = `https://github.com/${ghUser}/${ghProject}/commit/${commit.sha.substr(0,10)}`
+  data.shaUrl  = 'https://github.com/' + ghUrl + '/commit/' + commit.sha.substr(0,10)
   data.semver  = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
   data.revert  = revertRe.test(commit.summary)
   data.group   = commitToGroup(commit) || ''
-  data.summary = commit.summary.replace(revertRe, '').replace(/"$/, '').replace(groupRe, '')
+  data.summary = commit.summary && commit.summary.replace(revertRe, '').replace(/"$/, '').replace(groupRe, '')
   data.author  = (commit.author && commit.author.name) || ''
-  data.pr      = prUrlMatch && `${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}`
+  data.pr      = prUrlMatch && ((prUrlMatch[1] != ghUrl ? prUrlMatch[1] : '') + urlHash)
   data.prUrl   = prUrlMatch && commit.prUrl
 
   return (argv.simple ? toStringSimple : toStringMarkdown)(data)
@@ -185,7 +194,7 @@ function groupCommits (list) {
 
 
 function printCommits (list) {
-  var out = `${list.join('\n')} \n`
+  var out = list.join('\n') + '\n'
 
   if (!process.stdout.isTTY)
     out = chalk.stripColor(out)
@@ -209,7 +218,8 @@ function onCommitList (err, list) {
 
     list = list.map(commitToOutput)
 
-    printCommits(list)
+    if( !quiet )
+      printCommits(list)
   })
 }
 
@@ -221,7 +231,13 @@ var _startrefcmd = replace(refcmd, { ref: argv['start-ref'] || defaultRef })
   , _gitcmd      = replace(gitcmd, { sincecmd: _sincecmd, untilcmd: _untilcmd })
   , child        = spawn('bash', [ '-c', _gitcmd ])
 
-child.stdout.pipe(split2()).pipe(commitStream(ghUser, ghProject)).pipe(list.obj(onCommitList))
+debug('%s', _startrefcmd)
+debug('%s', _endrefcmd)
+debug('%s', _sincecmd)
+debug('%s', _untilcmd)
+debug('%s', _gitcmd)
+
+child.stdout.pipe(split2()).pipe(commitStream(ghId.user, ghId.name)).pipe(list.obj(onCommitList))
 
 child.stderr.pipe(bl(function (err, _data) {
   if (err)
@@ -233,5 +249,5 @@ child.stderr.pipe(bl(function (err, _data) {
 
 child.on('close', function (code) {
   if (code)
-    throw new Error(`git command [${gitcmd}] exited with code ${code}`)
+    throw new Error('git command [' + gitcmd + '] exited with code ' + code)
 })
