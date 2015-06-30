@@ -31,7 +31,7 @@ const spawn    = require('child_process').spawn
       }
     , authOptions   = {
           configName : 'changelog-maker'
-        , scopes     : []
+        , scopes     : ['repo']
       }
 
 const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
