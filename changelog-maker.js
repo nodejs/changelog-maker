@@ -94,8 +94,10 @@ var revertRe = /^revert\s+"?/i
   , groupRe  = /^((:?\w|\-|,|, )+):\s*/i
 
 function commitToGroup (commit) {
-  var summary = commit.summary.replace(revertRe, '')
-    , m       = summary.match(groupRe)
+  if (commit.summary !== undefined) {
+    var summary = commit.summary.replace(revertRe, '')
+        , m = summary.match(groupRe)
+  }
 
   return m && m[1]
 }
@@ -160,7 +162,7 @@ function commitToOutput (commit) {
   data.semver  = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
   data.revert  = revertRe.test(commit.summary)
   data.group   = commitToGroup(commit) || ''
-  data.summary = commit.summary.replace(revertRe, '').replace(/"$/, '').replace(groupRe, '')
+  data.summary = (commit.summary && commit.summary.replace(revertRe, '').replace(/"$/, '').replace(groupRe, '')) || ''
   data.author  = (commit.author && commit.author.name) || ''
   data.pr      = prUrlMatch && `${prUrlMatch[1] != ghUser + '/' + ghProject ? prUrlMatch[1] : ''}#${commit.ghIssue || commit.prUrl}`
   data.prUrl   = prUrlMatch && commit.prUrl
