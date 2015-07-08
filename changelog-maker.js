@@ -39,8 +39,8 @@ const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{u
     , untilcmd      = ''
     , refcmd        = argv.a || argv.all ? 'git rev-list --max-parents=0 HEAD' : 'git rev-list --max-count=1 {{ref}}'
     , defaultRef    = '--tags=v*.*.* 2> /dev/null ' +
-    '|| git rev-list --max-count=1 --tags=*.*.* 2> /dev/null ' +
-    '|| git rev-list --max-count=1 HEAD'
+        '|| git rev-list --max-count=1 --tags=*.*.* 2> /dev/null ' +
+        '|| git rev-list --max-count=1 HEAD'
 
 debug(ghId)
 
