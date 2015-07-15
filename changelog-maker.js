@@ -11,6 +11,7 @@ const spawn    = require('child_process').spawn
     , ghissues = require('ghissues')
     , chalk    = require('chalk')
     , pkgtoId  = require('pkg-to-id')
+    , mdExtract= require('markdown-extract')
     , commitStream = require('./commit-stream')
 
     , argv     = require('minimist')(process.argv.slice(2))
@@ -19,6 +20,8 @@ const spawn    = require('child_process').spawn
 
     , pkg      = require('./package.json')
     , debug    = require('debug')(pkg.name)
+
+    , needHelp = argv.h || argv.help
 
     , cwd      = process.cwd()
     , pkgFile  = path.join(cwd, 'package.json')
@@ -33,6 +36,14 @@ const spawn    = require('child_process').spawn
           configName : 'changelog-maker'
         , scopes     : ['repo']
       }
+
+if (needHelp) {
+  console.log(
+    mdExtract ({type: /heading/, text: /Usage/, gnp: true})
+      .join('\n').replace(/`/g, '').replace(/[*]{2}/g, '')
+  )
+  process.exit(0)
+}
 
 const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
     , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
