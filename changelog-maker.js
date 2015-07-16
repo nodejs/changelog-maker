@@ -11,7 +11,6 @@ const spawn    = require('child_process').spawn
     , ghissues = require('ghissues')
     , chalk    = require('chalk')
     , pkgtoId  = require('pkg-to-id')
-    , mdExtract= require('markdown-extract')
     , commitStream = require('./commit-stream')
 
     , argv     = require('minimist')(process.argv.slice(2))
@@ -38,10 +37,7 @@ const spawn    = require('child_process').spawn
       }
 
 if (needHelp) {
-  console.log(
-    mdExtract ({type: /heading/, text: /Usage/, gnp: true})
-      .join('\n').replace(/`/g, '').replace(/[*]{2}/g, '')
-  )
+  showUsage()
   process.exit(0)
 }
 
@@ -62,6 +58,13 @@ function replace (s, m) {
   return s
 }
 
+function showUsage(){
+  var usage = fs.readFileSync("README.md", "utf8")
+    .replace(/[\s\S]+## Usage\n([\s\S]*)\n## [\s\S]+/m, "$1")
+    .replace(/\*\*/g, "")
+    .replace(/`/g, "")
+  process.stdout.write(usage)
+}
 
 function organiseCommits (list) {
   if (argv['start-ref'])
