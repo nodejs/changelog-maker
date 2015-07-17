@@ -119,6 +119,10 @@ function commitToGroup (commit) {
   return m && m[1]
 }
 
+function cleanMarkdown (txt) {
+  // just escape '[' & ']'
+  return txt.replace(/([\[\]])/g, '\\$1')
+}
 
 function toStringSimple (data) {
   var s = ''
@@ -141,14 +145,14 @@ function toStringSimple (data) {
 
 function toStringMarkdown (data) {
   var s = ''
-  s += '* [[' + data.sha.substr(0, 10) + '](' + data.shaUrl + ') - '
-  s += (data.semver || []).length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''
-  s += data.revert ? 'Revert "' : ''
-  s += data.group ? data.group + ': ' : ''
-  s += data.summary
+  s += '* [[`' + data.sha.substr(0, 10) + '`](' + data.shaUrl + ')] - '
+  s += (data.semver || []).length ? '**(' + data.semver.join(', ').toUpperCase() + ')** ' : ''
+  s += data.revert ? '***Revert*** "' : ''
+  s += data.group ? '**' + data.group + '**: ' : ''
+  s += cleanMarkdown(data.summary)
   s += data.revert ? '"' : '' + ' '
   s += data.author ? '(' + data.author + ') ' : ''
-  s += data.pr ?  data.pr  : ''
+  s += data.pr ? '[' + data.pr + '](' + data.prUrl + ')' : ''
 
   return data.semver.length
       ? chalk.green(chalk.bold(s))
