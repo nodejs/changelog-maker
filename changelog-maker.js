@@ -20,6 +20,8 @@ const spawn    = require('child_process').spawn
     , pkg      = require('./package.json')
     , debug    = require('debug')(pkg.name)
 
+    , needHelp = argv.h || argv.help
+
     , cwd      = process.cwd()
     , pkgFile  = path.join(cwd, 'package.json')
     , pkgData  = fs.existsSync(pkgFile) ? require(pkgFile) : {}
@@ -33,6 +35,11 @@ const spawn    = require('child_process').spawn
           configName : 'changelog-maker'
         , scopes     : ['repo']
       }
+
+if (needHelp) {
+  showUsage()
+  process.exit(0)
+}
 
 const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
     , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
@@ -51,6 +58,13 @@ function replace (s, m) {
   return s
 }
 
+function showUsage(){
+  var usage = fs.readFileSync("README.md", "utf8")
+    .replace(/[\s\S]+## Usage\n([\s\S]*)\n## [\s\S]+/m, "$1")
+    .replace(/\*\*/g, "")
+    .replace(/`/g, "")
+  process.stdout.write(usage)
+}
 
 function organiseCommits (list) {
   if (argv['start-ref'])
