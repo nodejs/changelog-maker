@@ -1,44 +1,46 @@
 #!/usr/bin/env node
 
-const spawn    = require('child_process').spawn
-    , bl       = require('bl')
-    , split2   = require('split2')
-    , list     = require('list-stream')
-    , after    = require('after')
-    , fs       = require('fs')
-    , path     = require('path')
-    , ghauth   = require('ghauth')
-    , ghissues = require('ghissues')
-    , chalk    = require('chalk')
-    , pkgtoId  = require('pkg-to-id')
-    , commitStream = require('commit-stream')
+const spawn          = require('child_process').spawn
+    , bl             = require('bl')
+    , split2         = require('split2')
+    , list           = require('list-stream')
+    , after          = require('after')
+    , fs             = require('fs')
+    , path           = require('path')
+    , ghauth         = require('ghauth')
+    , ghissues       = require('ghissues')
+    , chalk          = require('chalk')
+    , pkgtoId        = require('pkg-to-id')
+    , commitStream   = require('commit-stream')
+    , commitToOutput = require('./commit-to-output')
+    , toGroups       = require('./groups').toGroups
 
-    , argv     = require('minimist')(process.argv.slice(2))
+    , argv           = require('minimist')(process.argv.slice(2))
 
-    , quiet    = argv.quiet || argv.q || false
+    , quiet          = argv.quiet || argv.q
+    , simple         = argv.simple || argv.s
 
-    , pkg      = require('./package.json')
-    , debug    = require('debug')(pkg.name)
+    , pkg            = require('./package.json')
+    , debug          = require('debug')(pkg.name)
 
-    , cwd      = process.cwd()
-    , pkgFile  = path.join(cwd, 'package.json')
-    , pkgData  = fs.existsSync(pkgFile) ? require(pkgFile) : {}
-    , pkgId    = pkgtoId(pkgData)
+    , pkgFile        = path.join(process.cwd(), 'package.json')
+    , pkgData        = fs.existsSync(pkgFile) ? require(pkgFile) : {}
+    , pkgId          = pkgtoId(pkgData)
 
-    , ghId     = {
+    , ghId           = {
           user: argv._[0] || pkgId.user || 'nodejs'
         , name: argv._[1] || pkgId.name || 'io.js'
       }
-    , authOptions   = {
+    , authOptions    = {
           configName : 'changelog-maker'
         , scopes     : ['repo']
       }
 
-const gitcmd        = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
-    , commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
-    , untilcmd      = ''
-    , refcmd        = argv.a || argv.all ? 'git rev-list --max-parents=0 HEAD' : 'git rev-list --max-count=1 {{ref}}'
-    , defaultRef    = '--tags=v*.*.* 2> /dev/null ' +
+const gitcmd         = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
+    , commitdatecmd  = '$(git show -s --format=%cd `{{refcmd}}`)'
+    , untilcmd       = ''
+    , refcmd         = argv.a || argv.all ? 'git rev-list --max-parents=0 HEAD' : 'git rev-list --max-count=1 {{ref}}'
+    , defaultRef     = '--tags=v*.*.* 2> /dev/null ' +
         '|| git rev-list --max-count=1 --tags=*.*.* 2> /dev/null ' +
         '|| git rev-list --max-count=1 HEAD'
 
@@ -109,90 +111,17 @@ function commitTags (list, callback) {
 }
 
 
-var revertRe = /^revert\s+"?/i
-  , groupRe  = /^((:?\w|\-|,|, )+):\s*/i
-
-function commitToGroup (commit) {
-  var summary = (commit.summary || '').replace(revertRe, '')
-    , m       = summary.match(groupRe)
-
-  return m && m[1]
-}
-
-function cleanMarkdown (txt) {
-  // just escape '[' & ']'
-  return txt.replace(/([\[\]])/g, '\\$1')
-}
-
-function toStringSimple (data) {
-  var s = ''
-  s += '* [' + data.sha.substr(0, 10) + '] - '
-  s += (data.semver || []).length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''
-  s += data.revert ? 'Revert "' : ''
-  s += data.group ? data.group + ': ' : ''
-  s += data.summary
-  s += data.revert ? '"' : '' + ' '
-  s += data.author ? '(' + data.author + ') ' : ''
-  s += data.pr ?  data.pr  : ''
-
-  return data.semver.length
-      ? chalk.green(chalk.bold(s))
-      : data.group == 'doc'
-        ? chalk.grey(s)
-	: s
-}
-
-
-function toStringMarkdown (data) {
-  var s = ''
-  s += '* [[`' + data.sha.substr(0, 10) + '`](' + data.shaUrl + ')] - '
-  s += (data.semver || []).length ? '**(' + data.semver.join(', ').toUpperCase() + ')** ' : ''
-  s += data.revert ? '***Revert*** "' : ''
-  s += data.group ? '**' + data.group + '**: ' : ''
-  s += cleanMarkdown(data.summary)
-  s += data.revert ? '"' : '' + ' '
-  s += data.author ? '(' + data.author + ') ' : ''
-  s += data.pr ? '[' + data.pr + '](' + data.prUrl + ')' : ''
-
-  return data.semver.length
-      ? chalk.green(chalk.bold(s))
-      : data.group == 'doc'
-        ? chalk.grey(s)
-	: s
-}
-
-
-function commitToOutput (commit) {
-  var data        = {}
-    , prUrlMatch  = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
-    , urlHash     = '#'+commit.ghIssue || commit.prUrl
-    , ghUrl       = ghId.user + '/' + ghId.name
-
-  data.sha     = commit.sha
-  data.shaUrl  = 'https://github.com/' + ghUrl + '/commit/' + commit.sha.substr(0,10)
-  data.semver  = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
-  data.revert  = revertRe.test(commit.summary)
-  data.group   = commitToGroup(commit) || ''
-  data.summary = (commit.summary && commit.summary.replace(revertRe, '').replace(/"$/, '').replace(groupRe, '')) || ''
-  data.author  = (commit.author && commit.author.name) || ''
-  data.pr      = prUrlMatch && ((prUrlMatch[1] != ghUrl ? prUrlMatch[1] : '') + urlHash)
-  data.prUrl   = prUrlMatch && commit.prUrl
-
-  return (argv.simple ? toStringSimple : toStringMarkdown)(data)
-}
-
-
 function groupCommits (list) {
-  var groups = list.reduce(function (groups, commit) {
-    var group = commitToGroup(commit) || '*'
-    if (!groups[group])
-      groups[group] = []
-    groups[group].push(commit)
-    return groups
+  var groupList = list.reduce(function (groupList, commit) {
+    var group = toGroups(commit) || '*'
+    if (!groupList[group])
+      groupList[group] = []
+    groupList[group].push(commit)
+    return groupList
   }, {})
 
-  return Object.keys(groups).sort().reduce(function (p, group) {
-    return p.concat(groups[group])
+  return Object.keys(groupList).sort().reduce(function (p, group) {
+    return p.concat(groupList[group])
   }, [])
 }
 
@@ -220,9 +149,11 @@ function onCommitList (err, list) {
     if (argv.group)
       list = groupCommits(list)
 
-    list = list.map(commitToOutput)
+    list = list.map(function (commit) {
+      return commitToOutput(commit, simple, ghId)
+    })
 
-    if( !quiet )
+    if (!quiet)
       printCommits(list)
   })
 }
