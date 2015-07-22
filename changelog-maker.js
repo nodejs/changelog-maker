@@ -11,7 +11,7 @@ const spawn    = require('child_process').spawn
     , ghissues = require('ghissues')
     , chalk    = require('chalk')
     , pkgtoId  = require('pkg-to-id')
-    , commitStream = require('./commit-stream')
+    , commitStream = require('commit-stream')
 
     , argv     = require('minimist')(process.argv.slice(2))
 
