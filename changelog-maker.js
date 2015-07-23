@@ -18,10 +18,10 @@ const bl             = require('bl')
 
     , quiet          = argv.quiet || argv.q
     , simple         = argv.simple || argv.s
+    , help           = argv.h || argv.help 
 
     , pkg            = require('./package.json')
     , debug          = require('debug')(pkg.name)
-
     , pkgFile        = path.join(process.cwd(), 'package.json')
     , pkgData        = fs.existsSync(pkgFile) ? require(pkgFile) : {}
     , pkgId          = pkgtoId(pkgData)
@@ -40,6 +40,23 @@ const gitcmd         = 'git log --pretty=full --since="{{sincecmd}}" --until="{{
         '|| git rev-list --max-count=1 HEAD'
 
 debug(ghId)
+
+if (help) {
+  showUsage()
+  process.exit(0)
+} 
+
+function showUsage () {
+  var usage = fs.readFileSync(path.join(__dirname, 'README.md'), 'utf8')
+    .replace(/[\s\S]+(## Usage\n[\s\S]*)\n## [\s\S]+/m, '$1')
+  if (process.stdout.isTTY) {
+    usage = usage
+      .replace(/## Usage\n[\s]*/m, '')
+      .replace(/\*\*/g, '')
+      .replace(/`/g, '')
+  }
+  process.stdout.write(usage)
+} 
 
 function stripScope (name) {
   return name[0] === '@' && name.indexOf('/') > 0 ? name.split('/')[1] : name
