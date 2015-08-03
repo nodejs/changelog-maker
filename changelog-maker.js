@@ -113,7 +113,7 @@ function commitTags (list, callback) {
 
 function groupCommits (list) {
   var groupList = list.reduce(function (groupList, commit) {
-    var group = toGroups(commit) || '*'
+    var group = toGroups(commit.summary) || '*'
     if (!groupList[group])
       groupList[group] = []
     groupList[group].push(commit)
