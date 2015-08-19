@@ -29,7 +29,7 @@ const spawn          = require('child_process').spawn
 
     , ghId           = {
           user: argv._[0] || pkgId.user || 'nodejs'
-        , name: argv._[1] || pkgId.name || 'io.js'
+        , name: argv._[1] || pkgId.name || 'node'
       }
     , authOptions    = {
           configName : 'changelog-maker'

@@ -7,7 +7,7 @@
 
 ## Eh?
 
-**changelog-maker** is a formalisation of the [io.js](https://github.com/nodejs/io.js) CHANGELOG.md entry process but flexible enough to be used on other repositories.
+**changelog-maker** is a formalisation of the [Node.js](https://github.com/nodejs/node) CHANGELOG.md entry process but flexible enough to be used on other repositories.
 
 **changelog-maker** will look at the git log of the current directory, pulling entries since the last tag. Commits with just a version number in the summary are removed, as are commits prior to, and including summaries that say `working on <version>` (this is an io.js / Node ism).
 
@@ -25,11 +25,11 @@ Each commit will come out something like this (on one line):
 
 Note:
 
-* When running `changelog-maker` on the command-line, the default GitHub repo is computed from the `package.json` that exists on `cwd`, otherwise fallback to `nodejs/io.js`, you can change this by supplying the user/org as the first argument and project as the second. e.g `changelog-maker joyent node`.
-* Commit links will go to the assumed repo (default: nodejs/io.js)
+* When running `changelog-maker` on the command-line, the default GitHub repo is computed from the `package.json` that exists on `cwd`, otherwise fallback to `nodejs/node`, you can change this by supplying the user/org as the first argument and project as the second. e.g `changelog-maker joyent node`.
+* Commit links will go to the assumed repo (default: nodejs/node)
 * If a commit summary starts with a word, followed by a `:`, this is treated as a special label and rendered in bold
 * Commits that have `semver*` labels on the pull request referred to in their `PR-URL` have those labels printed out at the start of the summary, in bold, upper cased.
-* Pull request URLs come from the `PR-URL` data, if it matches the assumed repo (default: nodejs/io.js) then just a `#` followed by the number, if another repo then a full `user/project#number`.
+* Pull request URLs come from the `PR-URL` data, if it matches the assumed repo (default: nodejs/node) then just a `#` followed by the number, if another repo then a full `user/project#number`.
 
 When printing to a console some special behaviours are invoked:
 
