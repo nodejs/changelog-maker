@@ -4,16 +4,14 @@ const spawn          = require('child_process').spawn
     , bl             = require('bl')
     , split2         = require('split2')
     , list           = require('list-stream')
-    , after          = require('after')
     , fs             = require('fs')
     , path           = require('path')
-    , ghauth         = require('ghauth')
-    , ghissues       = require('ghissues')
     , chalk          = require('chalk')
     , pkgtoId        = require('pkg-to-id')
     , commitStream   = require('commit-stream')
     , commitToOutput = require('./commit-to-output')
     , toGroups       = require('./groups').toGroups
+    , collectCommitLabels = require('./collect-commit-labels')
 
     , argv           = require('minimist')(process.argv.slice(2))
 
@@ -30,10 +28,6 @@ const spawn          = require('child_process').spawn
     , ghId           = {
           user: argv._[0] || pkgId.user || 'nodejs'
         , name: argv._[1] || pkgId.name || 'node'
-      }
-    , authOptions    = {
-          configName : 'changelog-maker'
-        , scopes     : ['repo']
       }
 
 const gitcmd         = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
@@ -76,39 +70,7 @@ function organiseCommits (list) {
 }
 
 
-function commitTags (list, callback) {
-  var sublist = list.filter(function (commit) {
-    return typeof commit.ghIssue == 'number' && commit.ghUser && commit.ghProject
-  })
 
-  if (!sublist.length)
-    return setImmediate(callback)
-
-  ghauth(authOptions, function (err, authData) {
-    if (err)
-      return callback(err)
-
-    var done = after(sublist.length, callback)
-
-    sublist.forEach(function (commit) {
-      function onFetch (err, issue) {
-        if (err) {
-          console.error('Error fetching issue #%s: %s', commit.ghIssue, err.message );
-          return done()
-        }
-
-        if (issue.labels)
-          commit.labels = issue.labels.map(function (label) { return label.name })
-        done()
-      }
-
-      if (commit.ghUser == 'iojs')
-        commit.ghUser = 'nodejs' // forcably rewrite as the GH API doesn't do it for us
-
-      ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, onFetch)
-    })
-  })
-}
 
 
 function groupCommits (list) {
@@ -142,7 +104,7 @@ function onCommitList (err, list) {
 
   list = organiseCommits(list)
 
-  commitTags(list, function (err) {
+  collectCommitLabels(list, function (err) {
     if (err)
       throw err
 
