@@ -10,7 +10,7 @@ const spawn          = require('child_process').spawn
     , pkgtoId        = require('pkg-to-id')
     , commitStream   = require('commit-stream')
     , commitToOutput = require('./commit-to-output')
-    , toGroups       = require('./groups').toGroups
+    , groupCommits   = require('./group-commits')
     , collectCommitLabels = require('./collect-commit-labels')
 
     , argv           = require('minimist')(process.argv.slice(2))
@@ -67,24 +67,6 @@ function organiseCommits (list) {
 
     return !started
   })
-}
-
-
-
-
-
-function groupCommits (list) {
-  var groupList = list.reduce(function (groupList, commit) {
-    var group = toGroups(commit.summary) || '*'
-    if (!groupList[group])
-      groupList[group] = []
-    groupList[group].push(commit)
-    return groupList
-  }, {})
-
-  return Object.keys(groupList).sort().reduce(function (p, group) {
-    return p.concat(groupList[group])
-  }, [])
 }
 
 
