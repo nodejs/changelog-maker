@@ -18,7 +18,7 @@ function toStringSimple (data) {
   s += data.summary
   s += data.revert ? '" ' : ' '
   s += data.author ? '(' + data.author + ') ' : ''
-  s += data.pr ? data.pr : ''
+  s += data.pr ? data.prUrl : ''
 
   return data.semver.length
       ? chalk.green(chalk.bold(s))
