@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-const spawn          = require('child_process').spawn
-    , bl             = require('bl')
+const bl             = require('bl')
     , split2         = require('split2')
     , list           = require('list-stream')
     , fs             = require('fs')
@@ -9,6 +8,7 @@ const spawn          = require('child_process').spawn
     , chalk          = require('chalk')
     , pkgtoId        = require('pkg-to-id')
     , commitStream   = require('commit-stream')
+    , gitexec        = require('gitexec')
     , commitToOutput = require('./commit-to-output')
     , groupCommits   = require('./group-commits')
     , collectCommitLabels = require('./collect-commit-labels')
@@ -108,7 +108,6 @@ var _startrefcmd = replace(refcmd, { ref: argv['start-ref'] || defaultRef })
   , _sincecmd    = replace(commitdatecmd, { refcmd: _startrefcmd })
   , _untilcmd    = argv['end-ref'] ? replace(commitdatecmd, { refcmd: _endrefcmd }) : untilcmd
   , _gitcmd      = replace(gitcmd, { sincecmd: _sincecmd, untilcmd: _untilcmd })
-  , child        = spawn('bash', [ '-c', _gitcmd ])
 
 debug('%s', _startrefcmd)
 debug('%s', _endrefcmd)
@@ -116,17 +115,7 @@ debug('%s', _sincecmd)
 debug('%s', _untilcmd)
 debug('%s', _gitcmd)
 
-child.stdout.pipe(split2()).pipe(commitStream(ghId.user, ghId.name)).pipe(list.obj(onCommitList))
-
-child.stderr.pipe(bl(function (err, _data) {
-  if (err)
-    throw err
-
-  if (_data.length)
-    process.stderr.write(_data)
-}))
-
-child.on('close', function (code) {
-  if (code)
-    throw new Error('git command [' + gitcmd + '] exited with code ' + code)
-})
+gitexec.exec(process.cwd(), _gitcmd)
+  .pipe(split2())
+  .pipe(commitStream(ghId.user, ghId.name))
+  .pipe(list.obj(onCommitList))
