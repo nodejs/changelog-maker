@@ -27,7 +27,7 @@ const bl             = require('bl')
 
     , ghId           = {
           user: argv._[0] || pkgId.user || 'nodejs'
-        , name: argv._[1] || pkgId.name || 'node'
+        , name: argv._[1] || stripScope(pkgId.name) || 'node'
       }
 
 const gitcmd         = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
@@ -39,6 +39,10 @@ const gitcmd         = 'git log --pretty=full --since="{{sincecmd}}" --until="{{
         '|| git rev-list --max-count=1 HEAD'
 
 debug(ghId)
+
+function stripScope (name) {
+  return name[0] === '@' && name.indexOf('/') > 0 ? name.split('/')[1] : name
+}
 
 function replace (s, m) {
   Object.keys(m).forEach(function (k) {
