@@ -41,7 +41,7 @@ const gitcmd         = 'git log --pretty=full --since="{{sincecmd}}" --until="{{
 debug(ghId)
 
 function stripScope (name) {
-  return name[0] === '@' && name.indexOf('/') > 0 ? name.split('/')[1] : name
+  return name && name[0] === '@' && name.indexOf('/') > 0 ? name.split('/')[1] : name
 }
 
 function replace (s, m) {
