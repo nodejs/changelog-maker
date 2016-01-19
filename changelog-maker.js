@@ -27,7 +27,7 @@ const bl             = require('bl')
 
     , ghId           = {
           user: argv._[0] || pkgId.user || 'nodejs'
-        , name: argv._[1] || stripScope(pkgId.name) || 'node'
+        , name: argv._[1] || (pkgId.name && stripScope(pkgId.name)) || 'node'
       }
 
 const gitcmd         = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
