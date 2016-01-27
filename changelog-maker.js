@@ -12,6 +12,7 @@ const bl             = require('bl')
     , commitToOutput = require('./commit-to-output')
     , groupCommits   = require('./group-commits')
     , collectCommitLabels = require('./collect-commit-labels')
+    , isReleaseCommit = require('./groups').isReleaseCommit
 
     , argv           = require('minimist')(process.argv.slice(2))
 
@@ -53,10 +54,11 @@ function replace (s, m) {
 
 
 function organiseCommits (list) {
-  if (argv['start-ref'])
+  if (argv['start-ref'] || argv.a || argv.all) {
+    if (argv['filter-release'])
+      list = list.filter(function (commit) { return !isReleaseCommit(commit.summary) })
     return list
-  else if (argv.a || argv.all)
-    return list
+  }
 
   // filter commits to those _before_ 'working on ...'
   var started = false
@@ -64,9 +66,7 @@ function organiseCommits (list) {
     if (started)
       return false
 
-    if ((/working on v?[\d\.]+/i).test(commit.summary))
-      started = true
-    else if ((/^v?[\d\.]+$/).test(commit.summary))
+    if (isReleaseCommit(commit.summary))
       started = true
 
     return !started
