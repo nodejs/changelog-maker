@@ -16,7 +16,7 @@ function cleanSummary (summary) {
 
 function isReleaseCommit (summary) {
   return /^Working on v?\d{1,2}\.\d{1,3}\.\d{1,3}$/.test(summary)
-         || /^\d{4}-\d{2}-\d{2},? Version \d{1,2}\.\d{1,3}\.\d{1,3} ("[A-Za-z ]+" )?\((Stable|LTS|Maintenance)\)/.test(summary)
+         || /^\d{4}-\d{2}-\d{2},? Version \d{1,2}\.\d{1,3}\.\d{1,3} (["'][A-Za-z ]+["'] )?\((Stable|LTS|Maintenance)\)/.test(summary)
          || /^\d{4}-\d{2}-\d{2},? io.js v\d{1,2}\.\d{1,3}\.\d{1,3} Release/.test(summary)
          || /^\d+\.\d+\.\d+$/.test(summary) // `npm version X` style commit
 }
