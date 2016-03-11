@@ -53,7 +53,7 @@ function replace (s, m) {
 }
 
 
-function organiseCommits (list) {
+function organizeCommits (list) {
   if (argv['start-ref'] || argv.a || argv.all) {
     if (argv['filter-release'])
       list = list.filter(function (commit) { return !isReleaseCommit(commit.summary) })
@@ -88,7 +88,7 @@ function onCommitList (err, list) {
   if (err)
     throw err
 
-  list = organiseCommits(list)
+  list = organizeCommits(list)
 
   collectCommitLabels(list, function (err) {
     if (err)
