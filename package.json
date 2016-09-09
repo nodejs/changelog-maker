@@ -9,7 +9,7 @@
   "author": "Rod <rod@vagg.org> (http://r.va.gg/)",
   "license": "MIT",
   "dependencies": {
-    "after": "~0.8.1",
+    "async": "^2.0.1",
     "bl": "~1.0.0",
     "chalk": "~1.1.1",
     "commit-stream": "~1.0.1",

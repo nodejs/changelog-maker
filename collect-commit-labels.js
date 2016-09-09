@@ -1,6 +1,6 @@
 const ghauth         = require('ghauth')
     , ghissues       = require('ghissues')
-    , after          = require('after')
+    , async          = require('async')
 
     , authOptions    = {
           configName : 'changelog-maker'
@@ -19,26 +19,25 @@ function collectCommitLabels (list, callback) {
   ghauth(authOptions, function (err, authData) {
     if (err)
       return callback(err)
-
-    var done = after(sublist.length, callback)
-
-    sublist.forEach(function (commit) {
+    var q = async.queue(function (commit, next) {
       function onFetch (err, issue) {
         if (err) {
           console.error('Error fetching issue #%s: %s', commit.ghIssue, err.message );
-          return done()
+          return next()
         }
 
         if (issue.labels)
           commit.labels = issue.labels.map(function (label) { return label.name })
-        done()
+        next()
       }
 
       if (commit.ghUser == 'iojs')
         commit.ghUser = 'nodejs' // forcably rewrite as the GH API doesn't do it for us
 
       ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, onFetch)
-    })
+    }, 15)
+    q.drain = callback
+    q.push(sublist)
   })
 }
 
