@@ -4,8 +4,8 @@ const chalk   = require('chalk')
 
 
 function cleanMarkdown (txt) {
-  // just escape '[' & ']'
-  return txt.replace(/([\[\]])/g, '\\$1')
+  // escape []<>
+  return txt.replace(/([\[\]<>])/g, '\\$1')
 }
 
 
