@@ -59,7 +59,7 @@ function showUsage () {
 } 
 
 function stripScope (name) {
-  return name[0] === '@' && name.indexOf('/') > 0 ? name.split('/')[1] : name
+  return name && name[0] === '@' && name.indexOf('/') > 0 ? name.split('/')[1] : name
 }
 
 function replace (s, m) {
