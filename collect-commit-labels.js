@@ -43,13 +43,14 @@ function collectCommitLabels (list, callback) {
       // To prevent multiple simultaneous requests for the same issue
       // from hitting the network at the same time, immediately assign a Promise
       // to the cache that all commits with the same ghIssue value will use.
-      cache[cacheKey(commit)] = cache[cacheKey(commit)] || new Promise((resolve, reject) => {
+      const key = cacheKey(commit)
+      cache[key] = cache[key] || new Promise((resolve, reject) => {
         ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, (err, issue) => {
           if (err) return reject(err)
           resolve(issue)
         })
       })
-      cache[cacheKey(commit)].then(val => onFetch(null, val), err => onFetch(err))
+      cache[key].then(val => onFetch(null, val), err => onFetch(err))
     }, 15)
     q.drain = callback
     q.push(sublist)
