@@ -17,6 +17,8 @@ function collectCommitLabels (list, callback) {
     return setImmediate(callback)
 
   ghauth(authOptions, function (err, authData) {
+    const cache = {}
+
     if (err)
       return callback(err)
     var q = async.queue(function (commit, next) {
@@ -34,7 +36,22 @@ function collectCommitLabels (list, callback) {
       if (commit.ghUser == 'iojs')
         commit.ghUser = 'nodejs' // forcably rewrite as the GH API doesn't do it for us
 
-      ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, onFetch)
+      const promise = cache[commit.ghIssue] || new Promise((resolve, reject) => {
+        ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, (err, issue) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(issue)
+          }
+        })
+      })
+      cache[commit.ghIssue] = promise
+      promise
+        .then(val => {
+          onFetch(null, val)
+        }, err => {
+          onFetch(err)
+        })
     }, 15)
     q.drain = callback
     q.push(sublist)
