@@ -8,6 +8,10 @@ const ghauth         = require('ghauth')
       }
 
 
+function cacheKey(commit) {
+  return `${commit.ghUser}/${commit.ghProject}#${commit.ghIssue}`
+}
+
 function collectCommitLabels (list, callback) {
   var sublist = list.filter(function (commit) {
     return typeof commit.ghIssue == 'number' && commit.ghUser && commit.ghProject
@@ -39,13 +43,13 @@ function collectCommitLabels (list, callback) {
       // To prevent multiple simultaneous requests for the same issue
       // from hitting the network at the same time, immediately assign a Promise
       // to the cache that all commits with the same ghIssue value will use.
-      cache[commit.ghIssue] = cache[commit.ghIssue] || new Promise((resolve, reject) => {
+      cache[cacheKey(commit)] = cache[cacheKey(commit)] || new Promise((resolve, reject) => {
         ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, (err, issue) => {
           if (err) return reject(err)
           resolve(issue)
         })
       })
-      cache[commit.ghIssue].then(val => onFetch(null, val), err => onFetch(err))
+      cache[cacheKey(commit)].then(val => onFetch(null, val), err => onFetch(err))
     }, 15)
     q.drain = callback
     q.push(sublist)
