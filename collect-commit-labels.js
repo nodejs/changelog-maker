@@ -17,6 +17,8 @@ function collectCommitLabels (list, callback) {
     return setImmediate(callback)
 
   ghauth(authOptions, function (err, authData) {
+    const cache = {}
+
     if (err)
       return callback(err)
     var q = async.queue(function (commit, next) {
@@ -34,7 +36,17 @@ function collectCommitLabels (list, callback) {
       if (commit.ghUser == 'iojs')
         commit.ghUser = 'nodejs' // forcably rewrite as the GH API doesn't do it for us
 
-      ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, onFetch)
+      // To prevent multiple simultaneous requests for the same issue
+      // from hitting the network at the same time, immediately assign a Promise
+      // to the cache that all commits with the same ghIssue value will use.
+      const key = `${commit.ghUser}/${commit.ghProject}#${commit.ghIssue}`
+      cache[key] = cache[key] || new Promise((resolve, reject) => {
+        ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, (err, issue) => {
+          if (err) return reject(err)
+          resolve(issue)
+        })
+      })
+      cache[key].then(val => onFetch(null, val), err => onFetch(err))
     }, 15)
     q.drain = callback
     q.push(sublist)
