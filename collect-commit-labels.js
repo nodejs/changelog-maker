@@ -36,22 +36,15 @@ function collectCommitLabels (list, callback) {
       if (commit.ghUser == 'iojs')
         commit.ghUser = 'nodejs' // forcably rewrite as the GH API doesn't do it for us
 
-      const promise = cache[commit.ghIssue] || new Promise((resolve, reject) => {
+      if (cache[commit.ghIssue]) {
+        onFetch(null, cache[commit.ghIssue])
+      } else {
         ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, (err, issue) => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(issue)
-          }
+          if (err) return onFetch(err)
+          cache[commit.ghIssue] = issue
+          onFetch(null, issue)
         })
-      })
-      cache[commit.ghIssue] = promise
-      promise
-        .then(val => {
-          onFetch(null, val)
-        }, err => {
-          onFetch(err)
-        })
+      }
     }, 15)
     q.drain = callback
     q.push(sublist)
