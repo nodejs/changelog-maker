@@ -44,12 +44,13 @@ $ npm i changelog-maker -g
 
 ## Usage
 
-**`changelog-maker [--simple] [--group] [--start-ref=<ref>] [--end-ref=<ref>] [github-user[, github-project]]`**
+**`changelog-maker [--simple] [--group] [--commit-url=<url/with/{sha}>] [--start-ref=<ref>] [--end-ref=<ref>] [github-user[, github-project]]`**
 
 `github-user` and `github-project` should point to the GitHub repository that can be used to find the `PR-URL` data if just an issue number is provided and will also impact how the PR-URL issue numbers are displayed
 
  * `--simple`:          print a simple form, without additional Markdown cruft
  * `--group`:           reorder commits so that they are listed in groups where the `xyz:` prefix of the commit message defines the group. Commits are listed in original order _within_ group.
+ * `--commit-url`: pass in a url template which will be used to generate commit URLs for a respository not hosted in Github. `{sha}` is the placeholder that will be replaced with the commit, i.e. `--commit-url=https://gitlab.com/myUser/myRepo/commit/{sha}` 
  * `--start-ref=<ref>`: use the given git `<ref>` as a starting point rather than the _last tag_. The `<ref>` can be anything commit-ish including a commit sha, tag, branch name. If you specify a `--start-ref` argument the commit log will not be pruned so that version commits and `working on <version>` commits are left in the list.
  * `--end-ref=<ref>`:   use the given git `<ref>` as a end-point rather than the _now_. The `<ref>` can be anything commit-ish including a commit sha, tag, branch name.
  * `--filter-release`:  exclude Node-style release commits from the list. e.g. "Working on v1.0.0" or "2015-10-21 Version 2.0.0" and also "npm version X" style commits containing _only_ an `x.y.z` semver designator.

@@ -47,14 +47,15 @@ function toStringMarkdown (data) {
 }
 
 
-function commitToOutput (commit, simple, ghId) {
+function commitToOutput (commit, simple, ghId, commitUrl) {
   var data        = {}
     , prUrlMatch  = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
     , urlHash     = '#'+commit.ghIssue || commit.prUrl
     , ghUrl       = ghId.user + '/' + ghId.name
+    , shaShort    = commit.sha.substr(0, 10)
 
   data.sha     = commit.sha
-  data.shaUrl  = 'https://github.com/' + ghUrl + '/commit/' + commit.sha.substr(0,10)
+  data.shaUrl  = commitUrl ? commitUrl.replace("{sha}", shaShort) : 'https://github.com/' + ghUrl + '/commit/' + shaShort
   data.semver  = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
   data.revert  = reverts.isRevert(commit.summary)
   data.group   = groups.toGroups(commit.summary)
