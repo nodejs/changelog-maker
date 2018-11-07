@@ -52,10 +52,10 @@ function commitToOutput (commit, simple, ghId, commitUrl) {
     , prUrlMatch  = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
     , urlHash     = '#'+commit.ghIssue || commit.prUrl
     , ghUrl       = ghId.user + '/' + ghId.name
-    , shaShort    = commit.sha.substr(0, 10)
+    , ref         = commit.sha.substr(0, 10)
 
   data.sha     = commit.sha
-  data.shaUrl  = commitUrl ? commitUrl.replace("{sha}", shaShort) : 'https://github.com/' + ghUrl + '/commit/' + shaShort
+  data.shaUrl  = commitUrl ? commitUrl.replace("{ref}", ref) : 'https://github.com/' + ghUrl + '/commit/' + ref
   data.semver  = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
   data.revert  = reverts.isRevert(commit.summary)
   data.group   = groups.toGroups(commit.summary)
