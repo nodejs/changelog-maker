@@ -1,18 +1,15 @@
-const groupRe = /^((:?\w|\-|,|, )+):\s*/i
-    , reverts = require('./reverts')
-
+const groupRe = /^((:?\w|-|,|, )+):\s*/i
+const reverts = require('./reverts')
 
 function toGroups (summary) {
   summary = reverts.cleanSummary(summary)
-  var m = summary.match(groupRe)
+  let m = summary.match(groupRe)
   return (m && m[1]) || ''
 }
-
 
 function cleanSummary (summary) {
   return (summary || '').replace(groupRe, '')
 }
-
 
 /*
 
@@ -30,25 +27,25 @@ doesn't cover false positives though
 */
 
 function isReleaseCommit (summary) {
-  return /^Working on v?\d{1,2}\.\d{1,3}\.\d{1,3}$/.test(summary)
-         || /^\d{4}-\d{2}-\d{2},? (Node\.js|Version) v?\d{1,2}\.\d{1,3}\.\d{1,3} (["'][A-Za-z ]+["'] )?\((Current|Stable|LTS|Maintenance)\)/.test(summary)
-         || /^\d{4}-\d{2}-\d{2},? io.js v\d{1,2}\.\d{1,3}\.\d{1,3} Release/.test(summary)
-         || /^\d+\.\d+\.\d+$/.test(summary) // `npm version X` style commit
+  return /^Working on v?\d{1,2}\.\d{1,3}\.\d{1,3}$/.test(summary) ||
+    /^\d{4}-\d{2}-\d{2},? (Node\.js|Version) v?\d{1,2}\.\d{1,3}\.\d{1,3} (["'][A-Za-z ]+["'] )?\((Current|Stable|LTS|Maintenance)\)/.test(summary) ||
+    /^\d{4}-\d{2}-\d{2},? io.js v\d{1,2}\.\d{1,3}\.\d{1,3} Release/.test(summary) ||
+    /^\d+\.\d+\.\d+$/.test(summary) // `npm version X` style commit
 }
 
-
-module.exports.toGroups        = toGroups
-module.exports.cleanSummary    = cleanSummary
+module.exports.toGroups = toGroups
+module.exports.cleanSummary = cleanSummary
 module.exports.isReleaseCommit = isReleaseCommit
 
-
-if (require.main == module) {
+if (require.main === module) {
   console.log(`Running tests on lines in ${process.argv[2]}...`)
-  var failures = require('fs').readFileSync(process.argv[2], 'utf8').split('\n').filter(Boolean).filter((summary) => {
+  let failures = require('fs').readFileSync(process.argv[2], 'utf8').split('\n').filter(Boolean).filter((summary) => {
     return !isReleaseCommit(summary)
   })
-  if (!failures.length)
-    return console.log('All good, no failures!')
-  console.log('Failed on the following commit summaries:')
-  console.log(failures.join('\n'))
+  if (!failures.length) {
+    console.log('All good, no failures!')
+  } else {
+    console.log('Failed on the following commit summaries:')
+    console.log(failures.join('\n'))
+  }
 }

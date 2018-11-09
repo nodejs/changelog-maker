@@ -1,16 +1,14 @@
-const chalk   = require('chalk')
-    , reverts = require('./reverts')
-    , groups  = require('./groups')
-
+const chalk = require('chalk')
+const reverts = require('./reverts')
+const groups = require('./groups')
 
 function cleanMarkdown (txt) {
   // escape _~*\[]<>
-  return txt.replace(/([_~*\\\[\]<>])/g, '\\$1')
+  return txt.replace(/([_~*\\[\]<>])/g, '\\$1')
 }
 
-
 function toStringSimple (data) {
-  var s = ''
+  let s = ''
   s += '* [' + data.sha.substr(0, 10) + '] - '
   s += (data.semver || []).length ? '(' + data.semver.join(', ').toUpperCase() + ') ' : ''
   s += data.revert ? 'Revert "' : ''
@@ -21,15 +19,14 @@ function toStringSimple (data) {
   s += data.pr ? data.prUrl : ''
 
   return data.semver.length
-      ? chalk.green(chalk.bold(s))
-      : data.group == 'doc'
-        ? chalk.grey(s)
-        : s
+    ? chalk.green(chalk.bold(s))
+    : data.group === 'doc'
+      ? chalk.grey(s)
+      : s
 }
 
-
 function toStringMarkdown (data) {
-  var s = ''
+  let s = ''
   s += '* [[`' + data.sha.substr(0, 10) + '`](' + data.shaUrl + ')] - '
   s += (data.semver || []).length ? '**(' + data.semver.join(', ').toUpperCase() + ')** ' : ''
   s += data.revert ? '***Revert*** "' : ''
@@ -39,33 +36,31 @@ function toStringMarkdown (data) {
   s += data.author ? '(' + data.author + ') ' : ''
   s += data.pr ? '[' + data.pr + '](' + data.prUrl + ')' : ''
 
-  return data.semver.length
-      ? chalk.green(chalk.bold(s))
-      : data.group == 'doc'
-        ? chalk.grey(s)
-        : s
+  return (data.semver && data.semver.length)
+    ? chalk.green(chalk.bold(s))
+    : data.group === 'doc'
+      ? chalk.grey(s)
+      : s
 }
 
-
 function commitToOutput (commit, simple, ghId, commitUrl) {
-  var data        = {}
-    , prUrlMatch  = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^\/]+\/[^\/]+)\/\w+\/\d+$/i)
-    , urlHash     = '#'+commit.ghIssue || commit.prUrl
-    , ghUrl       = ghId.user + '/' + ghId.name
-    , ref         = commit.sha.substr(0, 10)
+  let data = {}
+  let prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^/]+\/[^/]+)\/\w+\/\d+$/i)
+  let urlHash = '#' + commit.ghIssue || commit.prUrl
+  let ghUrl = ghId.user + '/' + ghId.name
+  let ref = commit.sha.substr(0, 10)
 
-  data.sha     = commit.sha
-  data.shaUrl  = commitUrl ? commitUrl.replace("{ref}", ref) : 'https://github.com/' + ghUrl + '/commit/' + ref
-  data.semver  = commit.labels && commit.labels.filter(function (l) { return l.indexOf('semver') > -1 }) || false
-  data.revert  = reverts.isRevert(commit.summary)
-  data.group   = groups.toGroups(commit.summary)
+  data.sha = commit.sha
+  data.shaUrl = commitUrl ? commitUrl.replace('{ref}', ref) : 'https://github.com/' + ghUrl + '/commit/' + ref
+  data.semver = commit.labels && commit.labels.filter((l) => l.indexOf('semver') > -1)
+  data.revert = reverts.isRevert(commit.summary)
+  data.group = groups.toGroups(commit.summary)
   data.summary = groups.cleanSummary(reverts.cleanSummary(commit.summary))
-  data.author  = (commit.author && commit.author.name) || ''
-  data.pr      = prUrlMatch && ((prUrlMatch[1] != ghUrl ? prUrlMatch[1] : '') + urlHash)
-  data.prUrl   = prUrlMatch && commit.prUrl
+  data.author = (commit.author && commit.author.name) || ''
+  data.pr = prUrlMatch && ((prUrlMatch[1] !== ghUrl ? prUrlMatch[1] : '') + urlHash)
+  data.prUrl = prUrlMatch && commit.prUrl
 
   return (simple ? toStringSimple : toStringMarkdown)(data)
 }
-
 
 module.exports = commitToOutput
