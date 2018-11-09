@@ -18,7 +18,7 @@ function toStringSimple (data) {
   s += data.author ? '(' + data.author + ') ' : ''
   s += data.pr ? data.prUrl : ''
 
-  return data.semver.length
+  return (data.semver && data.semver.length)
     ? chalk.green(chalk.bold(s))
     : data.group === 'doc'
       ? chalk.grey(s)
@@ -35,6 +35,7 @@ function toStringMarkdown (data) {
   s += data.revert ? '" ' : ' '
   s += data.author ? '(' + data.author + ') ' : ''
   s += data.pr ? '[' + data.pr + '](' + data.prUrl + ')' : ''
+  s = s.trim()
 
   return (data.semver && data.semver.length)
     ? chalk.green(chalk.bold(s))
