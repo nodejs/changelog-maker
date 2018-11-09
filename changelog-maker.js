@@ -19,14 +19,14 @@ const argv = require('minimist')(process.argv.slice(2))
 const quiet = argv.quiet || argv.q
 const simple = argv.simple || argv.s
 const help = argv.h || argv.help
-const commitUrl = argv['commit-url']
+const commitUrl = argv['commit-url'] || 'https://github.com/{ghUser}/{ghRepo}/commit/{ref}'
 const pkgFile = path.join(process.cwd(), 'package.json')
 const pkgData = fs.existsSync(pkgFile) ? require(pkgFile) : {}
 const pkgId = pkgtoId(pkgData)
 
 const ghId = {
   user: argv._[0] || pkgId.user || 'nodejs',
-  name: argv._[1] || (pkgId.name && stripScope(pkgId.name)) || 'node'
+  repo: argv._[1] || (pkgId.name && stripScope(pkgId.name)) || 'node'
 }
 const gitcmd = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
 const commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
@@ -139,5 +139,5 @@ debug('%s', _gitcmd)
 
 gitexec.exec(process.cwd(), _gitcmd)
   .pipe(split2())
-  .pipe(commitStream(ghId.user, ghId.name))
+  .pipe(commitStream(ghId.user, ghId.repo))
   .pipe(list.obj(onCommitList))

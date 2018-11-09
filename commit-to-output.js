@@ -17,6 +17,7 @@ function toStringSimple (data) {
   s += data.revert ? '" ' : ' '
   s += data.author ? '(' + data.author + ') ' : ''
   s += data.pr ? data.prUrl : ''
+  s = s.trim()
 
   return (data.semver && data.semver.length)
     ? chalk.green(chalk.bold(s))
@@ -48,17 +49,16 @@ function commitToOutput (commit, simple, ghId, commitUrl) {
   let data = {}
   let prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^/]+\/[^/]+)\/\w+\/\d+$/i)
   let urlHash = '#' + commit.ghIssue || commit.prUrl
-  let ghUrl = ghId.user + '/' + ghId.name
   let ref = commit.sha.substr(0, 10)
 
   data.sha = commit.sha
-  data.shaUrl = commitUrl ? commitUrl.replace('{ref}', ref) : 'https://github.com/' + ghUrl + '/commit/' + ref
+  data.shaUrl = commitUrl.replace(/\{ghUser\}/g, ghId.user).replace(/\{ghRepo\}/g, ghId.repo).replace(/\{ref\}/g, ref)
   data.semver = commit.labels && commit.labels.filter((l) => l.indexOf('semver') > -1)
   data.revert = reverts.isRevert(commit.summary)
   data.group = groups.toGroups(commit.summary)
   data.summary = groups.cleanSummary(reverts.cleanSummary(commit.summary))
   data.author = (commit.author && commit.author.name) || ''
-  data.pr = prUrlMatch && ((prUrlMatch[1] !== ghUrl ? prUrlMatch[1] : '') + urlHash)
+  data.pr = prUrlMatch && ((prUrlMatch[1] !== `${ghId.user}/${ghId.repo}` ? prUrlMatch[1] : '') + urlHash)
   data.prUrl = prUrlMatch && commit.prUrl
 
   return (simple ? toStringSimple : toStringMarkdown)(data)
