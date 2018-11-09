@@ -4,7 +4,7 @@ const split2 = require('split2')
 const list = require('list-stream')
 const fs = require('fs')
 const path = require('path')
-const chalk = require('chalk')
+const stripAnsi = require('strip-ansi')
 const pkgtoId = require('pkg-to-id')
 const commitStream = require('commit-stream')
 const gitexec = require('gitexec')
@@ -93,7 +93,7 @@ function printCommits (list) {
   var out = list.join('\n') + '\n'
 
   if (!process.stdout.isTTY) {
-    out = chalk.stripColor(out)
+    out = stripAnsi(out)
   }
 
   process.stdout.write(out)
