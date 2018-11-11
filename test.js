@@ -41,13 +41,12 @@ test('test simple', function (t) {
   t.end()
 })
 
-// TODO: replace HEAD with last commit for TODAY
 test('test group, semver labels, PR-URL', function (t) {
-  t.equal(exec('--start-ref=v2.2.7 --end-ref=HEAD --group --filter-release --simple'),
+  t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release --simple'),
     `* [cc442b6534] - (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715
 * [4f2b7f8136] - deps: use strip-ansi instead of chalk.stripColor (Rod Vagg)
 * [6898501e18] - deps: update deps, introduce test & lint deps (Rod Vagg)
-* [3e367bd67c] - feature: refactor and improve --commit-url (Rod Vagg)
+* [9c700d2910] - feature: refactor and improve --commit-url (Rod Vagg)
 * [5094524655] - feature: make the commit url configurable via an additional argument (Jim Nielsen) https://github.com/nodejs/changelog-maker/pull/55
 * [42f248cf89] - src: use \`standard\` for linting (Rod Vagg)
 * [64a8fdef3c] - test: basic test infrastructure (Rod Vagg)
@@ -55,13 +54,12 @@ test('test group, semver labels, PR-URL', function (t) {
   t.end()
 })
 
-// TODO: replace HEAD with last commit for TODAY
 test('test simple group, semver labels, PR-URL', function (t) {
-  t.equal(exec('--start-ref=v2.2.7 --end-ref=HEAD --group --filter-release'),
+  t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
     `* [[\`cc442b6534\`](https://github.com/nodejs/changelog-maker/commit/cc442b6534)] - **(SEMVER-MINOR)** minor nit (Rod Vagg) [nodejs/node#23715](https://github.com/nodejs/node/pull/23715)
 * [[\`4f2b7f8136\`](https://github.com/nodejs/changelog-maker/commit/4f2b7f8136)] - **deps**: use strip-ansi instead of chalk.stripColor (Rod Vagg)
 * [[\`6898501e18\`](https://github.com/nodejs/changelog-maker/commit/6898501e18)] - **deps**: update deps, introduce test & lint deps (Rod Vagg)
-* [[\`3e367bd67c\`](https://github.com/nodejs/changelog-maker/commit/3e367bd67c)] - **feature**: refactor and improve --commit-url (Rod Vagg)
+* [[\`9c700d2910\`](https://github.com/nodejs/changelog-maker/commit/9c700d2910)] - **feature**: refactor and improve --commit-url (Rod Vagg)
 * [[\`5094524655\`](https://github.com/nodejs/changelog-maker/commit/5094524655)] - **feature**: make the commit url configurable via an additional argument (Jim Nielsen) [#55](https://github.com/nodejs/changelog-maker/pull/55)
 * [[\`42f248cf89\`](https://github.com/nodejs/changelog-maker/commit/42f248cf89)] - **src**: use \`standard\` for linting (Rod Vagg)
 * [[\`64a8fdef3c\`](https://github.com/nodejs/changelog-maker/commit/64a8fdef3c)] - **test**: basic test infrastructure (Rod Vagg)
@@ -70,7 +68,7 @@ test('test simple group, semver labels, PR-URL', function (t) {
 })
 
 test('test blank commit-url', function (t) {
-  let actual = exec('--start-ref=v2.2.7 --end-ref=HEAD --filter-release --commit-url=http://foo.bar/').split('\n')
+  let actual = exec('--start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=http://foo.bar/').split('\n')
   actual.splice(0, actual.length - 3)
   actual = actual.join('\n')
   t.equal(actual,
@@ -81,7 +79,7 @@ test('test blank commit-url', function (t) {
 })
 
 test('test blank commit-url', function (t) {
-  let actual = exec('--start-ref=v2.2.7 --end-ref=HEAD --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/').split('\n')
+  let actual = exec('--start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/').split('\n')
   actual.splice(0, actual.length - 3)
   actual = actual.join('\n')
   t.equal(actual,
