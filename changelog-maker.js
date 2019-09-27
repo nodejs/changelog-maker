@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
-const split2 = require('split2')
-const list = require('list-stream')
+'use strict'
+
 const fs = require('fs')
 const path = require('path')
+const split2 = require('split2')
+const list = require('list-stream')
 const stripAnsi = require('strip-ansi')
 const pkgtoId = require('pkg-to-id')
 const commitStream = require('commit-stream')
@@ -11,7 +13,7 @@ const gitexec = require('gitexec')
 const commitToOutput = require('./commit-to-output')
 const groupCommits = require('./group-commits')
 const collectCommitLabels = require('./collect-commit-labels')
-const isReleaseCommit = require('./groups').isReleaseCommit
+const { isReleaseCommit } = require('./groups')
 const pkg = require('./package.json')
 const debug = require('debug')(pkg.name)
 const argv = require('minimist')(process.argv.slice(2))
@@ -44,7 +46,7 @@ if (help) {
 }
 
 function showUsage () {
-  var usage = fs.readFileSync(path.join(__dirname, 'README.md'), 'utf8')
+  let usage = fs.readFileSync(path.join(__dirname, 'README.md'), 'utf8')
     .replace(/[\s\S]+(## Usage\n[\s\S]*)\n## [\s\S]+/m, '$1')
   if (process.stdout.isTTY) {
     usage = usage
@@ -52,6 +54,7 @@ function showUsage () {
       .replace(/\*\*/g, '')
       .replace(/`/g, '')
   }
+
   process.stdout.write(usage)
 }
 
@@ -60,8 +63,8 @@ function stripScope (name) {
 }
 
 function replace (s, m) {
-  Object.keys(m).forEach(function (k) {
-    s = s.replace(new RegExp('\\{\\{' + k + '\\}\\}', 'g'), m[k])
+  Object.keys(m).forEach((k) => {
+    s = s.replace(new RegExp(`\\{\\{${k}\\}\\}`, 'g'), m[k])
   })
   return s
 }
@@ -69,14 +72,15 @@ function replace (s, m) {
 function organiseCommits (list) {
   if (argv['start-ref'] || argv.a || argv.all) {
     if (argv['filter-release']) {
-      list = list.filter(function (commit) { return !isReleaseCommit(commit.summary) })
+      list = list.filter((commit) => !isReleaseCommit(commit.summary))
     }
+
     return list
   }
 
   // filter commits to those _before_ 'working on ...'
-  var started = false
-  return list.filter(function (commit) {
+  let started = false
+  return list.filter((commit) => {
     if (started) {
       return false
     }
@@ -90,7 +94,7 @@ function organiseCommits (list) {
 }
 
 function printCommits (list) {
-  var out = list.join('\n') + '\n'
+  let out = `${list.join('\n')}\n`
 
   if (!process.stdout.isTTY) {
     out = stripAnsi(out)
@@ -106,7 +110,7 @@ function onCommitList (err, list) {
 
   list = organiseCommits(list)
 
-  collectCommitLabels(list, function (err) {
+  collectCommitLabels(list, (err) => {
     if (err) {
       throw err
     }
@@ -115,7 +119,7 @@ function onCommitList (err, list) {
       list = groupCommits(list)
     }
 
-    list = list.map(function (commit) {
+    list = list.map((commit) => {
       return commitToOutput(commit, simple, ghId, commitUrl)
     })
 
@@ -125,11 +129,11 @@ function onCommitList (err, list) {
   })
 }
 
-let _startrefcmd = replace(refcmd, { ref: argv['start-ref'] || defaultRef })
-let _endrefcmd = argv['end-ref'] && replace(refcmd, { ref: argv['end-ref'] })
-let _sincecmd = replace(commitdatecmd, { refcmd: _startrefcmd })
-let _untilcmd = argv['end-ref'] ? replace(commitdatecmd, { refcmd: _endrefcmd }) : untilcmd
-let _gitcmd = replace(gitcmd, { sincecmd: _sincecmd, untilcmd: _untilcmd })
+const _startrefcmd = replace(refcmd, { ref: argv['start-ref'] || defaultRef })
+const _endrefcmd = argv['end-ref'] && replace(refcmd, { ref: argv['end-ref'] })
+const _sincecmd = replace(commitdatecmd, { refcmd: _startrefcmd })
+const _untilcmd = argv['end-ref'] ? replace(commitdatecmd, { refcmd: _endrefcmd }) : untilcmd
+const _gitcmd = replace(gitcmd, { sincecmd: _sincecmd, untilcmd: _untilcmd })
 
 debug('%s', _startrefcmd)
 debug('%s', _endrefcmd)

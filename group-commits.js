@@ -1,16 +1,20 @@
-const toGroups = require('./groups').toGroups
+'use strict'
+
+const { toGroups } = require('./groups')
 
 function groupCommits (list) {
-  var groupList = list.reduce(function (groupList, commit) {
-    var group = toGroups(commit.summary) || '*'
+  const groupList = list.reduce((groupList, commit) => {
+    const group = toGroups(commit.summary) || '*'
+
     if (!groupList[group]) {
       groupList[group] = []
     }
+
     groupList[group].push(commit)
     return groupList
   }, {})
 
-  return Object.keys(groupList).sort().reduce(function (p, group) {
+  return Object.keys(groupList).sort().reduce((p, group) => {
     return p.concat(groupList[group])
   }, [])
 }
