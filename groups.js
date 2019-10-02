@@ -3,7 +3,7 @@ const reverts = require('./reverts')
 
 function toGroups (summary) {
   summary = reverts.cleanSummary(summary)
-  let m = summary.match(groupRe)
+  const m = summary.match(groupRe)
   return (m && m[1]) || ''
 }
 
@@ -39,7 +39,7 @@ module.exports.isReleaseCommit = isReleaseCommit
 
 if (require.main === module) {
   console.log(`Running tests on lines in ${process.argv[2]}...`)
-  let failures = require('fs').readFileSync(process.argv[2], 'utf8').split('\n').filter(Boolean).filter((summary) => {
+  const failures = require('fs').readFileSync(process.argv[2], 'utf8').split('\n').filter(Boolean).filter((summary) => {
     return !isReleaseCommit(summary)
   })
   if (!failures.length) {

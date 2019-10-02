@@ -1,16 +1,19 @@
 // NOTE: to run this you will probably need to be authorized with GitHub.
 // Run `./changelog-maker.js` by itself to set this up.
 
+'use strict'
+
+const path = require('path')
+const { execSync } = require('child_process')
 const test = require('tape')
-const execSync = require('child_process').execSync
 
 function exec (args) {
-  let stdout = execSync(`${process.execPath} ${__dirname}/changelog-maker.js ${args}`).toString()
+  const stdout = execSync(`"${process.execPath}" ${path.join(__dirname, 'changelog-maker.js')} ${args}`).toString()
 
   return stdout
 }
 
-test('test basic commit block', function (t) {
+test('test basic commit block', (t) => {
   t.equal(exec('--start-ref=v1.3.9 --end-ref=v1.3.10'),
     `* [[\`e28b3f2813\`](https://github.com/nodejs/changelog-maker/commit/e28b3f2813)] - 1.3.10 (Rod Vagg)
 * [[\`ace3af943e\`](https://github.com/nodejs/changelog-maker/commit/ace3af943e)] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
@@ -21,7 +24,7 @@ test('test basic commit block', function (t) {
   t.end()
 })
 
-test('test filter-release', function (t) {
+test('test filter-release', (t) => {
   t.equal(exec('--start-ref=v1.3.9 --end-ref=v1.3.10 --filter-release'),
     `* [[\`ace3af943e\`](https://github.com/nodejs/changelog-maker/commit/ace3af943e)] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
 * [[\`25ec5428bc\`](https://github.com/nodejs/changelog-maker/commit/25ec5428bc)] - default to repo scope always - revert previous changes (James Young)
@@ -30,7 +33,7 @@ test('test filter-release', function (t) {
   t.end()
 })
 
-test('test simple', function (t) {
+test('test simple', (t) => {
   t.equal(exec('--start-ref=v1.3.9 --end-ref=v1.3.10 --simple'),
     `* [e28b3f2813] - 1.3.10 (Rod Vagg)
 * [ace3af943e] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
@@ -41,7 +44,7 @@ test('test simple', function (t) {
   t.end()
 })
 
-test('test group, semver labels, PR-URL', function (t) {
+test('test group, semver labels, PR-URL', (t) => {
   t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release --simple'),
     `* [cc442b6534] - (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715
 * [4f2b7f8136] - deps: use strip-ansi instead of chalk.stripColor (Rod Vagg)
@@ -54,7 +57,7 @@ test('test group, semver labels, PR-URL', function (t) {
   t.end()
 })
 
-test('test simple group, semver labels, PR-URL', function (t) {
+test('test simple group, semver labels, PR-URL', (t) => {
   t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
     `* [[\`cc442b6534\`](https://github.com/nodejs/changelog-maker/commit/cc442b6534)] - **(SEMVER-MINOR)** minor nit (Rod Vagg) [nodejs/node#23715](https://github.com/nodejs/node/pull/23715)
 * [[\`4f2b7f8136\`](https://github.com/nodejs/changelog-maker/commit/4f2b7f8136)] - **deps**: use strip-ansi instead of chalk.stripColor (Rod Vagg)
@@ -67,7 +70,7 @@ test('test simple group, semver labels, PR-URL', function (t) {
   t.end()
 })
 
-test('test blank commit-url', function (t) {
+test('test blank commit-url', (t) => {
   let actual = exec('--start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=http://foo.bar/').split('\n')
   actual.splice(0, actual.length - 3)
   actual = actual.join('\n')
@@ -78,7 +81,7 @@ test('test blank commit-url', function (t) {
   t.end()
 })
 
-test('test blank commit-url', function (t) {
+test('test blank commit-url', (t) => {
   let actual = exec('--start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/').split('\n')
   actual.splice(0, actual.length - 3)
   actual = actual.join('\n')
