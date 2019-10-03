@@ -1,4 +1,4 @@
-# changelog-maker
+# changelog-maker [![Build Status](https://github.com/nodejs/changelog-maker/workflows/Tests/badge.svg)](https://github.com/nodejs/changelog-maker/actions?workflow=Tests)
 
 **A git log to CHANGELOG.md tool**
 
