@@ -58,7 +58,7 @@ function collectCommitLabels (list, callback) {
       })
       cache[key].then((val) => onFetch(null, val), (err) => onFetch(err))
     }, 15)
-    q.drain = callback
+    q.drain(callback)
     q.push(sublist)
   })
 }
