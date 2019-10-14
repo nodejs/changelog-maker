@@ -4,6 +4,8 @@
 
 const fs = require('fs')
 const path = require('path')
+const promisify = require('util').promisify
+const pipeline = promisify(require('stream').pipeline)
 const split2 = require('split2')
 const list = require('list-stream')
 const stripAnsi = require('strip-ansi')
@@ -12,7 +14,7 @@ const commitStream = require('commit-stream')
 const gitexec = require('gitexec')
 const commitToOutput = require('./commit-to-output')
 const groupCommits = require('./group-commits')
-const collectCommitLabels = require('./collect-commit-labels')
+const collectCommitLabels = promisify(require('./collect-commit-labels')) // TODO
 const { isReleaseCommit } = require('./groups')
 const pkg = require('./package.json')
 const debug = require('debug')(pkg.name)
@@ -30,15 +32,17 @@ const ghId = {
   user: argv._[0] || pkgId.user || 'nodejs',
   repo: argv._[1] || (pkgId.name && stripScope(pkgId.name)) || 'node'
 }
-const gitcmd = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
-const commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
-const untilcmd = ''
-const refcmd = argv.a || argv.all ? 'git rev-list --max-parents=0 HEAD' : 'git rev-list --max-count=1 {{ref}}'
-const defaultRef = '--tags=v*.*.* 2> /dev/null ' +
-        '|| git rev-list --max-count=1 --tags=*.*.* 2> /dev/null ' +
-        '|| git rev-list --max-count=1 HEAD'
+const gitcmd = 'git log --pretty=full --since="{{since}}" --until="{{until}}"'
+const commitdatecmd = 'git show -s --format=%cd {{ref}}'
+const refCmd = 'git rev-list --max-count=1 {{ref}}'
+const allRefCmd = 'git rev-list --max-parents=0 HEAD'
+const startRefGuessCmd = [
+  'git rev-list --max-count=1 --tags=v*.*.*',
+  'git rev-list --max-count=1 --tags=*.*.*',
+  'git rev-list --max-count=1 HEAD'
+]
 
-debug(ghId)
+debug('using id:', ghId)
 
 if (help) {
   showUsage()
@@ -103,45 +107,105 @@ function printCommits (list) {
   process.stdout.write(out)
 }
 
-function onCommitList (err, list) {
+async function processCommitList (list) {
+  list = organiseCommits(list)
+
+  await collectCommitLabels(list)
+
+  if (argv.group) {
+    list = groupCommits(list)
+  }
+
+  list = list.map((commit) => commitToOutput(commit, simple, ghId, commitUrl))
+
+  if (!quiet) {
+    printCommits(list)
+  }
+}
+
+async function runGit (cmd, isCommitList) {
+  const ge = gitexec.exec(process.cwd(), cmd)
+  const streams = [ge, split2()]
+  if (isCommitList) {
+    streams.push(commitStream(ghId.user, ghId.repo))
+  }
+
+  // awkward callback construction is required because list.obj() rolls up
+  // the stream into an array provided to the callback, but we want to use
+  // stream.pipeline() to do a nice error-forwarding & cleanup pipeline
+  let err, data
+  streams.push(list.obj((_err, _data) => {
+    err = _err
+    data = _data
+  }))
+
+  await pipeline(streams)
+
+  // we land here _after_ the callback to list.obj() so `err` and `data` should be populated
   if (err) {
     throw err
   }
 
-  list = organiseCommits(list)
-
-  collectCommitLabels(list, (err) => {
-    if (err) {
-      throw err
-    }
-
-    if (argv.group) {
-      list = groupCommits(list)
-    }
-
-    list = list.map((commit) => {
-      return commitToOutput(commit, simple, ghId, commitUrl)
-    })
-
-    if (!quiet) {
-      printCommits(list)
-    }
-  })
+  return data
 }
 
-const _startrefcmd = replace(refcmd, { ref: argv['start-ref'] || defaultRef })
-const _endrefcmd = argv['end-ref'] && replace(refcmd, { ref: argv['end-ref'] })
-const _sincecmd = replace(commitdatecmd, { refcmd: _startrefcmd })
-const _untilcmd = argv['end-ref'] ? replace(commitdatecmd, { refcmd: _endrefcmd }) : untilcmd
-const _gitcmd = replace(gitcmd, { sincecmd: _sincecmd, untilcmd: _untilcmd })
+async function guessStartRef () {
+  for (const cmd of startRefGuessCmd) {
+    debug('guessing startRef with:', cmd)
+    const startRef = (await runGit(cmd))[0]
+    if (startRef) {
+      return startRef
+    }
+  }
 
-debug('%s', _startrefcmd)
-debug('%s', _endrefcmd)
-debug('%s', _sincecmd)
-debug('%s', _untilcmd)
-debug('%s', _gitcmd)
+  throw new Error(`Unexpected error finding default start ref, \`${startRefGuessCmd[startRefGuessCmd.length - 1]}\` didn't even work`)
+}
 
-gitexec.exec(process.cwd(), _gitcmd)
-  .pipe(split2())
-  .pipe(commitStream(ghId.user, ghId.repo))
-  .pipe(list.obj(onCommitList))
+async function findStartDate () {
+  let cmd
+  let startRef
+
+  if (argv.a || argv.all) {
+    cmd = allRefCmd
+  } else if (argv['start-ref']) {
+    cmd = replace(refCmd, { ref: argv['start-ref'] })
+  }
+
+  if (cmd) {
+    debug('startRef command: %s', cmd)
+    startRef = (await runGit(cmd))[0]
+  } else {
+    startRef = await guessStartRef()
+  }
+
+  cmd = replace(commitdatecmd, { ref: startRef })
+  debug('converting ref to date:', cmd)
+  return (await runGit(cmd))[0]
+}
+
+async function findEndDate () {
+  if (!argv['end-ref']) {
+    debug('using blank endRef')
+    return '' // --until=''
+  }
+  let cmd = replace(refCmd, { ref: argv['end-ref'] })
+  debug('endRef command: %s', cmd)
+  const endRef = (await runGit(cmd))[0]
+  cmd = replace(commitdatecmd, { ref: endRef })
+  debug('converting ref to date:', cmd)
+  return (await runGit(cmd))[0]
+}
+
+async function run () {
+  const [startDate, endDate] = await Promise.all([findStartDate(), findEndDate()])
+
+  const cmd = replace(gitcmd, { since: startDate, until: endDate })
+  debug('executing:', cmd)
+  const commits = await runGit(cmd, true)
+  return processCommitList(commits)
+}
+
+run().catch((err) => {
+  console.error(err)
+  process.exit(1)
+})
