@@ -40,5 +40,9 @@
     "lint": "standard",
     "unit": "tape test.js",
     "test": "npm run lint && npm run unit"
-  }
+  },
+  "files": [
+    "*.js",
+    "!test.js"
+  ]
 }
