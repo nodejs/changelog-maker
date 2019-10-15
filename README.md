@@ -58,6 +58,23 @@ npm i changelog-maker -g
 * `--all` or `-a`:     process all commits since beginning, instead of last tag.
 * `--help` or `-h`:    show usage and help.
 
+## Development
+
+Tests require GitHub authentication in order to fetch pull request metadata. [ghauth](https://github.com/rvagg/ghauth) will generate, store and load a [personal access token](https://github.com/settings/tokens) in your local user configuration when changelog-maker is run during normal operation. To run the tests, you will need to ensure that you have a token in place. There are two ways to do this:
+
+1. Run `node ./changelog-maker.js -a` to cause changelog-maker to fetch metadata on a commit with a `PR-URL`.
+
+2. Manually generate a personal access token with `public_repo` scope. Then create a config.json file:
+
+    ```json
+    {
+      "user": "MY_GITHUB_USERNAME",
+      "token": "MY_SECRET_TOKEN"
+    }
+    ```
+
+    `user` is your username, and `token` is the token you generated above. The location of `config.json` depends on the OS, please see <https://github.com/LinusU/node-application-config#config-location>
+
 ## License
 
 **changelog-maker** is Copyright (c) 2015 Rod Vagg [@rvagg](https://twitter.com/rvagg) and licenced under the MIT licence. All rights not explicitly granted in the MIT license are reserved. See the included LICENSE.md file for more details.
