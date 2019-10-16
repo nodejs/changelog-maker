@@ -19,11 +19,11 @@ function collectCommitLabels (list, callback) {
   }
 
   ghauth(authOptions, (err, authData) => {
-    const cache = {}
-
     if (err) {
       return callback(err)
     }
+
+    const cache = {}
 
     const q = async.queue((commit, next) => {
       function onFetch (err, issue) {
