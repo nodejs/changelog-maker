@@ -19,6 +19,7 @@
   "keywords": [],
   "preferGlobal": true,
   "dependencies": {
+    "@octokit/graphql": "^4.3.1",
     "async": "^3.1.0",
     "chalk": "^2.4.2",
     "commit-stream": "^1.1.0",
@@ -30,7 +31,8 @@
     "minimist": "^1.2.0",
     "pkg-to-id": "0.0.3",
     "split2": "^3.1.1",
-    "strip-ansi": "^5.2.0"
+    "strip-ansi": "^5.2.0",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "standard": "^14.3.1",
