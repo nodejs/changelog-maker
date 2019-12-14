@@ -24,8 +24,6 @@ function collectCommitLabels (list, callback) {
 
     const bits = list.map(item => {
       return `pr${item.ghIssue}: pullRequest (number: ${item.ghIssue}){
-        title
-        number
         labels (first: 100) {
           nodes {
             name
