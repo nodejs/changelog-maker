@@ -25,7 +25,6 @@
     "commit-stream": "^1.1.0",
     "debug": "^4.1.1",
     "ghauth": "^3.2.1",
-    "ghissues": "^1.1.3",
     "gitexec": "^1.0.0",
     "list-stream": "^1.0.1",
     "minimist": "^1.2.0",
