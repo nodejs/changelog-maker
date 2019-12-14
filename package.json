@@ -20,7 +20,6 @@
   "preferGlobal": true,
   "dependencies": {
     "@octokit/graphql": "^4.3.1",
-    "async": "^3.1.0",
     "chalk": "^2.4.2",
     "commit-stream": "^1.1.0",
     "debug": "^4.1.1",
