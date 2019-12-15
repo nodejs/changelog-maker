@@ -22,8 +22,11 @@ function collectCommitLabels (list, callback) {
       return callback(err)
     }
 
-    const bits = list.map(item => {
-      return `pr${item.ghIssue}: pullRequest (number: ${item.ghIssue}){
+    const allPrs = list.map(item => item.ghIssue)
+    const uniquePrs = Array.from(new Set(allPrs))
+
+    const bits = uniquePrs.map(prNumber => {
+      return `pr${prNumber}: pullRequest (number: ${prNumber}){
         labels (first: 100) {
           nodes {
             name
@@ -39,11 +42,11 @@ function collectCommitLabels (list, callback) {
     }`
 
     graphql(query, {
+      owner: list[0].ghUser,
+      name: list[0].ghProject,
       headers: {
         authorization: `token ${authData.token}`
-      },
-      owner: list[0].ghUser,
-      name: list[0].ghProject
+      }
     }).then(res => {
       for (let i = 0; i < list.length; i++) {
         const pr = res.repository[`pr${list[i].ghIssue}`]
