@@ -105,14 +105,14 @@ function printCommits (list) {
 
 function onCommitList (err, list) {
   if (err) {
-    throw err
+    return fatal(err)
   }
 
   list = organiseCommits(list)
 
   collectCommitLabels(list, (err) => {
     if (err) {
-      throw err
+      return fatal(err)
     }
 
     if (argv.group) {
@@ -127,6 +127,11 @@ function onCommitList (err, list) {
       printCommits(list)
     }
   })
+}
+
+function fatal (err) {
+  console.error(`Fatal error: ${err.message}`)
+  process.exit(1)
 }
 
 const _startrefcmd = replace(refcmd, { ref: argv['start-ref'] || defaultRef })
