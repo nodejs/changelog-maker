@@ -42,6 +42,7 @@ jobs:
         run: |
           mkdir "%LOCALAPPDATA%\changelog-maker\"
           echo {"user": "nodejs", "token": "${{ secrets.GITHUB_TOKEN }}"} > "%LOCALAPPDATA%\changelog-maker\config.json"
+        shell: cmd
         if: startsWith(matrix.os, 'windows')
 
       - name: Run tests
