@@ -5,7 +5,7 @@
 
 const path = require('path')
 const { execSync } = require('child_process')
-const test = require('tape')
+const { test } = require('tap')
 
 function exec (args) {
   const stdout = execSync(`"${process.execPath}" ${path.join(__dirname, 'changelog-maker.js')} ${args}`).toString()
