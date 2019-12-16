@@ -41,7 +41,7 @@ jobs:
       - name: Set up ghauth config (Windows)
         run: |
           mkdir "%LOCALAPPDATA%\changelog-maker\"
-          echo {"user": "nodejs", "token": "${{ secrets.GITHUB_TOKEN }}"} > "%LOCALAPPDATA%\changelog-maker\config.json"
+          echo '{"user": "nodejs", "token": "'${{ secrets.GITHUB_TOKEN }}'"}' > "%LOCALAPPDATA%\changelog-maker\config.json"
         if: startsWith(matrix.os, 'windows')
 
       - name: Run tests
