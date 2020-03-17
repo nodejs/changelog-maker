@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "standard": "^14.3.3",
-    "tape": "^4.11.0"
+    "tap": "^14.10.6"
   },
   "scripts": {
     "lint": "standard",
