@@ -2,7 +2,7 @@
 
 const { toGroups } = require('./groups')
 
-function groupCommits (list) {
+function groupCommits (list, plaintext = false) {
   const groupList = list.reduce((groupList, commit) => {
     const group = toGroups(commit.summary) || '*'
 
@@ -14,9 +14,11 @@ function groupCommits (list) {
     return groupList
   }, {})
 
-  return Object.keys(groupList).sort().reduce((p, group) => {
+  const grouped = Object.keys(groupList).sort().reduce((p, group) => {
     return p.concat(groupList[group])
   }, [])
+
+  return grouped
 }
 
 module.exports = groupCommits

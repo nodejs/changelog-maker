@@ -10,26 +10,35 @@ const stripAnsi = require('strip-ansi')
 const pkgtoId = require('pkg-to-id')
 const commitStream = require('commit-stream')
 const gitexec = require('gitexec')
-const commitToOutput = require('./commit-to-output')
+const { commitToOutput, formatType } = require('./commit-to-output')
 const groupCommits = require('./group-commits')
 const collectCommitLabels = require('./collect-commit-labels')
-const { isReleaseCommit } = require('./groups')
+const { isReleaseCommit, toGroups } = require('./groups')
 const pkg = require('./package.json')
 const debug = require('debug')(pkg.name)
 const argv = require('minimist')(process.argv.slice(2))
 
 const quiet = argv.quiet || argv.q
-const simple = argv.simple || argv.s
 const help = argv.h || argv.help
 const commitUrl = argv['commit-url'] || 'https://github.com/{ghUser}/{ghRepo}/commit/{ref}'
 const pkgFile = path.join(process.cwd(), 'package.json')
 const pkgData = fs.existsSync(pkgFile) ? require(pkgFile) : {}
 const pkgId = pkgtoId(pkgData)
 
+const getFormat = () => {
+  if (argv.simple || argv.s) {
+    return formatType.SIMPLE
+  } else if (argv.plaintext || argv.p) {
+    return formatType.PLAINTEXT
+  }
+  return formatType.MARKDOWN
+}
+
 const ghId = {
   user: argv._[0] || pkgId.user || 'nodejs',
   repo: argv._[1] || (pkgId.name && stripScope(pkgId.name)) || 'node'
 }
+
 const gitcmd = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
 const commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
 const untilcmd = ''
@@ -119,9 +128,26 @@ function onCommitList (err, list) {
       list = groupCommits(list)
     }
 
-    list = list.map((commit) => {
-      return commitToOutput(commit, simple, ghId, commitUrl)
-    })
+    const format = getFormat()
+    if (format === formatType.PLAINTEXT) {
+      const formatted = []
+
+      let currentGroup
+      for (const commit of list) {
+        const commitGroup = toGroups(commit.summary)
+        if (currentGroup !== commitGroup) {
+          formatted.push(`${commitGroup}:`)
+          currentGroup = commitGroup
+        }
+        formatted.push(commitToOutput(commit, formatType.PLAINTEXT, ghId, commitUrl))
+      }
+
+      list = formatted
+    } else {
+      list = list.map((commit) => {
+        return commitToOutput(commit, format, ghId, commitUrl)
+      })
+    }
 
     if (!quiet) {
       printCommits(list)
