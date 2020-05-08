@@ -44,6 +44,16 @@ test('test simple', (t) => {
   t.end()
 })
 
+test('test plaintext', (t) => {
+  t.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --plaintext'),
+    `feature:
+  * refactor and improve --commit-url (Rod Vagg)
+test:
+  * update refs for testing (Rod Vagg)
+`)
+  t.end()
+})
+
 test('test group, semver labels, PR-URL', (t) => {
   t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release --simple'),
     `* [cc442b6534] - (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715

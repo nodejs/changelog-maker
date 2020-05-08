@@ -9,6 +9,28 @@ function cleanMarkdown (txt) {
   return txt.replace(/([_~*\\[\]<>])/g, '\\$1')
 }
 
+const formatType = {
+  PLAINTEXT: 'plaintext',
+  MARKDOWN: 'markdown',
+  SIMPLE: 'simple'
+}
+
+function toStringPlaintext (data) {
+  let s = ''
+  s += (data.semver || []).length ? `(${data.semver.join(', ').toUpperCase()}) ` : ''
+
+  if (data.revert) {
+    s += `Revert "${data.group}: ${data.summary} `
+  } else {
+    s += `${data.summary} `
+  }
+
+  s += data.author ? `(${data.author}) ` : ''
+  s += data.pr ? data.prUrl : ''
+
+  return `  * ${s.trim()}`
+}
+
 function toStringSimple (data) {
   let s = ''
   s += `* [${data.sha.substr(0, 10)}] - `
@@ -47,7 +69,7 @@ function toStringMarkdown (data) {
       : s)
 }
 
-function commitToOutput (commit, simple, ghId, commitUrl) {
+function commitToOutput (commit, format, ghId, commitUrl) {
   const data = {}
   const prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^/]+\/[^/]+)\/\w+\/\d+$/i)
   const urlHash = `#${commit.ghIssue}` || commit.prUrl
@@ -63,7 +85,16 @@ function commitToOutput (commit, simple, ghId, commitUrl) {
   data.pr = prUrlMatch && ((prUrlMatch[1] !== `${ghId.user}/${ghId.repo}` ? prUrlMatch[1] : '') + urlHash)
   data.prUrl = prUrlMatch && commit.prUrl
 
-  return (simple ? toStringSimple : toStringMarkdown)(data)
+  if (format === formatType.SIMPLE) {
+    return toStringSimple(data)
+  } else if (format === formatType.PLAINTEXT) {
+    return toStringPlaintext(data)
+  }
+
+  return toStringMarkdown(data)
 }
 
-module.exports = commitToOutput
+module.exports = {
+  commitToOutput,
+  formatType
+}
