@@ -23,7 +23,7 @@
     "chalk": "^4.1.0",
     "commit-stream": "^1.1.0",
     "debug": "^4.1.1",
-    "ghauth": "^4.0.0",
+    "ghauth": "^5.0.0",
     "ghissues": "^1.1.3",
     "gitexec": "^2.0.1",
     "list-stream": "^2.0.0",

@@ -6,7 +6,8 @@ const async = require('async')
 
 const authOptions = {
   configName: 'changelog-maker',
-  scopes: ['repo']
+  scopes: ['repo'],
+  noDeviceFlow: true
 }
 
 function collectCommitLabels (list, callback) {
