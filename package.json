@@ -38,7 +38,7 @@
   },
   "scripts": {
     "lint": "standard",
-    "unit": "tap test.js",
+    "unit": "tap --no-check-coverage test.js",
     "test": "npm run lint && npm run unit"
   }
 }
