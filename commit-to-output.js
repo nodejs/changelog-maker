@@ -46,8 +46,8 @@ function toStringSimple (data) {
   return (data.semver && data.semver.length)
     ? chalk.green(chalk.bold(s))
     : (data.group === 'doc'
-      ? chalk.grey(s)
-      : s)
+        ? chalk.grey(s)
+        : s)
 }
 
 function toStringMarkdown (data) {
@@ -65,8 +65,8 @@ function toStringMarkdown (data) {
   return (data.semver && data.semver.length)
     ? chalk.green(chalk.bold(s))
     : (data.group === 'doc'
-      ? chalk.grey(s)
-      : s)
+        ? chalk.grey(s)
+        : s)
 }
 
 function commitToOutput (commit, format, ghId, commitUrl) {
