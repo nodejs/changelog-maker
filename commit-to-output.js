@@ -5,8 +5,9 @@ const reverts = require('./reverts')
 const groups = require('./groups')
 
 function cleanMarkdown (txt) {
-  // escape _~*\[]<>
-  return txt.replace(/([_~*\\[\]<>])/g, '\\$1')
+  // escape !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+  // Refs: https://spec.commonmark.org/0.29/#example-298
+  return txt.replace(/([!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])/g, '\\$1')
 }
 
 const formatType = {
