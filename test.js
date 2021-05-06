@@ -101,3 +101,17 @@ test('test blank commit-url', (t) => {
 `)
   t.end()
 })
+
+test('test backtick strings in commit messages', (t) => {
+  t.equal(
+    exec('--start-ref=ce886b5130 --end-ref=0717fdc946 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
+    `* [[\`0717fdc946\`](https://yeehaw.com/0717fdc946/0717fdc946/nodejs/changelog-maker/)] - **test**: \\\`commit\\_msg\\\` with an unescaped \\\` backtick char (Antoine du Hamel)
+* [[\`9f1d897c88\`](https://yeehaw.com/9f1d897c88/9f1d897c88/nodejs/changelog-maker/)] - **test**: \\\`commit\\_msg\\\` with an escaped \\\\\\\` backtick char (Antoine du Hamel)
+* [[\`4a3154bde0\`](https://yeehaw.com/4a3154bde0/4a3154bde0/nodejs/changelog-maker/)] - **test**: \`commit_msg\` starting with a backtick string (Antoine du Hamel)
+* [[\`46384bb241\`](https://yeehaw.com/46384bb241/46384bb241/nodejs/changelog-maker/)] - **test**: commit\\_msg with \\\`backtick\\\\\\\` string (Antoine du Hamel)
+* [[\`3b13c6804d\`](https://yeehaw.com/3b13c6804d/3b13c6804d/nodejs/changelog-maker/)] - **test**: commit\\_msg with \\\`\\\`backtick \\\` string\\\`\\\` (Antoine du Hamel)
+* [[\`699ce8c377\`](https://yeehaw.com/699ce8c377/699ce8c377/nodejs/changelog-maker/)] - **test**: commit\\_msg with \`back_tick\` string (Antoine du Hamel)
+* [[\`ce886b5130\`](https://yeehaw.com/ce886b5130/ce886b5130/nodejs/changelog-maker/)] - **test**: commit\\_msg with \`backtick\` string (Antoine du Hamel)
+`)
+  t.end()
+})
