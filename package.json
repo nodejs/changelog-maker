@@ -29,6 +29,10 @@
     "list-stream": "^2.0.0",
     "minimist": "^1.2.5",
     "pkg-to-id": "0.0.3",
+    "remark": "^14.0.1",
+    "remark-parse": "^10.0.0",
+    "remark-preset-lint-node": "^3.2.0",
+    "remark-stringify": "^10.0.0",
     "split2": "^3.2.2",
     "strip-ansi": "^6.0.0"
   },
