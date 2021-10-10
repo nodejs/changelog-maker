@@ -73,7 +73,7 @@ function toStringSimple (data) {
 
 function toStringMarkdown (data) {
   let s = ''
-  s += `* [[\`${data.sha.substr(0, 10)}\`](${data.shaUrl})] - `
+  s += `* \\[[\`${data.sha.substr(0, 10)}\`](${data.shaUrl})] - `
   s += (data.semver || []).length ? `**(${data.semver.join(', ').toUpperCase()})** ` : ''
   s += data.revert ? '***Revert*** "' : ''
   s += data.group ? `**${data.group}**: ` : ''
