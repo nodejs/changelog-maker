@@ -1,7 +1,6 @@
 name: Tests
+
 on: [push, pull_request]
-env:
-  CI: true
 
 jobs:
   run:
@@ -11,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [10, 12, 14]
+        node: [12, 14, 16]
         # windows support not quite ready: os: [ubuntu-latest, windows-latest]
         os: [ubuntu-latest]
 
@@ -22,7 +21,7 @@ jobs:
       - run: git fetch --prune --unshallow
 
       - name: Set Node.js version
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
 
@@ -38,7 +37,6 @@ jobs:
           mkdir -p ~/.config/changelog-maker/
           echo '{"user": "nodejs", "token": "'${{ secrets.GITHUB_TOKEN }}'"}' > ~/.config/changelog-maker/config.json
         if: startsWith(matrix.os, 'ubuntu')
-
 
       - name: Set up ghauth config (Windows)
         run: |
