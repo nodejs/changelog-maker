@@ -33,7 +33,7 @@
     "strip-ansi": "^6.0.0"
   },
   "devDependencies": {
-    "standard": "^16.0.3",
+    "standard": "^16.0.4",
     "tap": "^15.0.1"
   },
   "scripts": {
