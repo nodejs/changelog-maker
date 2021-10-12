@@ -18,6 +18,9 @@ const pkg = require('./package.json')
 const debug = require('debug')(pkg.name)
 const argv = require('minimist')(process.argv.slice(2))
 
+// Skip on formatting on Node.js 10.
+const formatMarkdown = process.versions.node.startsWith('10.') ? false : import('./format.mjs')
+
 const quiet = argv.quiet || argv.q
 const help = argv.h || argv.help
 const commitUrl = argv['commit-url'] || 'https://github.com/{ghUser}/{ghRepo}/commit/{ref}'
@@ -102,14 +105,13 @@ function organiseCommits (list) {
   })
 }
 
-function printCommits (list) {
-  let out = `${list.join('\n')}\n`
-
-  if (!process.stdout.isTTY) {
-    out = stripAnsi(out)
+async function printCommits (list) {
+  for await (let commit of list) {
+    if (!process.stdout.isTTY) {
+      commit = stripAnsi(commit)
+    }
+    process.stdout.write(commit)
   }
-
-  process.stdout.write(out)
 }
 
 function onCommitList (err, list) {
@@ -142,10 +144,20 @@ function onCommitList (err, list) {
         formatted.push(commitToOutput(commit, formatType.PLAINTEXT, ghId, commitUrl))
       }
 
-      list = formatted
+      list = formatted.map((line) => `${line}\n`)
     } else {
-      list = list.map((commit) => {
-        return commitToOutput(commit, format, ghId, commitUrl)
+      list = list.map(async (commit) => {
+        let output = commitToOutput(commit, format, ghId, commitUrl)
+        if (format === formatType.MARKDOWN) {
+          if (!process.stdout.isTTY) {
+            output = stripAnsi(output)
+          }
+          if (process.versions.node.startsWith('10.')) {
+            return `${output}\n`
+          }
+          return formatMarkdown.then((module) => module.default(output))
+        }
+        return `${output}\n`
       })
     }
 
