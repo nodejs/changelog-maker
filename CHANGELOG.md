@@ -1,3 +1,10 @@
+### [2.7.1](https://github.com/nodejs/changelog-maker/compare/v2.7.0...v2.7.1) (2021-10-15)
+
+
+### Trivial Changes
+
+* **deps:** bump split2 from 3.2.2 to 4.0.0 ([#109](https://github.com/nodejs/changelog-maker/issues/109)) ([365916f](https://github.com/nodejs/changelog-maker/commit/365916f06e50e51c7123464b3d4331759cd6672f))
+
 ## [2.7.0](https://github.com/nodejs/changelog-maker/compare/v2.6.0...v2.7.0) (2021-10-14)
 
 
