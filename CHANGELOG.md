@@ -1,3 +1,10 @@
+### [2.7.3](https://github.com/nodejs/changelog-maker/compare/v2.7.2...v2.7.3) (2021-10-28)
+
+
+### Trivial Changes
+
+* **deps:** bump async from 3.2.1 to 3.2.2 ([790bb0a](https://github.com/nodejs/changelog-maker/commit/790bb0abb04f7d2e5730407fa1795570169701ce))
+
 ### [2.7.2](https://github.com/nodejs/changelog-maker/compare/v2.7.1...v2.7.2) (2021-10-25)
 
 
