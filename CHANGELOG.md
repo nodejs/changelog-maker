@@ -1,3 +1,11 @@
+### [2.7.4](https://github.com/nodejs/changelog-maker/compare/v2.7.3...v2.7.4) (2021-11-23)
+
+
+### Trivial Changes
+
+* **deps:** remove package-lock.json ([#118](https://github.com/nodejs/changelog-maker/issues/118)) ([a059bc7](https://github.com/nodejs/changelog-maker/commit/a059bc7ca9b5e16b6678f4f419454aff76fd4b5b))
+* **no-release:** bump tap from 15.0.10 to 15.1.1 ([#113](https://github.com/nodejs/changelog-maker/issues/113)) ([fcfc5c8](https://github.com/nodejs/changelog-maker/commit/fcfc5c80ded8f64ae4bf672828272287d34a2b27))
+
 ### [2.7.3](https://github.com/nodejs/changelog-maker/compare/v2.7.2...v2.7.3) (2021-10-28)
 
 
