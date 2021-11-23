@@ -34,7 +34,7 @@
     "remark-preset-lint-node": "^3.2.0",
     "remark-stringify": "^10.0.0",
     "split2": "^4.0.0",
-    "strip-ansi": "^6.0.0"
+    "strip-ansi": "^7.0.1"
   },
   "devDependencies": {
     "standard": "^16.0.4",
