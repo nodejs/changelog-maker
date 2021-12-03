@@ -3,7 +3,8 @@
 import { existsSync, readFileSync } from 'fs'
 import { join } from 'path'
 import process from 'process'
-import stream from 'stream'
+import { pipeline as _pipeline } from 'stream'
+import { promisify } from 'util'
 import split2 from 'split2'
 import pkgtoId from 'pkg-to-id'
 import commitStream from 'commit-stream'
@@ -13,7 +14,7 @@ import minimist from 'minimist'
 import { processCommits } from './process-commits.js'
 import { isReleaseCommit } from './groups.js'
 
-const { pipeline } = stream.promises
+const pipeline = promisify(_pipeline)
 const debug = _debug('changelog-maker')
 const argv = minimist(process.argv.slice(2))
 const help = argv.h || argv.help
