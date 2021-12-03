@@ -48,9 +48,14 @@ npm i changelog-maker -g
 
 `github-user` and `github-project` should point to the GitHub repository that can be used to find the `PR-URL` data if just an issue number is provided and will also impact how the PR-URL issue numbers are displayed
 
-* `--plaintext`:       print a very simple form, without commit details, implies `--group`
-* `--markdown`:        print a Markdown formatted from, with links and proper escaping
-* `--sha`:             print only the list of short-form commit hashes
+* `--format`:          dictates what formatting the output will have. Possible options are: `simple`, `markdown`, `plaintext`, and `sha`. The default is to print a `simple` output suitable for stdout.
+  - `simple`:            don't print full markdown output, good for console printing without the additional fluff.
+  - `sha`:               print only the 10-character truncated commit hashes.
+  - `plaintext`:         a very simple form, without commit details, implies `--group`.
+  - `markdown`:          a Markdown formatted from, with links and proper escaping.
+* `--sha`:             same as `--format=sha`.
+* `--plaintext`:       same as `--format=plaintext`.
+* `--markdown`:        same as `--format=markdown`.
 * `--group`:           reorder commits so that they are listed in groups where the `xyz:` prefix of the commit message defines the group. Commits are listed in original order _within_ group.
 * `--reverse`:         reverse the order of commits when printed, does not work with `--reverse`
 * `--commit-url`:      pass in a url template which will be used to generate commit URLs for a repository not hosted in Github. `{ref}` is the placeholder that will be replaced with the commit, i.e. `--commit-url=https://gitlab.com/myUser/myRepo/commit/{ref}`

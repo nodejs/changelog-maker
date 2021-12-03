@@ -7,7 +7,9 @@ import { supportsColor } from 'chalk'
 import { collectCommitLabels } from './collect-commit-labels.js'
 
 function getFormat (argv) {
-  if (argv.sha) {
+  if (argv.format && Object.values(formatType).includes(argv.format)) {
+    return argv.format
+  } else if (argv.sha) {
     return formatType.SHA
   } else if (argv.plaintext || argv.p) {
     return formatType.PLAINTEXT
