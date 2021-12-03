@@ -8,9 +8,7 @@ const formatter = remark()
   .use(presetLintNode)
   .use(remarkStringify)
 
-const format = async (markdown) => {
+export async function formatMarkdown (markdown) {
   const result = await formatter.process(markdown)
   return result.toString()
 }
-
-export default format

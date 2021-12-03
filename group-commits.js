@@ -1,8 +1,6 @@
-'use strict'
+import { toGroups } from './groups.js'
 
-const { toGroups } = require('./groups')
-
-function groupCommits (list) {
+export function groupCommits (list) {
   const groupList = list.reduce((groupList, commit) => {
     const group = toGroups(commit.summary) || '*'
 
@@ -18,5 +16,3 @@ function groupCommits (list) {
     return p.concat(groupList[group])
   }, [])
 }
-
-module.exports = groupCommits
