@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [12, 14, 16]
+        node: [14, 16]
         # windows support not quite ready: os: [ubuntu-latest, windows-latest]
         os: [ubuntu-latest]
 
