@@ -1,20 +1,21 @@
 // NOTE: to run this you will probably need to be authorized with GitHub.
 // Run `./changelog-maker.js` by itself to set this up.
 
-'use strict'
+import { dirname, join } from 'path'
+import { execSync } from 'child_process'
+import { test } from 'tap'
+import chalk from 'chalk'
 
-const path = require('path')
-const { execSync } = require('child_process')
-const { test } = require('tap')
+const __dirname = dirname(new URL(import.meta.url).pathname)
 
 function exec (args) {
-  const stdout = execSync(`"${process.execPath}" ${path.join(__dirname, 'changelog-maker.js')} ${args}`).toString()
+  const stdout = execSync(`"${process.execPath}" ${join(__dirname, 'changelog-maker.js')} ${args}`).toString()
 
   return stdout
 }
 
 test('test basic commit block', (t) => {
-  t.equal(exec('--start-ref=v1.3.9 --end-ref=v1.3.10'),
+  t.equal(exec('--md --start-ref=v1.3.9 --end-ref=v1.3.10'),
     `* \\[[\`e28b3f2813\`](https://github.com/nodejs/changelog-maker/commit/e28b3f2813)] - 1.3.10 (Rod Vagg)
 * \\[[\`ace3af943e\`](https://github.com/nodejs/changelog-maker/commit/ace3af943e)] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
 * \\[[\`25ec5428bc\`](https://github.com/nodejs/changelog-maker/commit/25ec5428bc)] - default to repo scope always - revert previous changes (James Young)
@@ -25,7 +26,7 @@ test('test basic commit block', (t) => {
 })
 
 test('test filter-release', (t) => {
-  t.equal(exec('--start-ref=v1.3.9 --end-ref=v1.3.10 --filter-release'),
+  t.equal(exec('--md --start-ref=v1.3.9 --end-ref=v1.3.10 --filter-release'),
     `* \\[[\`ace3af943e\`](https://github.com/nodejs/changelog-maker/commit/ace3af943e)] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
 * \\[[\`25ec5428bc\`](https://github.com/nodejs/changelog-maker/commit/25ec5428bc)] - default to repo scope always - revert previous changes (James Young)
 * \\[[\`424d6c22c1\`](https://github.com/nodejs/changelog-maker/commit/424d6c22c1)] - add --private arg to set repo scope, update readme (James Young)
@@ -34,7 +35,7 @@ test('test filter-release', (t) => {
 })
 
 test('test simple', (t) => {
-  t.equal(exec('--start-ref=v1.3.9 --end-ref=v1.3.10 --simple'),
+  t.equal(exec('--start-ref=v1.3.9 --end-ref=v1.3.10'),
     `* [e28b3f2813] - 1.3.10 (Rod Vagg)
 * [ace3af943e] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
 * [25ec5428bc] - default to repo scope always - revert previous changes (James Young)
@@ -55,8 +56,8 @@ test:
 })
 
 test('test group, semver labels, PR-URL', (t) => {
-  t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release --simple'),
-    `* [cc442b6534] - (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715
+  t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
+  `${chalk.green.bold('* [cc442b6534] - (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715')}
 * [4f2b7f8136] - deps: use strip-ansi instead of chalk.stripColor (Rod Vagg)
 * [6898501e18] - deps: update deps, introduce test & lint deps (Rod Vagg)
 * [9c700d2910] - feature: refactor and improve --commit-url (Rod Vagg)
@@ -68,7 +69,7 @@ test('test group, semver labels, PR-URL', (t) => {
 })
 
 test('test simple group, semver labels, PR-URL', (t) => {
-  t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
+  t.equal(exec('--md --start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
     `* \\[[\`cc442b6534\`](https://github.com/nodejs/changelog-maker/commit/cc442b6534)] - **(SEMVER-MINOR)** minor nit (Rod Vagg) [nodejs/node#23715](https://github.com/nodejs/node/pull/23715)
 * \\[[\`4f2b7f8136\`](https://github.com/nodejs/changelog-maker/commit/4f2b7f8136)] - **deps**: use strip-ansi instead of chalk.stripColor (Rod Vagg)
 * \\[[\`6898501e18\`](https://github.com/nodejs/changelog-maker/commit/6898501e18)] - **deps**: update deps, introduce test & lint deps (Rod Vagg)
@@ -81,7 +82,7 @@ test('test simple group, semver labels, PR-URL', (t) => {
 })
 
 test('test blank commit-url', (t) => {
-  let actual = exec('--start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=http://foo.bar/').split('\n')
+  let actual = exec('--md --start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=http://foo.bar/').split('\n')
   actual.splice(0, actual.length - 3)
   actual = actual.join('\n')
   t.equal(actual,
@@ -92,7 +93,7 @@ test('test blank commit-url', (t) => {
 })
 
 test('test blank commit-url', (t) => {
-  let actual = exec('--start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/').split('\n')
+  let actual = exec('--md --start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/').split('\n')
   actual.splice(0, actual.length - 3)
   actual = actual.join('\n')
   t.equal(actual,
@@ -104,7 +105,7 @@ test('test blank commit-url', (t) => {
 
 test('test backtick strings in commit messages', (t) => {
   t.equal(
-    exec('--start-ref=ce886b5130 --end-ref=0717fdc946 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
+    exec('--md --start-ref=ce886b5130 --end-ref=0717fdc946 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
     `* \\[[\`0717fdc946\`](https://yeehaw.com/0717fdc946/0717fdc946/nodejs/changelog-maker/)] - **test**: \\\`commit\\_msg\\\` with an unescaped \\\` backtick char (Antoine du Hamel)
 * \\[[\`9f1d897c88\`](https://yeehaw.com/9f1d897c88/9f1d897c88/nodejs/changelog-maker/)] - **test**: \\\`commit\\_msg\\\` with an escaped \\\\\\\` backtick char (Antoine du Hamel)
 * \\[[\`4a3154bde0\`](https://yeehaw.com/4a3154bde0/4a3154bde0/nodejs/changelog-maker/)] - **test**: \`commit_msg\` starting with a backtick string (Antoine du Hamel)
@@ -118,7 +119,7 @@ test('test backtick strings in commit messages', (t) => {
 
 test('test markdown punctuation chars in commit message and author name', (t) => {
   t.equal(
-    exec('--start-ref=f12fe589c4 --end-ref=f12fe589c4 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
+    exec('--md --start-ref=f12fe589c4 --end-ref=f12fe589c4 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
     `* \\[[\`f12fe589c4\`](https://yeehaw.com/f12fe589c4/f12fe589c4/nodejs/changelog-maker/)] - **group\\_with\\_underscore**: test commit message (Author\\_name\\_with\\_underscore)
 `)
   t.end()

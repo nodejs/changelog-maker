@@ -1,13 +1,12 @@
-'use strict'
-
-const chalk = require('chalk')
-const reverts = require('./reverts')
-const groups = require('./groups')
+import chalk from 'chalk'
+import { isRevert, cleanSummary as cleanRevertSummary } from './reverts.js'
+import { toGroups, cleanSummary as cleanGroupSummary } from './groups.js'
 
 function cleanUnsupportedMarkdown (txt) {
   // escape _~*\[]<>`
   return txt.replace(/([_~*\\[\]<>`])/g, '\\$1')
 }
+
 function cleanMarkdown (txt) {
   // Escape backticks for edge case scenarii (no code span support).
   if (txt.includes('``') || txt.includes('\\`')) {
@@ -30,7 +29,8 @@ function cleanMarkdown (txt) {
   return cleanMdString
 }
 
-const formatType = {
+export const formatType = {
+  SHA: 'sha',
   PLAINTEXT: 'plaintext',
   MARKDOWN: 'markdown',
   SIMPLE: 'simple'
@@ -65,7 +65,7 @@ function toStringSimple (data) {
   s = s.trim()
 
   return (data.semver && data.semver.length)
-    ? chalk.green(chalk.bold(s))
+    ? chalk.green.bold(s)
     : (data.group === 'doc'
         ? chalk.grey(s)
         : s)
@@ -84,13 +84,13 @@ function toStringMarkdown (data) {
   s = s.trim()
 
   return (data.semver && data.semver.length)
-    ? chalk.green(chalk.bold(s))
+    ? chalk.green.bold(s)
     : (data.group === 'doc'
         ? chalk.grey(s)
         : s)
 }
 
-function commitToOutput (commit, format, ghId, commitUrl) {
+export function commitToOutput (commit, format, ghId, commitUrl) {
   const data = {}
   const prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^/]+\/[^/]+)\/\w+\/\d+$/i)
   const urlHash = `#${commit.ghIssue}` || commit.prUrl
@@ -99,9 +99,9 @@ function commitToOutput (commit, format, ghId, commitUrl) {
   data.sha = commit.sha
   data.shaUrl = commitUrl.replace(/\{ghUser\}/g, ghId.user).replace(/\{ghRepo\}/g, ghId.repo).replace(/\{ref\}/g, ref)
   data.semver = commit.labels && commit.labels.filter((l) => l.includes('semver'))
-  data.revert = reverts.isRevert(commit.summary)
-  data.group = groups.toGroups(commit.summary)
-  data.summary = groups.cleanSummary(reverts.cleanSummary(commit.summary))
+  data.revert = isRevert(commit.summary)
+  data.group = toGroups(commit.summary)
+  data.summary = cleanGroupSummary(cleanRevertSummary(commit.summary))
   data.author = (commit.author && commit.author.name) || ''
   data.pr = prUrlMatch && ((prUrlMatch[1] !== `${ghId.user}/${ghId.repo}` ? prUrlMatch[1] : '') + urlHash)
   data.prUrl = prUrlMatch && commit.prUrl
@@ -113,9 +113,4 @@ function commitToOutput (commit, format, ghId, commitUrl) {
   }
 
   return toStringMarkdown(data)
-}
-
-module.exports = {
-  commitToOutput,
-  formatType
 }
