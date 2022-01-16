@@ -76,10 +76,10 @@ function toStringMarkdown (data) {
   s += `* \\[[\`${data.sha.substr(0, 10)}\`](${data.shaUrl})] - `
   s += (data.semver || []).length ? `**(${data.semver.join(', ').toUpperCase()})** ` : ''
   s += data.revert ? '***Revert*** "' : ''
-  s += data.group ? `**${data.group}**: ` : ''
+  s += data.group ? `**${cleanMarkdown(data.group)}**: ` : ''
   s += cleanMarkdown(data.summary)
   s += data.revert ? '" ' : ' '
-  s += data.author ? `(${data.author}) ` : ''
+  s += data.author ? `(${cleanMarkdown(data.author)}) ` : ''
   s += data.pr ? `[${data.pr}](${data.prUrl})` : ''
   s = s.trim()
 
