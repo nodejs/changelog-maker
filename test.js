@@ -115,3 +115,11 @@ test('test backtick strings in commit messages', (t) => {
 `)
   t.end()
 })
+
+test('test markdown punctuation chars in commit message and author name', (t) => {
+  t.equal(
+    exec('--start-ref=eadf9e3d32 --end-ref=eadf9e3d32 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
+    `* \\[[\`eadf9e3d32\`](https://yeehaw.com/eadf9e3d32/eadf9e3d32/nodejs/changelog-maker/)] - **group\\_with\\_underscore**: test commit message (Author\\_name\\_with\\_underscore)
+`)
+  t.end()
+})
