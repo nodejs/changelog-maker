@@ -1,3 +1,24 @@
+## [3.0.0](https://github.com/nodejs/changelog-maker/compare/v2.8.0...v3.0.0) (2022-01-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* switch to ESM, fix output colourising, dedupe more code w/ branch-diff
+
+### Features
+
+* switch to ESM, fix output colourising, dedupe more code w/ branch-diff ([cf51a0f](https://github.com/nodejs/changelog-maker/commit/cf51a0f0f74a6e222c8f150d699e2a210f6bb722))
+
+
+### Bug Fixes
+
+* add back --format=x arg option ([1462378](https://github.com/nodejs/changelog-maker/commit/146237837773b39196ae61399336e29365b4113d))
+
+
+### Trivial Changes
+
+* remove Node.js v12 support ([fcf0d85](https://github.com/nodejs/changelog-maker/commit/fcf0d854bf857b3b46c92f91c2f125b82813be5b))
+
 ## [2.8.0](https://github.com/nodejs/changelog-maker/compare/v2.7.4...v2.8.0) (2022-01-17)
 
 
