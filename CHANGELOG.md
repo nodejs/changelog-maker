@@ -1,3 +1,10 @@
+## [2.8.0](https://github.com/nodejs/changelog-maker/compare/v2.7.4...v2.8.0) (2022-01-17)
+
+
+### Features
+
+* escape markdown characters in user provided strings ([#122](https://github.com/nodejs/changelog-maker/issues/122)) ([aa0234f](https://github.com/nodejs/changelog-maker/commit/aa0234f07cc7f9cfeb4c8a240e251943905a1518))
+
 ### [2.7.4](https://github.com/nodejs/changelog-maker/compare/v2.7.3...v2.7.4) (2021-11-23)
 
 
