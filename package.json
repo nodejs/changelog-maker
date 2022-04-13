@@ -8,6 +8,7 @@
     "changelog-maker": "./changelog-maker.js"
   },
   "exports": {
+    "./collect-commit-labels": "./collect-commit-labels.js",
     "./groups": "./groups.js",
     "./process-commits": "./process-commits.js"
   },
