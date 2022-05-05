@@ -1,3 +1,18 @@
+## [3.1.0](https://github.com/nodejs/changelog-maker/compare/v3.0.0...v3.1.0) (2022-05-05)
+
+
+### Features
+
+* add collect-commit-labels to exports ([#127](https://github.com/nodejs/changelog-maker/issues/127)) ([ad41ebf](https://github.com/nodejs/changelog-maker/commit/ad41ebff35b451b15452c3acb3fd24f0bcb78e40))
+
+
+### Trivial Changes
+
+* **no-release:** bump actions/checkout from 2 to 3 ([#125](https://github.com/nodejs/changelog-maker/issues/125)) ([dfcda56](https://github.com/nodejs/changelog-maker/commit/dfcda569a90f083a65dc6076805e16889f69bc72))
+* **no-release:** bump actions/setup-node from 2 to 3 ([#124](https://github.com/nodejs/changelog-maker/issues/124)) ([89a19e0](https://github.com/nodejs/changelog-maker/commit/89a19e02119266c5c39006c083bca1b5d2b54e33))
+* **no-release:** bump standard from 16.0.4 to 17.0.0 ([#129](https://github.com/nodejs/changelog-maker/issues/129)) ([387fff4](https://github.com/nodejs/changelog-maker/commit/387fff4c54112f46b84911a63ec2a9d2b79ab239))
+* **no-release:** bump tap from 15.2.3 to 16.0.0 ([#126](https://github.com/nodejs/changelog-maker/issues/126)) ([6665653](https://github.com/nodejs/changelog-maker/commit/666565365d85f05a9741b63cf3455a0747ff567f))
+
 ## [3.0.0](https://github.com/nodejs/changelog-maker/compare/v2.8.0...v3.0.0) (2022-01-17)
 
 
