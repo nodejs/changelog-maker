@@ -5,6 +5,7 @@ import { toGroups } from './groups.js'
 import { formatMarkdown } from './format.js'
 import { supportsColor } from 'chalk'
 import { collectCommitLabels } from './collect-commit-labels.js'
+import { findMatchingPrs } from './find-matching-prs.js'
 
 function getFormat (argv) {
   if (argv.format && Object.values(formatType).includes(argv.format)) {
@@ -32,6 +33,10 @@ export async function processCommits (argv, ghId, list) {
   const quiet = argv.quiet || argv.q
   const reverse = argv.reverse
   const commitUrl = argv['commit-url'] || 'https://github.com/{ghUser}/{ghRepo}/commit/{ref}'
+
+  if (argv['find-matching-prs']) {
+    await findMatchingPrs(ghId, list)
+  }
 
   await collectCommitLabels(list)
 

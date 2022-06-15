@@ -1,15 +1,8 @@
 'use strict'
 
-import { promisify } from 'util'
-import ghauth from 'ghauth'
+import { auth } from './auth.js'
 import ghissues from 'ghissues'
 import async from 'async'
-
-const authOptions = {
-  configName: 'changelog-maker',
-  scopes: ['repo'],
-  noDeviceFlow: true
-}
 
 export async function collectCommitLabels (list) {
   const sublist = list.filter((commit) => {
@@ -20,7 +13,7 @@ export async function collectCommitLabels (list) {
     return
   }
 
-  const authData = await promisify(ghauth)(authOptions)
+  const authData = await auth()
 
   const cache = {}
 
