@@ -44,7 +44,7 @@ npm i changelog-maker -g
 
 ## Usage
 
-**`changelog-maker [--plaintext|p] [--markdown|md] [--sha] [--group|-g] [--reverse] [--commit-url=<url/with/{ref}>] [--start-ref=<ref>] [--end-ref=<ref>] [github-user[, github-project]]`**
+**`changelog-maker [--plaintext|p] [--markdown|md] [--sha] [--group|-g] [--reverse] [--find-matching-prs] [--commit-url=<url/with/{ref}>] [--start-ref=<ref>] [--end-ref=<ref>] [github-user[, github-project]]`**
 
 `github-user` and `github-project` should point to the GitHub repository that can be used to find the `PR-URL` data if just an issue number is provided and will also impact how the PR-URL issue numbers are displayed
 
@@ -62,6 +62,7 @@ npm i changelog-maker -g
 * `--start-ref=<ref>`: use the given git `<ref>` as a starting point rather than the _last tag_. The `<ref>` can be anything commit-ish including a commit sha, tag, branch name. If you specify a `--start-ref` argument the commit log will not be pruned so that version commits and `working on <version>` commits are left in the list.
 * `--end-ref=<ref>`:   use the given git `<ref>` as a end-point rather than the _now_. The `<ref>` can be anything commit-ish including a commit sha, tag, branch name.
 * `--filter-release`:  exclude Node-style release commits from the list. e.g. "Working on v1.0.0" or "2015-10-21 Version 2.0.0" and also "npm version X" style commits containing _only_ an `x.y.z` semver designator.
+* `--find-matching-prs`: use the GitHub API to find the pull requests that match commits that don't have the `PR-URL` metadata in their message text. Without metadata, it may be necessary to also pass the org/user and repo name on the commandline (as the `github-user` and `github-project` arguments as demonstrated above, it may also be necessary to use `--find-matching-prs=true` in this case).
 * `--quiet` or `-q`:   do not print to `process.stdout`
 * `--all` or `-a`:     process all commits since beginning, instead of last tag.
 * `--help` or `-h`:    show usage and help.
