@@ -8,9 +8,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [14, 16]
+        node: [14, 16, current, lts/*]
         # windows support not quite ready: os: [ubuntu-latest, windows-latest]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - name: Clone repository
@@ -35,6 +35,12 @@ jobs:
           mkdir -p ~/.config/changelog-maker/
           echo '{"user": "nodejs", "token": "'${{ secrets.GITHUB_TOKEN }}'"}' > ~/.config/changelog-maker/config.json
         if: startsWith(matrix.os, 'ubuntu')
+
+      - name: Set up ghauth config (macOS)
+        run: |
+          mkdir -p ~/Library/Application\ Support/changelog-maker/
+          echo '{"user": "nodejs", "token": "'${{ secrets.GITHUB_TOKEN }}'"}' > ~/Library/Application\ Support/changelog-maker/config.json
+        if: startsWith(matrix.os, 'macos')
 
       - name: Set up ghauth config (Windows)
         run: |
@@ -61,7 +67,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: lts/*
 
       - name: Install dependencies
         run: |
