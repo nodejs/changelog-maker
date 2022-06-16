@@ -1,3 +1,15 @@
+## [3.2.0](https://github.com/nodejs/changelog-maker/compare/v3.1.0...v3.2.0) (2022-06-16)
+
+
+### Features
+
+* --find-matching-prs for commits without PR-URL ([#130](https://github.com/nodejs/changelog-maker/issues/130)) ([0aa7a2e](https://github.com/nodejs/changelog-maker/commit/0aa7a2ef785bc7d81e0442d3e57ccfb98f8a7ae0))
+
+
+### Trivial Changes
+
+* update node versions in Actions matrix (& enable macos) ([#131](https://github.com/nodejs/changelog-maker/issues/131)) ([2a87620](https://github.com/nodejs/changelog-maker/commit/2a87620b359f0d819c9fd5f05bdd79f9402f4491))
+
 ## [3.1.0](https://github.com/nodejs/changelog-maker/compare/v3.0.0...v3.1.0) (2022-05-05)
 
 
