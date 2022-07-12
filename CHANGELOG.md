@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/nodejs/changelog-maker/compare/v3.2.0...v3.2.1) (2022-07-12)
+
+
+### Trivial Changes
+
+* **deps:** bump @octokit/graphql from 4.8.0 to 5.0.0 ([#132](https://github.com/nodejs/changelog-maker/issues/132)) ([a44c88e](https://github.com/nodejs/changelog-maker/commit/a44c88e33a47a415f18c0187e124c65e4ced440e))
+
 ## [3.2.0](https://github.com/nodejs/changelog-maker/compare/v3.1.0...v3.2.0) (2022-06-16)
 
 
