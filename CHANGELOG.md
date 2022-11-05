@@ -60,7 +60,7 @@
 
 * escape markdown characters in user provided strings ([#122](https://github.com/nodejs/changelog-maker/issues/122)) ([aa0234f](https://github.com/nodejs/changelog-maker/commit/aa0234f07cc7f9cfeb4c8a240e251943905a1518))
 
-### [2.7.4](https://github.com/nodejs/changelog-maker/compare/v2.7.3...v2.7.4) (2021-11-23)
+## [2.7.4](https://github.com/nodejs/changelog-maker/compare/v2.7.3...v2.7.4) (2021-11-23)
 
 
 ### Trivial Changes
@@ -68,21 +68,21 @@
 * **deps:** remove package-lock.json ([#118](https://github.com/nodejs/changelog-maker/issues/118)) ([a059bc7](https://github.com/nodejs/changelog-maker/commit/a059bc7ca9b5e16b6678f4f419454aff76fd4b5b))
 * **no-release:** bump tap from 15.0.10 to 15.1.1 ([#113](https://github.com/nodejs/changelog-maker/issues/113)) ([fcfc5c8](https://github.com/nodejs/changelog-maker/commit/fcfc5c80ded8f64ae4bf672828272287d34a2b27))
 
-### [2.7.3](https://github.com/nodejs/changelog-maker/compare/v2.7.2...v2.7.3) (2021-10-28)
+## [2.7.3](https://github.com/nodejs/changelog-maker/compare/v2.7.2...v2.7.3) (2021-10-28)
 
 
 ### Trivial Changes
 
 * **deps:** bump async from 3.2.1 to 3.2.2 ([790bb0a](https://github.com/nodejs/changelog-maker/commit/790bb0abb04f7d2e5730407fa1795570169701ce))
 
-### [2.7.2](https://github.com/nodejs/changelog-maker/compare/v2.7.1...v2.7.2) (2021-10-25)
+## [2.7.2](https://github.com/nodejs/changelog-maker/compare/v2.7.1...v2.7.2) (2021-10-25)
 
 
 ### Trivial Changes
 
 * **deps:** bump split2 from 4.0.0 to 4.1.0 ([f9676c0](https://github.com/nodejs/changelog-maker/commit/f9676c0edbfc887b03c95de7d98a6806c0a47019))
 
-### [2.7.1](https://github.com/nodejs/changelog-maker/compare/v2.7.0...v2.7.1) (2021-10-15)
+## [2.7.1](https://github.com/nodejs/changelog-maker/compare/v2.7.0...v2.7.1) (2021-10-15)
 
 
 ### Trivial Changes
