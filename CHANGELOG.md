@@ -1,3 +1,10 @@
+## [3.2.3](https://github.com/nodejs/changelog-maker/compare/v3.2.2...v3.2.3) (2023-04-10)
+
+
+### Bug Fixes
+
+* update releaser action ([027c606](https://github.com/nodejs/changelog-maker/commit/027c606c61951769a9d8de17abb1bc1bd5780282))
+
 ## [3.2.2](https://github.com/nodejs/changelog-maker/compare/v3.2.1...v3.2.2) (2023-04-06)
 
 
