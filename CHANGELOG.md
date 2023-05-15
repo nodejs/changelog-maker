@@ -1,3 +1,10 @@
+## [3.2.4](https://github.com/nodejs/changelog-maker/compare/v3.2.3...v3.2.4) (2023-05-15)
+
+
+### Trivial Changes
+
+* **deps:** bump remark-preset-lint-node from 3.4.0 to 4.0.0 ([7eae6ff](https://github.com/nodejs/changelog-maker/commit/7eae6ffe93ae346f8a017b5328c7d263843eeb17))
+
 ## [3.2.3](https://github.com/nodejs/changelog-maker/compare/v3.2.2...v3.2.3) (2023-04-10)
 
 

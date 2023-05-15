@@ -1,6 +1,6 @@
 {
   "name": "changelog-maker",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "A git log to CHANGELOG.md tool",
   "main": "changelog-maker.js",
   "type": "module",
