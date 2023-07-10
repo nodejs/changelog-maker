@@ -25,7 +25,7 @@
   "keywords": [],
   "preferGlobal": true,
   "dependencies": {
-    "@octokit/graphql": "^5.0.0",
+    "@octokit/graphql": "^7.0.0",
     "async": "^3.2.2",
     "chalk": "^5.0.0",
     "commit-stream": "^2.0.1",
