@@ -128,7 +128,7 @@ test('test markdown punctuation chars in commit message and author name', (t) =>
 test('test find-matching-prs', (t) => {
   t.equal(
     exec('--start-ref=a059bc7ca9 --end-ref=a059bc7ca9 --find-matching-prs=true nodejs changelog-maker'),
-    `* [a059bc7ca9] - chore(deps): remove package-lock.json (#118) (Rod Vagg) https://github.com/nodejs/changelog-maker/pull/118
+    `* [a059bc7ca9] - chore(deps): remove package-lock.json (Rod Vagg) https://github.com/nodejs/changelog-maker/pull/118
 `)
   t.end()
 })
