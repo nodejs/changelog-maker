@@ -1,9 +1,9 @@
-import { remark } from 'remark'
+import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import presetLintNode from 'remark-preset-lint-node'
 
-const formatter = remark()
+const formatter = unified()
   .use(remarkParse)
   .use(presetLintNode)
   .use(remarkStringify)

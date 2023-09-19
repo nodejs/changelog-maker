@@ -26,29 +26,29 @@
   "preferGlobal": true,
   "dependencies": {
     "@octokit/graphql": "^7.0.1",
-    "async": "^3.2.2",
-    "chalk": "^5.0.0",
-    "commit-stream": "^2.0.1",
-    "debug": "^4.3.3",
+    "async": "^3.2.4",
+    "chalk": "^5.3.0",
+    "commit-stream": "^2.1.0",
+    "debug": "^4.3.4",
     "ghauth": "^5.0.1",
     "ghissues": "^1.1.4",
     "gitexec": "^2.0.1",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.8",
     "pkg-to-id": "^0.0.3",
-    "remark": "^14.0.2",
-    "remark-parse": "^10.0.1",
-    "remark-preset-lint-node": "^4.0.0",
-    "remark-stringify": "^10.0.2",
-    "split2": "^4.1.0",
-    "strip-ansi": "^7.0.1"
+    "remark-parse": "^11.0.0",
+    "remark-preset-lint-node": "^5.0.0",
+    "remark-stringify": "^11.0.0",
+    "split2": "^4.2.0",
+    "strip-ansi": "^7.1.0",
+    "unified": "^11.0.3"
   },
   "devDependencies": {
-    "standard": "^17.0.0",
-    "tap": "^16.0.0"
+    "standard": "^17.1.0",
+    "tap": "^18.0.4"
   },
   "scripts": {
     "lint": "standard",
-    "unit": "tap --no-check-coverage test.js",
+    "unit": "tap",
     "build": "true",
     "test:ci": "npm run test",
     "test": "npm run lint && npm run unit"
