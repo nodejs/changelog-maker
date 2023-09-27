@@ -1,3 +1,20 @@
+## [3.2.5](https://github.com/nodejs/changelog-maker/compare/v3.2.4...v3.2.5) (2023-09-27)
+
+
+### Bug Fixes
+
+* --allow-incomplete-coverage ([575a432](https://github.com/nodejs/changelog-maker/commit/575a432fa0889d03753e3666f942a0d1ace865ca))
+* make test pass ([5e011e0](https://github.com/nodejs/changelog-maker/commit/5e011e0946deb507b9ca46e62dd40e5ee1b186ed))
+
+
+### Trivial Changes
+
+* **deps:** bump @octokit/graphql from 5.0.6 to 7.0.1 ([e0385f1](https://github.com/nodejs/changelog-maker/commit/e0385f16d18eeba0f10a7a2bbd54f210c3984f0d))
+* **deps:** bump actions/checkout from 3 to 4 ([006c2d0](https://github.com/nodejs/changelog-maker/commit/006c2d04d4186287616537f509d702da9187894a))
+* **deps:** bump actions/setup-node from 3.6.0 to 3.8.0 ([2e8bce3](https://github.com/nodejs/changelog-maker/commit/2e8bce3687c4f1369d5c1bb6adfbee6bb1bd2f51))
+* **deps:** bump actions/setup-node from 3.8.0 to 3.8.1 ([46deecf](https://github.com/nodejs/changelog-maker/commit/46deecf379e56fadf0f0e8e22cdf77d0a115d7e1))
+* update dependencies ([7881e1b](https://github.com/nodejs/changelog-maker/commit/7881e1bc0639ecc7e1cdd934bc24373542a0971a))
+
 ## [3.2.4](https://github.com/nodejs/changelog-maker/compare/v3.2.3...v3.2.4) (2023-05-15)
 
 
