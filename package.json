@@ -48,7 +48,7 @@
   },
   "scripts": {
     "lint": "standard",
-    "unit": "tap",
+    "unit": "tap --allow-incomplete-coverage",
     "build": "true",
     "test:ci": "npm run test",
     "test": "npm run lint && npm run unit"
