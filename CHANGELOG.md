@@ -1,3 +1,10 @@
+## [3.2.6](https://github.com/nodejs/changelog-maker/compare/v3.2.5...v3.2.6) (2023-10-25)
+
+
+### Trivial Changes
+
+* **deps:** bump actions/setup-node from 3.8.1 to 4.0.0 ([184e2bb](https://github.com/nodejs/changelog-maker/commit/184e2bb5d2644f414cc9b7b4d816b09fc2a4c4c0))
+
 ## [3.2.5](https://github.com/nodejs/changelog-maker/compare/v3.2.4...v3.2.5) (2023-09-27)
 
 
