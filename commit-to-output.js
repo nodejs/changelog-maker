@@ -33,7 +33,8 @@ export const formatType = {
   SHA: 'sha',
   PLAINTEXT: 'plaintext',
   MARKDOWN: 'markdown',
-  SIMPLE: 'simple'
+  SIMPLE: 'simple',
+  MESSAGEONLY: 'messageonly'
 }
 
 function toStringPlaintext (data) {
@@ -90,6 +91,12 @@ function toStringMarkdown (data) {
         : s)
 }
 
+function toStringMessageOnly (data) {
+  let s = ''
+  s += data.summary
+  return `  * ${s.trim()}`
+}
+
 export function commitToOutput (commit, format, ghId, commitUrl) {
   const data = {}
   const prUrlMatch = commit.prUrl && commit.prUrl.match(/^https?:\/\/.+\/([^/]+\/[^/]+)\/\w+\/\d+$/i)
@@ -110,6 +117,8 @@ export function commitToOutput (commit, format, ghId, commitUrl) {
     return toStringSimple(data)
   } else if (format === formatType.PLAINTEXT) {
     return toStringPlaintext(data)
+  } else if (format === formatType.MESSAGEONLY) {
+    return toStringMessageOnly(data)
   }
 
   return toStringMarkdown(data)
