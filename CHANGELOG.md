@@ -1,3 +1,10 @@
+## [3.2.7](https://github.com/nodejs/changelog-maker/compare/v3.2.6...v3.2.7) (2023-12-12)
+
+
+### Trivial Changes
+
+* drop 16.x and add 20.x to CI ([cc0ecb8](https://github.com/nodejs/changelog-maker/commit/cc0ecb85bc75af438786e97196a560139045663a))
+
 ## [3.2.6](https://github.com/nodejs/changelog-maker/compare/v3.2.5...v3.2.6) (2023-10-25)
 
 
