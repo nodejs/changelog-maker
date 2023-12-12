@@ -1,3 +1,14 @@
+## [4.0.0](https://github.com/nodejs/changelog-maker/compare/v3.2.7...v4.0.0) (2023-12-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** bump ghauth from 5.0.2 to 6.0.0 (#157)
+
+### Trivial Changes
+
+* **deps:** bump ghauth from 5.0.2 to 6.0.0 ([#157](https://github.com/nodejs/changelog-maker/issues/157)) ([d75c5d2](https://github.com/nodejs/changelog-maker/commit/d75c5d21ddcb2e32b4acdab7bd529c13080ef816))
+
 ## [3.2.7](https://github.com/nodejs/changelog-maker/compare/v3.2.6...v3.2.7) (2023-12-12)
 
 
