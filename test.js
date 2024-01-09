@@ -58,9 +58,9 @@ test:
 test('test messageonly', (t) => {
   t.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --messageonly'),
     `feature:
-      * refactor and improve
-    test:
-      * update refs for testing
+  * refactor and improve --commit-url
+test:
+  * update refs for testing
 `)
   t.end()
 })
