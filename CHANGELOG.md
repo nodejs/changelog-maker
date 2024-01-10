@@ -1,3 +1,10 @@
+## [4.1.0](https://github.com/nodejs/changelog-maker/compare/v4.0.1...v4.1.0) (2024-01-10)
+
+
+### Features
+
+* allow commit message ONLY with --messageonly ([#156](https://github.com/nodejs/changelog-maker/issues/156)) ([e069500](https://github.com/nodejs/changelog-maker/commit/e06950091765b2b0b470d9cc5c5cc619819f2e6b))
+
 ## [4.0.1](https://github.com/nodejs/changelog-maker/compare/v4.0.0...v4.0.1) (2024-01-01)
 
 
