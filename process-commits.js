@@ -16,6 +16,8 @@ function getFormat (argv) {
     return formatType.PLAINTEXT
   } else if (argv.markdown || argv.md) {
     return formatType.MARKDOWN
+  } else if (argv.messageonly || argv.mo) {
+    return formatType.MESSAGEONLY
   }
   return formatType.SIMPLE
 }
@@ -42,23 +44,26 @@ export async function processCommits (argv, ghId, list) {
 
   const format = getFormat(argv)
 
-  if (argv.group || argv.g || format === formatType.PLAINTEXT) {
+  if (argv.group || argv.g || format === formatType.PLAINTEXT || format === formatType.MESSAGEONLY) {
     list = groupCommits(list)
   }
 
   if (format === formatType.SHA) {
     list = list.map((commit) => `${commit.sha.substr(0, 10)}`)
-  } else if (format === formatType.PLAINTEXT) {
+  } else if (
+    format === formatType.PLAINTEXT ||
+    format === formatType.MESSAGEONLY
+  ) {
     const formatted = []
 
     let currentGroup
     for (const commit of list) {
       const commitGroup = toGroups(commit.summary)
       if (currentGroup !== commitGroup) {
-        formatted.push(`${commitGroup}:`)
+        formatted.push(commitGroup ? `${commitGroup}:` : '')
         currentGroup = commitGroup
       }
-      formatted.push(commitToOutput(commit, formatType.PLAINTEXT, ghId, commitUrl))
+      formatted.push(commitToOutput(commit, format, ghId, commitUrl))
     }
     list = formatted
   } else {

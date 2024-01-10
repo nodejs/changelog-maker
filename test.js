@@ -55,6 +55,16 @@ test:
   t.end()
 })
 
+test('test messageonly', (t) => {
+  t.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --messageonly'),
+    `feature:
+  * refactor and improve --commit-url
+test:
+  * update refs for testing
+`)
+  t.end()
+})
+
 test('test group, semver labels, PR-URL', (t) => {
   t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
   `${chalk.green.bold('* [cc442b6534] - (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715')}
