@@ -92,9 +92,7 @@ function toStringMarkdown (data) {
 }
 
 function toStringMessageOnly (data) {
-  let s = ''
-  s += data.summary
-  return `  * ${s.trim()}`
+  return `  * ${data.summary.trim()}`
 }
 
 export function commitToOutput (commit, format, ghId, commitUrl) {
