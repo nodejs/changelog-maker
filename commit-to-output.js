@@ -39,6 +39,11 @@ export const formatType = {
 
 function toStringPlaintext (data) {
   let s = ''
+  if (data.cveId) {
+    const pr = data.pr ? data.prUrl : ''
+    return ` * ${data.cveId} - ${data.summary.trim()} - ${pr}`
+  }
+
   s += (data.semver || []).length ? `(${data.semver.join(', ').toUpperCase()}) ` : ''
 
   if (data.revert) {
@@ -76,6 +81,7 @@ function toStringMarkdown (data) {
   let s = ''
   s += `* \\[[\`${data.sha.substr(0, 10)}\`](${data.shaUrl})] - `
   s += (data.semver || []).length ? `**(${data.semver.join(', ').toUpperCase()})** ` : ''
+  s += data.cveId ? `**(${data.cveId})** ` : ''
   s += data.revert ? '***Revert*** "' : ''
   s += data.group ? `**${cleanMarkdown(data.group)}**: ` : ''
   s += cleanMarkdown(data.summary)
@@ -92,7 +98,11 @@ function toStringMarkdown (data) {
 }
 
 function toStringMessageOnly (data) {
-  return `  * ${data.summary.trim()}`
+  let cveData
+  if (data.cveId) {
+    cveData = `${data.cveId} - `
+  }
+  return `  * ${cveData}${data.summary.trim()}`
 }
 
 export function commitToOutput (commit, format, ghId, commitUrl) {
@@ -110,6 +120,7 @@ export function commitToOutput (commit, format, ghId, commitUrl) {
   data.author = (commit.author && commit.author.name) || ''
   data.pr = prUrlMatch && ((prUrlMatch[1] !== `${ghId.user}/${ghId.repo}` ? prUrlMatch[1] : '') + urlHash)
   data.prUrl = prUrlMatch && commit.prUrl
+  data.cveId = commit.cveId
 
   if (format === formatType.SIMPLE) {
     return toStringSimple(data)
