@@ -39,9 +39,9 @@ export const formatType = {
 
 function toStringPlaintext (data) {
   let s = ''
+
   if (data.cveId) {
-    const pr = data.pr ? data.prUrl : ''
-    return ` * ${data.cveId} - ${data.summary.trim()} - ${pr}`
+    s += `(${data.cveId})`
   }
 
   s += (data.semver || []).length ? `(${data.semver.join(', ').toUpperCase()}) ` : ''
@@ -98,11 +98,7 @@ function toStringMarkdown (data) {
 }
 
 function toStringMessageOnly (data) {
-  let cveData
-  if (data.cveId) {
-    cveData = `${data.cveId} - `
-  }
-  return `  * ${cveData}${data.summary.trim()}`
+  return `  * ${data.cveId ? '(' + data.cveId + ') ' : ''}${data.summary.trim()}`
 }
 
 export function commitToOutput (commit, format, ghId, commitUrl) {

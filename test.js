@@ -142,3 +142,12 @@ test('test find-matching-prs', (t) => {
 `)
   t.end()
 })
+
+test('test group, CVE-ID', (t) => {
+  const out = exec('--md --start-ref=43d428b3d2 --end-ref=43d428b3d2 --group --filter-release')
+  t.equal(
+    out,
+    `* \\[[\`43d428b3d2\`](https://github.com/nodejs/changelog-maker/commit/43d428b3d2)] - **(CVE-2024-22020)** **feat**: add cveId support to commmit output (RafaelGSS) [nodejs/node#55819](https://github.com/nodejs/node/pull/55819)
+`)
+  t.end()
+})
