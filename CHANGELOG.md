@@ -1,3 +1,13 @@
+## [4.2.0](https://github.com/nodejs/changelog-maker/compare/v4.1.1...v4.2.0) (2024-11-28)
+
+### Features
+
+* add cveId support to commmit output ([43d428b](https://github.com/nodejs/changelog-maker/commit/43d428b3d206f950fda0e4209f984ab8b834893f))
+
+### Tests
+
+* add cveId tests ([f2f235b](https://github.com/nodejs/changelog-maker/commit/f2f235bb05a7240584054c5a8bb12410cb49f7b6))
+
 ## [4.1.1](https://github.com/nodejs/changelog-maker/compare/v4.1.0...v4.1.1) (2024-02-07)
 
 
