@@ -45,6 +45,8 @@ jobs:
           npm run test:ci
   release:
     name: Release
+    permissions:
+      contents: write
     needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
