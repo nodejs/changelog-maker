@@ -153,10 +153,19 @@ test('test group, CVE-ID', (t) => {
 })
 
 test('test conventionalcommit style', (t) => {
-  const out = exec('--md --start-ref=ce886b5130 --end-ref=e5e3e8ffe4')
+  // testing that we capture `foo(bar)` as a group in `foo(bar): message`, not just `foo` in `foo: message`
+  const out = exec('--md --start-ref=35b762c7 --end-ref=375e0b7d')
   t.equal(
     out,
-    `* \\[[\`43d428b3d2\`](https://github.com/nodejs/changelog-maker/commit/43d428b3d2)] - **(CVE-2024-22020)** **feat**: add cveId support to commmit output (RafaelGSS) [nodejs/node#55819](https://github.com/nodejs/node/pull/55819)
+    `* \\[[\`375e0b7d48\`](https://github.com/nodejs/changelog-maker/commit/375e0b7d48)] - **test(cc,yay)**: add test case for conventional commits (Rod Vagg)
+* \\[[\`6d6ef98c14\`](https://github.com/nodejs/changelog-maker/commit/6d6ef98c14)] - **feat(conventionalcommits)**: make group matching regexp cover CC style (Rod Vagg)
+* \\[[\`b3c44809b7\`](https://github.com/nodejs/changelog-maker/commit/b3c44809b7)] - **chore(release)**: 4.2.1 \\[skip ci] (semantic-release-bot)
+* \\[[\`fce438030c\`](https://github.com/nodejs/changelog-maker/commit/fce438030c)] - **chore(deps-dev)**: bump tap from 18.8.0 to 19.0.0 (dependabot\\[bot]) [#165](https://github.com/nodejs/changelog-maker/pull/165)
+* \\[[\`ddb59f6a17\`](https://github.com/nodejs/changelog-maker/commit/ddb59f6a17)] - **chore(release)**: 4.2.0 \\[skip ci] (semantic-release-bot)
+* \\[[\`f8391430af\`](https://github.com/nodejs/changelog-maker/commit/f8391430af)] - Merge pull request #167 from nodejs/add-cve-id-to-commitoutput (Rafael Gonzaga)
+* \\[[\`f2f235bb05\`](https://github.com/nodejs/changelog-maker/commit/f2f235bb05)] - **test**: add cveId tests (RafaelGSS)
+* \\[[\`43d428b3d2\`](https://github.com/nodejs/changelog-maker/commit/43d428b3d2)] - **(CVE-2024-22020)** **feat**: add cveId support to commmit output (RafaelGSS) [nodejs/node#55819](https://github.com/nodejs/node/pull/55819)
+* \\[[\`35b762c78a\`](https://github.com/nodejs/changelog-maker/commit/35b762c78a)] - **chore(release)**: 4.1.1 \\[skip ci] (semantic-release-bot)
 `)
   t.end()
 })
