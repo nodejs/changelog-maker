@@ -151,3 +151,12 @@ test('test group, CVE-ID', (t) => {
 `)
   t.end()
 })
+
+test('test conventionalcommit style', (t) => {
+  const out = exec('--md --start-ref=ce886b5130 --end-ref=e5e3e8ffe4')
+  t.equal(
+    out,
+    `* \\[[\`43d428b3d2\`](https://github.com/nodejs/changelog-maker/commit/43d428b3d2)] - **(CVE-2024-22020)** **feat**: add cveId support to commmit output (RafaelGSS) [nodejs/node#55819](https://github.com/nodejs/node/pull/55819)
+`)
+  t.end()
+})
