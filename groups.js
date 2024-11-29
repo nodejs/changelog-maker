@@ -3,7 +3,7 @@ import process from 'process'
 import { readFileSync } from 'fs'
 import { cleanSummary as cleanRevertsSummary } from './reverts.js'
 
-const groupRe = /^((:?\w|-|,|, )+):\s*/i
+const groupRe = /^((:?\w|-|,|, )+(\([\w.-,]+\))?)!?:\s*/i
 
 export function toGroups (summary) {
   summary = cleanRevertsSummary(summary)
