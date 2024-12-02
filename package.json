@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "standard": "^17.1.0",
-    "tap": "^19.0.0"
+    "tap": "^21.0.1"
   },
   "scripts": {
     "lint": "standard",
