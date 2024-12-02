@@ -1,3 +1,18 @@
+## [4.3.0](https://github.com/nodejs/changelog-maker/compare/v4.2.1...v4.3.0) (2024-12-02)
+
+### Features
+
+* **conventionalcommits:** make group matching regexp cover CC style ([6d6ef98](https://github.com/nodejs/changelog-maker/commit/6d6ef98c144f4aee86c12d3b199852f3018534ee))
+
+### Trivial Changes
+
+* **cc:** make work ([1914a85](https://github.com/nodejs/changelog-maker/commit/1914a8503e82e115bbb6c1254c7ed2e899a21969))
+* **deps:** bump actions/setup-node from 4.0.2 to 4.1.0 ([f3b5e33](https://github.com/nodejs/changelog-maker/commit/f3b5e33338fed91475e59f49df7cc128fa55634a))
+
+### Tests
+
+* **cc,yay:** add test case for conventional commits ([375e0b7](https://github.com/nodejs/changelog-maker/commit/375e0b7d489b1f02d1c7ff9a45e02f4e21fa56ad))
+
 ## [4.2.1](https://github.com/nodejs/changelog-maker/compare/v4.2.0...v4.2.1) (2024-11-29)
 
 ### Trivial Changes
