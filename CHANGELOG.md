@@ -1,3 +1,9 @@
+## [4.3.1](https://github.com/nodejs/changelog-maker/compare/v4.3.0...v4.3.1) (2024-12-02)
+
+### Trivial Changes
+
+* **deps-dev:** bump tap from 19.2.5 to 21.0.1 ([2a91332](https://github.com/nodejs/changelog-maker/commit/2a91332951968e859dadfacf47796cf9be5aec97))
+
 ## [4.3.0](https://github.com/nodejs/changelog-maker/compare/v4.2.1...v4.3.0) (2024-12-02)
 
 ### Features
