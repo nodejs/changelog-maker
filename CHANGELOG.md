@@ -1,3 +1,9 @@
+## [4.3.2](https://github.com/nodejs/changelog-maker/compare/v4.3.1...v4.3.2) (2025-01-16)
+
+### Bug Fixes
+
+* add whitespace after cveId ([#174](https://github.com/nodejs/changelog-maker/issues/174)) ([fc15ea1](https://github.com/nodejs/changelog-maker/commit/fc15ea1b2c333ee7db0603484a6588dca23aea8e))
+
 ## [4.3.1](https://github.com/nodejs/changelog-maker/compare/v4.3.0...v4.3.1) (2024-12-02)
 
 ### Trivial Changes
