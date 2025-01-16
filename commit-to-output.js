@@ -41,7 +41,7 @@ function toStringPlaintext (data) {
   let s = ''
 
   if (data.cveId) {
-    s += `(${data.cveId})`
+    s += `(${data.cveId}) `
   }
 
   s += (data.semver || []).length ? `(${data.semver.join(', ').toUpperCase()}) ` : ''

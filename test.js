@@ -169,3 +169,13 @@ test('test conventionalcommit style', (t) => {
 `)
   t.end()
 })
+
+test('test plaintext, CVE-ID', (t) => {
+  const out = exec('--start-ref=43d428b3d2 --end-ref=43d428b3d2 --group --filter-release --plaintext')
+  t.equal(
+    out,
+    `feat:
+  * (CVE-2024-22020) add cveId support to commmit output (RafaelGSS) https://github.com/nodejs/node/pull/55819
+`)
+  t.end()
+})
