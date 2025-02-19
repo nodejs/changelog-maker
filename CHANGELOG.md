@@ -1,3 +1,9 @@
+## [4.4.0](https://github.com/nodejs/changelog-maker/compare/v4.3.3...v4.4.0) (2025-02-19)
+
+### Features
+
+* split commit-to-list to its own file ([#178](https://github.com/nodejs/changelog-maker/issues/178)) ([6d9fb9a](https://github.com/nodejs/changelog-maker/commit/6d9fb9a46258a8e8f42cddee05ef145908b690b3))
+
 ## [4.3.3](https://github.com/nodejs/changelog-maker/compare/v4.3.2...v4.3.3) (2025-01-27)
 
 ### Trivial Changes
