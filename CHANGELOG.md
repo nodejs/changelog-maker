@@ -1,3 +1,9 @@
+## [4.4.1](https://github.com/nodejs/changelog-maker/compare/v4.4.0...v4.4.1) (2025-03-18)
+
+### Trivial Changes
+
+* **deps:** bump actions/setup-node from 4.2.0 to 4.3.0 ([594f7b8](https://github.com/nodejs/changelog-maker/commit/594f7b8e8860a1899640b35efb456abf9d01f7b4))
+
 ## [4.4.0](https://github.com/nodejs/changelog-maker/compare/v4.3.3...v4.4.0) (2025-02-19)
 
 ### Features
