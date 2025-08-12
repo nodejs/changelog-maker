@@ -1,3 +1,9 @@
+## [4.4.3](https://github.com/nodejs/changelog-maker/compare/v4.4.2...v4.4.3) (2025-08-12)
+
+### Trivial Changes
+
+* **deps:** bump actions/checkout from 4 to 5 ([#183](https://github.com/nodejs/changelog-maker/issues/183)) ([8be6757](https://github.com/nodejs/changelog-maker/commit/8be675773f1ed393cfc55e89f3384053b219a54a))
+
 ## [4.4.2](https://github.com/nodejs/changelog-maker/compare/v4.4.1...v4.4.2) (2025-04-15)
 
 ### Trivial Changes
