@@ -1,3 +1,9 @@
+## [4.4.7](https://github.com/nodejs/changelog-maker/compare/v4.4.6...v4.4.7) (2025-12-05)
+
+### Trivial Changes
+
+* **deps:** bump actions/setup-node from 6.0.0 to 6.1.0 ([#189](https://github.com/nodejs/changelog-maker/issues/189)) ([cb4da75](https://github.com/nodejs/changelog-maker/commit/cb4da759cfe3c4e4fda5b2fb72badb2917729696))
+
 ## [4.4.6](https://github.com/nodejs/changelog-maker/compare/v4.4.5...v4.4.6) (2025-11-24)
 
 ### Trivial Changes
