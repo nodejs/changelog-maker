@@ -47,6 +47,7 @@ jobs:
     name: Release
     permissions:
       contents: write
+      id-token: write
     needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -59,6 +60,7 @@ jobs:
         uses: actions/setup-node@v6.2.0
         with:
           node-version: lts/*
+          registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: |
           npm install --no-progress --no-package-lock --no-save
@@ -79,6 +81,6 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
         run: npx semantic-release
 
