@@ -1,3 +1,10 @@
+## [4.4.8](https://github.com/nodejs/changelog-maker/compare/v4.4.7...v4.4.8) (2026-01-21)
+
+### Trivial Changes
+
+* **deps:** bump actions/setup-node from 6.1.0 to 6.2.0 ([#190](https://github.com/nodejs/changelog-maker/issues/190)) ([66ec752](https://github.com/nodejs/changelog-maker/commit/66ec7525e70cf056af2e8628cd1e74a2403c24c5))
+* switch to npm OIDC publishing ([#191](https://github.com/nodejs/changelog-maker/issues/191)) ([963987b](https://github.com/nodejs/changelog-maker/commit/963987b64e47318192c182c551fb11011b61ad39))
+
 ## [4.4.7](https://github.com/nodejs/changelog-maker/compare/v4.4.6...v4.4.7) (2025-12-05)
 
 ### Trivial Changes
