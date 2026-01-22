@@ -30,7 +30,7 @@
     "chalk": "^5.3.0",
     "commit-stream": "^2.2.0",
     "debug": "^4.3.4",
-    "ghauth": "^6.0.0",
+    "ghauth": "^7.0.0",
     "ghissues": "^1.1.4",
     "gitexec": "^2.0.1",
     "minimist": "^1.2.8",
@@ -43,12 +43,20 @@
     "unified": "^11.0.3"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^12.0.0",
+    "@semantic-release/npm": "^13.0.0",
+    "@semantic-release/release-notes-generator": "^14.0.1",
+    "conventional-changelog-conventionalcommits": "^9.0.0",
+    "semantic-release": "^25.0.0",
     "standard": "^17.1.0",
     "tap": "^21.0.1"
   },
   "scripts": {
     "lint": "standard",
-    "unit": "tap --allow-incomplete-coverage",
+    "unit": "tap --disable-coverage",
     "build": "true",
     "test:ci": "npm run test",
     "test": "npm run lint && npm run unit"

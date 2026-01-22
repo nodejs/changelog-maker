@@ -5,7 +5,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [18.x, 20.x, lts/*, current]
+        node: [lts/*, current]
         # not quite windows ready, halp! os: [macos-latest, ubuntu-latest, windows-latest]
         os: [macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
@@ -62,22 +62,9 @@ jobs:
           node-version: lts/*
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
-        run: |
-          npm install --no-progress --no-package-lock --no-save
+        run: npm install --no-progress
       - name: Build
-        run: |
-          npm run build
-      - name: Install plugins
-        run: |
-          npm install \
-            @semantic-release/commit-analyzer \
-            conventional-changelog-conventionalcommits \
-            @semantic-release/release-notes-generator \
-            @semantic-release/npm \
-            @semantic-release/github \
-            @semantic-release/git \
-            @semantic-release/changelog \
-            --no-progress --no-package-lock --no-save
+        run: npm run build
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
