@@ -1,3 +1,9 @@
+## [4.4.9](https://github.com/nodejs/changelog-maker/compare/v4.4.8...v4.4.9) (2026-01-22)
+
+### Trivial Changes
+
+* update to ghauth v7, modernise CI ([#192](https://github.com/nodejs/changelog-maker/issues/192)) ([d89aec7](https://github.com/nodejs/changelog-maker/commit/d89aec7892a0e7d44df4a3b3ea36c6b6ad01282a))
+
 ## [4.4.8](https://github.com/nodejs/changelog-maker/compare/v4.4.7...v4.4.8) (2026-01-21)
 
 ### Trivial Changes
