@@ -1,3 +1,9 @@
+## [4.4.10](https://github.com/nodejs/changelog-maker/compare/v4.4.9...v4.4.10) (2026-01-24)
+
+### Bug Fixes
+
+* **ci:** fix dependabot config ([#193](https://github.com/nodejs/changelog-maker/issues/193)) ([236ed27](https://github.com/nodejs/changelog-maker/commit/236ed27a304c7992370339d1188fcca966db0f20))
+
 ## [4.4.9](https://github.com/nodejs/changelog-maker/compare/v4.4.8...v4.4.9) (2026-01-22)
 
 ### Trivial Changes
