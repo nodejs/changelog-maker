@@ -31,7 +31,7 @@
     "commit-stream": "^2.2.0",
     "debug": "^4.3.4",
     "ghauth": "^7.0.0",
-    "ghissues": "^1.1.4",
+    "ghissues": "^2.0.0",
     "gitexec": "^2.0.1",
     "minimist": "^1.2.8",
     "pkg-to-id": "^0.0.3",
