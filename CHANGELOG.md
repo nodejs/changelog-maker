@@ -1,3 +1,12 @@
+## [4.4.11](https://github.com/nodejs/changelog-maker/compare/v4.4.10...v4.4.11) (2026-02-08)
+
+### Trivial Changes
+
+* **deps-dev:** bump @semantic-release/github from 12.0.2 to 12.0.3 ([#195](https://github.com/nodejs/changelog-maker/issues/195)) ([d34b501](https://github.com/nodejs/changelog-maker/commit/d34b501b25a646a19b943aa449b805ab759614e3))
+* **deps-dev:** bump semantic-release from 25.0.2 to 25.0.3 ([#194](https://github.com/nodejs/changelog-maker/issues/194)) ([3e22ee0](https://github.com/nodejs/changelog-maker/commit/3e22ee05a288c2af147e35f484e1fffe00e73b35))
+* **deps:** bump @octokit/graphql from 7.1.1 to 9.0.3 ([#187](https://github.com/nodejs/changelog-maker/issues/187)) ([71f9872](https://github.com/nodejs/changelog-maker/commit/71f98729da89dfca17201a24f7b0d58678ef19e8))
+* **deps:** bump ghauth from 7.0.0 to 7.0.1 ([#196](https://github.com/nodejs/changelog-maker/issues/196)) ([a78fa66](https://github.com/nodejs/changelog-maker/commit/a78fa666873a05f52013b80cafee2bf6f05228cf))
+
 ## [4.4.10](https://github.com/nodejs/changelog-maker/compare/v4.4.9...v4.4.10) (2026-01-24)
 
 ### Bug Fixes
