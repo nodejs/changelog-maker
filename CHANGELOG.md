@@ -1,3 +1,9 @@
+## [4.4.12](https://github.com/nodejs/changelog-maker/compare/v4.4.11...v4.4.12) (2026-02-08)
+
+### Trivial Changes
+
+* **deps:** bump tar and npm ([#198](https://github.com/nodejs/changelog-maker/issues/198)) ([5efa3ed](https://github.com/nodejs/changelog-maker/commit/5efa3edf07d4359cf91d147efceb501591591f0b))
+
 ## [4.4.11](https://github.com/nodejs/changelog-maker/compare/v4.4.10...v4.4.11) (2026-02-08)
 
 ### Trivial Changes
