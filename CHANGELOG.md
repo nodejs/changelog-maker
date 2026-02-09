@@ -1,3 +1,9 @@
+## [4.4.13](https://github.com/nodejs/changelog-maker/compare/v4.4.12...v4.4.13) (2026-02-09)
+
+### Trivial Changes
+
+* **deps:** bump ghissues from 1.1.4 to 2.0.0 ([#197](https://github.com/nodejs/changelog-maker/issues/197)) ([5b95ee1](https://github.com/nodejs/changelog-maker/commit/5b95ee104174cd87ad3e09870036a4ff9f899a62))
+
 ## [4.4.12](https://github.com/nodejs/changelog-maker/compare/v4.4.11...v4.4.12) (2026-02-08)
 
 ### Trivial Changes
