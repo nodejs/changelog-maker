@@ -1,7 +1,7 @@
 'use strict'
 
 import { auth } from './auth.js'
-import ghissues from 'ghissues'
+import { get as ghget } from 'ghissues'
 import async from 'async'
 
 export async function collectCommitLabels (list) {
@@ -39,15 +39,7 @@ export async function collectCommitLabels (list) {
     // from hitting the network at the same time, immediately assign a Promise
     // to the cache that all commits with the same ghIssue value will use.
     const key = `${commit.ghUser}/${commit.ghProject}#${commit.ghIssue}`
-    cache[key] = cache[key] || new Promise((resolve, reject) => {
-      ghissues.get(authData, commit.ghUser, commit.ghProject, commit.ghIssue, (err, issue) => {
-        if (err) {
-          return reject(err)
-        }
-
-        resolve(issue)
-      })
-    })
+    cache[key] = cache[key] || ghget(authData, commit.ghUser, commit.ghProject, commit.ghIssue)
     cache[key].then((val) => onFetch(null, val), (err) => onFetch(err))
   }, 15)
 
