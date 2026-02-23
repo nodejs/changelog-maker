@@ -1,3 +1,9 @@
+## [4.4.15](https://github.com/nodejs/changelog-maker/compare/v4.4.14...v4.4.15) (2026-02-23)
+
+### Trivial Changes
+
+* **deps-dev:** bump @semantic-release/github from 12.0.5 to 12.0.6 ([#202](https://github.com/nodejs/changelog-maker/issues/202)) ([f06a736](https://github.com/nodejs/changelog-maker/commit/f06a736b2d5905291b84cd1cad7c0c277afcf80e))
+
 ## [4.4.14](https://github.com/nodejs/changelog-maker/compare/v4.4.13...v4.4.14) (2026-02-16)
 
 ### Trivial Changes
