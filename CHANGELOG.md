@@ -1,3 +1,11 @@
+## [4.4.18](https://github.com/nodejs/changelog-maker/compare/v4.4.17...v4.4.18) (2026-03-09)
+
+### Trivial Changes
+
+* **deps-dev:** bump @semantic-release/npm from 13.1.4 to 13.1.5 ([#205](https://github.com/nodejs/changelog-maker/issues/205)) ([00b287a](https://github.com/nodejs/changelog-maker/commit/00b287a9ff1d63d72b5487ccb02f8f7a1dd52521))
+* **deps-dev:** bump conventional-changelog-conventionalcommits ([#207](https://github.com/nodejs/changelog-maker/issues/207)) ([b0c9342](https://github.com/nodejs/changelog-maker/commit/b0c93420dc873c8389e1c63095f4c7d40416aa83))
+* **deps:** bump strip-ansi from 7.1.2 to 7.2.0 ([#206](https://github.com/nodejs/changelog-maker/issues/206)) ([020baeb](https://github.com/nodejs/changelog-maker/commit/020baeb5e87e46ce4a22af1cfea46d701dba7b1f))
+
 ## [4.4.17](https://github.com/nodejs/changelog-maker/compare/v4.4.16...v4.4.17) (2026-03-03)
 
 ### Trivial Changes
