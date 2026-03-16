@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v6.2.0
+        uses: actions/setup-node@v6.3.0
         with:
           node-version: ${{ matrix.node }}
       - name: Set up ghauth config (Ubuntu)
@@ -57,7 +57,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v6.2.0
+        uses: actions/setup-node@v6.3.0
         with:
           node-version: lts/*
           registry-url: 'https://registry.npmjs.org'
