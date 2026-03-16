@@ -1,3 +1,10 @@
+## [4.4.20](https://github.com/nodejs/changelog-maker/compare/v4.4.19...v4.4.20) (2026-03-16)
+
+### Trivial Changes
+
+* **deps-dev:** bump conventional-changelog-conventionalcommits ([#213](https://github.com/nodejs/changelog-maker/issues/213)) ([99f914a](https://github.com/nodejs/changelog-maker/commit/99f914adceafededaae2fdd928fb65e688fa2f34))
+* **deps:** bump actions/setup-node from 6.2.0 to 6.3.0 ([#212](https://github.com/nodejs/changelog-maker/issues/212)) ([d6ed697](https://github.com/nodejs/changelog-maker/commit/d6ed6970f24248a48cb77a1008e05f1a6b17f2ee))
+
 ## [4.4.19](https://github.com/nodejs/changelog-maker/compare/v4.4.18...v4.4.19) (2026-03-11)
 
 ### Trivial Changes
