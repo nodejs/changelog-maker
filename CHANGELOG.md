@@ -1,3 +1,9 @@
+## [4.4.21](https://github.com/nodejs/changelog-maker/compare/v4.4.20...v4.4.21) (2026-03-16)
+
+### Trivial Changes
+
+* **deps-dev:** bump undici from 6.23.0 to 6.24.1 ([#211](https://github.com/nodejs/changelog-maker/issues/211)) ([8d703db](https://github.com/nodejs/changelog-maker/commit/8d703dbd4acc713544d85f6ff1510ab261e6a065))
+
 ## [4.4.20](https://github.com/nodejs/changelog-maker/compare/v4.4.19...v4.4.20) (2026-03-16)
 
 ### Trivial Changes
