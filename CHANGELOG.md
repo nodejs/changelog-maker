@@ -1,3 +1,9 @@
+## [4.4.22](https://github.com/nodejs/changelog-maker/compare/v4.4.21...v4.4.22) (2026-03-16)
+
+### Trivial Changes
+
+* **deps-dev:** bump minimatch from 3.1.2 to 3.1.5 ([#209](https://github.com/nodejs/changelog-maker/issues/209)) ([dc740f3](https://github.com/nodejs/changelog-maker/commit/dc740f3ebb983892c43bf1fb311916c62870f5e7))
+
 ## [4.4.21](https://github.com/nodejs/changelog-maker/compare/v4.4.20...v4.4.21) (2026-03-16)
 
 ### Trivial Changes
