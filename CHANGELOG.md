@@ -1,3 +1,9 @@
+## [4.4.23](https://github.com/nodejs/changelog-maker/compare/v4.4.22...v4.4.23) (2026-03-23)
+
+### Trivial Changes
+
+* **deps-dev:** bump flatted from 3.3.3 to 3.4.2 ([#214](https://github.com/nodejs/changelog-maker/issues/214)) ([354adf8](https://github.com/nodejs/changelog-maker/commit/354adf8d60e939e4a12e5ad8fa4fc2ad161352c6))
+
 ## [4.4.22](https://github.com/nodejs/changelog-maker/compare/v4.4.21...v4.4.22) (2026-03-16)
 
 ### Trivial Changes
