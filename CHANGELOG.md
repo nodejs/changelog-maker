@@ -1,3 +1,9 @@
+## [4.4.24](https://github.com/nodejs/changelog-maker/compare/v4.4.23...v4.4.24) (2026-03-26)
+
+### Trivial Changes
+
+* **deps:** bump picomatch ([#215](https://github.com/nodejs/changelog-maker/issues/215)) ([b9341a7](https://github.com/nodejs/changelog-maker/commit/b9341a7e9f8f749469236df7e719dcf8f0f56302))
+
 ## [4.4.23](https://github.com/nodejs/changelog-maker/compare/v4.4.22...v4.4.23) (2026-03-23)
 
 ### Trivial Changes
