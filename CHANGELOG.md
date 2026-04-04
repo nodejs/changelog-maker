@@ -1,3 +1,9 @@
+## [4.4.26](https://github.com/nodejs/changelog-maker/compare/v4.4.25...v4.4.26) (2026-04-04)
+
+### Trivial Changes
+
+* **deps-dev:** bump conventional-changelog-conventionalcommits ([#218](https://github.com/nodejs/changelog-maker/issues/218)) ([9ef5bef](https://github.com/nodejs/changelog-maker/commit/9ef5bef6dcbc24c414c2262056da734b9ee8f9cb))
+
 ## [4.4.25](https://github.com/nodejs/changelog-maker/compare/v4.4.24...v4.4.25) (2026-03-27)
 
 ### Trivial Changes
