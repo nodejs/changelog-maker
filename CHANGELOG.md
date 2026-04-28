@@ -1,3 +1,10 @@
+## [4.4.27](https://github.com/nodejs/changelog-maker/compare/v4.4.26...v4.4.27) (2026-04-28)
+
+### Trivial Changes
+
+* **deps-dev:** bump tap from 21.6.2 to 21.7.1 ([#222](https://github.com/nodejs/changelog-maker/issues/222)) ([906c8fd](https://github.com/nodejs/changelog-maker/commit/906c8fdb1701d540a1e9294d21654da3d3c013e9))
+* **deps:** bump actions/setup-node from 6.3.0 to 6.4.0 ([#221](https://github.com/nodejs/changelog-maker/issues/221)) ([ab83556](https://github.com/nodejs/changelog-maker/commit/ab835564e9ea7f609b25332c141097b4d12a0504))
+
 ## [4.4.26](https://github.com/nodejs/changelog-maker/compare/v4.4.25...v4.4.26) (2026-04-04)
 
 ### Trivial Changes
