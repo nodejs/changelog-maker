@@ -1,3 +1,10 @@
+## [4.4.28](https://github.com/nodejs/changelog-maker/compare/v4.4.27...v4.4.28) (2026-04-28)
+
+### Trivial Changes
+
+* **deps-dev:** bump lodash-es from 4.17.23 to 4.18.1 ([#217](https://github.com/nodejs/changelog-maker/issues/217)) ([8614447](https://github.com/nodejs/changelog-maker/commit/8614447f3f20452680bea850d03863d4e93ff342))
+* **deps:** bump lodash from 4.17.23 to 4.18.1 ([#219](https://github.com/nodejs/changelog-maker/issues/219)) ([9ffd156](https://github.com/nodejs/changelog-maker/commit/9ffd15691e0e02b974b6617e220a6349bcd97214))
+
 ## [4.4.27](https://github.com/nodejs/changelog-maker/compare/v4.4.26...v4.4.27) (2026-04-28)
 
 ### Trivial Changes
