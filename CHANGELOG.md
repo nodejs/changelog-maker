@@ -1,3 +1,11 @@
+## [4.4.29](https://github.com/nodejs/changelog-maker/compare/v4.4.28...v4.4.29) (2026-05-11)
+
+### Trivial Changes
+
+* **deps-dev:** bump tap from 21.7.1 to 21.7.2 ([#224](https://github.com/nodejs/changelog-maker/issues/224)) ([244db7a](https://github.com/nodejs/changelog-maker/commit/244db7aa9335c0636c481e1e3c6d7adcbb8a3646))
+* **deps:** bump ghauth from 7.0.1 to 7.0.3 ([#223](https://github.com/nodejs/changelog-maker/issues/223)) ([1da881e](https://github.com/nodejs/changelog-maker/commit/1da881e9e84f06987da4b5b02016f155d923d1e7))
+* **deps:** bump ghissues from 2.0.0 to 2.0.2 ([#225](https://github.com/nodejs/changelog-maker/issues/225)) ([ec839a6](https://github.com/nodejs/changelog-maker/commit/ec839a6295817e304495608a7a2c584c2f3efbc1))
+
 ## [4.4.28](https://github.com/nodejs/changelog-maker/compare/v4.4.27...v4.4.28) (2026-04-28)
 
 ### Trivial Changes
