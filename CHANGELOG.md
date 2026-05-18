@@ -1,3 +1,10 @@
+## [4.4.30](https://github.com/nodejs/changelog-maker/compare/v4.4.29...v4.4.30) (2026-05-18)
+
+### Trivial Changes
+
+* **deps-dev:** bump @semantic-release/github from 12.0.6 to 12.0.8 ([#227](https://github.com/nodejs/changelog-maker/issues/227)) ([0358470](https://github.com/nodejs/changelog-maker/commit/0358470ca8126efb54f19656964a9afb1bf1991a))
+* **deps-dev:** bump @semantic-release/release-notes-generator ([#226](https://github.com/nodejs/changelog-maker/issues/226)) ([e575e84](https://github.com/nodejs/changelog-maker/commit/e575e847937c0a3e3433d77fd839569d00026173))
+
 ## [4.4.29](https://github.com/nodejs/changelog-maker/compare/v4.4.28...v4.4.29) (2026-05-11)
 
 ### Trivial Changes
