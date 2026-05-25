@@ -1,3 +1,9 @@
+## [4.4.31](https://github.com/nodejs/changelog-maker/compare/v4.4.30...v4.4.31) (2026-05-25)
+
+### Trivial Changes
+
+* **deps-dev:** bump tap from 21.7.2 to 21.7.4 ([#228](https://github.com/nodejs/changelog-maker/issues/228)) ([928544c](https://github.com/nodejs/changelog-maker/commit/928544cb3f8e2bf7d3708703160a817cce9bd9b7))
+
 ## [4.4.30](https://github.com/nodejs/changelog-maker/compare/v4.4.29...v4.4.30) (2026-05-18)
 
 ### Trivial Changes
