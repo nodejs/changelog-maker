@@ -1,3 +1,9 @@
+## [4.4.32](https://github.com/nodejs/changelog-maker/compare/v4.4.31...v4.4.32) (2026-06-01)
+
+### Trivial Changes
+
+* **deps:** bump ghauth from 7.0.3 to 7.0.4 ([#229](https://github.com/nodejs/changelog-maker/issues/229)) ([decaf92](https://github.com/nodejs/changelog-maker/commit/decaf9268ca1f9becfef28bcba5a80418301934d))
+
 ## [4.4.31](https://github.com/nodejs/changelog-maker/compare/v4.4.30...v4.4.31) (2026-05-25)
 
 ### Trivial Changes
