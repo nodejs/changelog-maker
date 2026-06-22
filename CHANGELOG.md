@@ -1,3 +1,10 @@
+## [4.4.35](https://github.com/nodejs/changelog-maker/compare/v4.4.34...v4.4.35) (2026-06-22)
+
+### Trivial Changes
+
+* **deps:** bump js-yaml from 4.1.1 to 4.2.0 ([#236](https://github.com/nodejs/changelog-maker/issues/236)) ([2898776](https://github.com/nodejs/changelog-maker/commit/289877634e8b58fb492c072a7510af7d4400c604))
+* **deps:** bump tar and npm ([#237](https://github.com/nodejs/changelog-maker/issues/237)) ([d4ef5ad](https://github.com/nodejs/changelog-maker/commit/d4ef5ad0cc140128d7ce546d16ce03ff021b1e36))
+
 ## [4.4.34](https://github.com/nodejs/changelog-maker/compare/v4.4.33...v4.4.34) (2026-06-22)
 
 ### Trivial Changes
