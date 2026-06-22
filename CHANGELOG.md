@@ -1,3 +1,11 @@
+## [4.4.34](https://github.com/nodejs/changelog-maker/compare/v4.4.33...v4.4.34) (2026-06-22)
+
+### Trivial Changes
+
+* **deps-dev:** bump semantic-release from 25.0.3 to 25.0.5 ([#235](https://github.com/nodejs/changelog-maker/issues/235)) ([aa78fd9](https://github.com/nodejs/changelog-maker/commit/aa78fd983eb69f210f43545502f9901d1ee95b6f))
+* **deps-dev:** bump undici from 6.24.1 to 6.27.0 ([#233](https://github.com/nodejs/changelog-maker/issues/233)) ([9746607](https://github.com/nodejs/changelog-maker/commit/974660716e1c3a5bd3532801dec3f264d678201d))
+* **deps:** bump actions/checkout from 6 to 6.0.3 ([#234](https://github.com/nodejs/changelog-maker/issues/234)) ([bdd25d7](https://github.com/nodejs/changelog-maker/commit/bdd25d730f270d9960ee35f1d3b0148b942cf008))
+
 ## [4.4.33](https://github.com/nodejs/changelog-maker/compare/v4.4.32...v4.4.33) (2026-06-22)
 
 ### Trivial Changes
