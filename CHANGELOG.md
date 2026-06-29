@@ -1,3 +1,9 @@
+## [4.4.36](https://github.com/nodejs/changelog-maker/compare/v4.4.35...v4.4.36) (2026-06-29)
+
+### Trivial Changes
+
+* **deps:** bump actions/checkout from 6.0.3 to 7.0.0 ([#238](https://github.com/nodejs/changelog-maker/issues/238)) ([b60b85e](https://github.com/nodejs/changelog-maker/commit/b60b85ed76eb5fd97b4c81f123c92d81bb4b2fbd))
+
 ## [4.4.35](https://github.com/nodejs/changelog-maker/compare/v4.4.34...v4.4.35) (2026-06-22)
 
 ### Trivial Changes
