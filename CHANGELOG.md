@@ -1,3 +1,5 @@
+## [4.4.43](https://github.com/nodejs/changelog-maker/compare/v4.4.42...v4.4.43) (2026-07-29)
+
 ## [4.4.42](https://github.com/nodejs/changelog-maker/compare/v4.4.41...v4.4.42) (2026-07-27)
 
 ## [4.4.41](https://github.com/nodejs/changelog-maker/compare/v4.4.40...v4.4.41) (2026-07-27)
