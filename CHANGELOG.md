@@ -1,3 +1,9 @@
+## [4.4.48](https://github.com/nodejs/changelog-maker/compare/v4.4.47...v4.4.48) (2026-07-30)
+
+### Trivial Changes
+
+* downgrade borked changelog tool, backfill ([#257](https://github.com/nodejs/changelog-maker/issues/257)) ([26f7e0e](https://github.com/nodejs/changelog-maker/commit/26f7e0e5792e5aa5f685705ac9d98e6d37f3d20d))
+
 ## [4.4.47](https://github.com/nodejs/changelog-maker/compare/v4.4.46...v4.4.47) (2026-07-29)
 
 ### Trivial Changes
