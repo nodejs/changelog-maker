@@ -1,22 +1,66 @@
 ## [4.4.47](https://github.com/nodejs/changelog-maker/compare/v4.4.46...v4.4.47) (2026-07-29)
 
+### Trivial Changes
+
+* **deps:** bump undici from 6.26.0 to 7.29.0 ([#252](https://github.com/nodejs/changelog-maker/issues/252)) ([dfd4f6c](https://github.com/nodejs/changelog-maker/commit/dfd4f6c4c04564bd7e6800401507f6823e53bdb2))
+
 ## [4.4.46](https://github.com/nodejs/changelog-maker/compare/v4.4.45...v4.4.46) (2026-07-29)
+
+### Trivial Changes
+
+* **deps-dev:** bump @semantic-release/git from 10.0.1 to 11.0.1 ([#255](https://github.com/nodejs/changelog-maker/issues/255)) ([1dee8e4](https://github.com/nodejs/changelog-maker/commit/1dee8e485199a304a0654ef1a47aa5bd333a6ced))
 
 ## [4.4.45](https://github.com/nodejs/changelog-maker/compare/v4.4.44...v4.4.45) (2026-07-29)
 
+### Trivial Changes
+
+* **deps-dev:** bump @semantic-release/changelog from 6.0.3 to 7.0.0 ([#256](https://github.com/nodejs/changelog-maker/issues/256)) ([837daba](https://github.com/nodejs/changelog-maker/commit/837daba783244a0c08416f15c51811a6df3f827f))
+
 ## [4.4.44](https://github.com/nodejs/changelog-maker/compare/v4.4.43...v4.4.44) (2026-07-29)
+
+### Trivial Changes
+
+* **deps:** bump the npm-minor-patch group with 2 updates ([#254](https://github.com/nodejs/changelog-maker/issues/254)) ([3fc89c5](https://github.com/nodejs/changelog-maker/commit/3fc89c538e5e910fe8fc6fdd24e4bdfb31b77815))
 
 ## [4.4.43](https://github.com/nodejs/changelog-maker/compare/v4.4.42...v4.4.43) (2026-07-29)
 
+### Trivial Changes
+
+* **ci:** slow down dependabot, group, pin actions by hash ([#253](https://github.com/nodejs/changelog-maker/issues/253)) ([7ea6bc3](https://github.com/nodejs/changelog-maker/commit/7ea6bc30b19253311f4062f6cc9c171356ff4570))
+
 ## [4.4.42](https://github.com/nodejs/changelog-maker/compare/v4.4.41...v4.4.42) (2026-07-27)
+
+### Trivial Changes
+
+* **deps:** bump actions/checkout from 7.0.0 to 7.0.1 ([#250](https://github.com/nodejs/changelog-maker/issues/250)) ([1786608](https://github.com/nodejs/changelog-maker/commit/1786608166505686cbd8faa05c495626e096282e))
 
 ## [4.4.41](https://github.com/nodejs/changelog-maker/compare/v4.4.40...v4.4.41) (2026-07-27)
 
+### Trivial Changes
+
+* **deps-dev:** bump semantic-release from 25.0.7 to 25.0.8 ([#251](https://github.com/nodejs/changelog-maker/issues/251)) ([a02d833](https://github.com/nodejs/changelog-maker/commit/a02d833350e368255c894f6ed693bfb42ef3bc9a))
+
 ## [4.4.40](https://github.com/nodejs/changelog-maker/compare/v4.4.39...v4.4.40) (2026-07-20)
+
+### Trivial Changes
+
+* **deps-dev:** bump semantic-release from 25.0.5 to 25.0.7 ([#246](https://github.com/nodejs/changelog-maker/issues/246)) ([c6a3fe5](https://github.com/nodejs/changelog-maker/commit/c6a3fe5f75999a8347b752ec9a3d2db348e639fe))
+* **deps:** bump actions/setup-node from 6.4.0 to 7.0.0 ([#245](https://github.com/nodejs/changelog-maker/issues/245)) ([ecb10b1](https://github.com/nodejs/changelog-maker/commit/ecb10b1955eecf917d0835defd299ec96277b85f))
+* **deps:** bump ghissues from 2.0.5 to 2.0.6 ([#247](https://github.com/nodejs/changelog-maker/issues/247)) ([24386d4](https://github.com/nodejs/changelog-maker/commit/24386d4bd6c3970b32dde95d479759c4997a58df))
 
 ## [4.4.39](https://github.com/nodejs/changelog-maker/compare/v4.4.38...v4.4.39) (2026-07-13)
 
+### Trivial Changes
+
+* **deps-dev:** bump @semantic-release/github from 12.0.8 to 12.0.9 ([#243](https://github.com/nodejs/changelog-maker/issues/243)) ([1330e98](https://github.com/nodejs/changelog-maker/commit/1330e98535d2fe469144b855352606540248c022))
+* **deps-dev:** bump conventional-changelog-conventionalcommits ([#244](https://github.com/nodejs/changelog-maker/issues/244)) ([e4b5b20](https://github.com/nodejs/changelog-maker/commit/e4b5b207201eded0fa62af1f7fe91408d747a695))
+* **deps:** bump ghauth from 7.0.7 to 7.0.8 ([#242](https://github.com/nodejs/changelog-maker/issues/242)) ([4853492](https://github.com/nodejs/changelog-maker/commit/485349237cda27497a9d4a3c8bba5d23ae66d41a))
+
 ## [4.4.38](https://github.com/nodejs/changelog-maker/compare/v4.4.37...v4.4.38) (2026-07-06)
+
+### Trivial Changes
+
+* **deps-dev:** bump conventional-changelog-conventionalcommits ([#241](https://github.com/nodejs/changelog-maker/issues/241)) ([d5c8074](https://github.com/nodejs/changelog-maker/commit/d5c8074c47555fe8f2455afc02a3630e03279498))
 
 ## [4.4.37](https://github.com/nodejs/changelog-maker/compare/v4.4.36...v4.4.37) (2026-07-06)
 
