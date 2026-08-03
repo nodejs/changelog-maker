@@ -1,3 +1,9 @@
+## [4.4.49](https://github.com/nodejs/changelog-maker/compare/v4.4.48...v4.4.49) (2026-08-03)
+
+### Trivial Changes
+
+* **deps:** bump ghauth in the npm-minor-patch group ([#258](https://github.com/nodejs/changelog-maker/issues/258)) ([e1fe21a](https://github.com/nodejs/changelog-maker/commit/e1fe21a18a7d72994943bee53fd52a11191c8555))
+
 ## [4.4.48](https://github.com/nodejs/changelog-maker/compare/v4.4.47...v4.4.48) (2026-07-30)
 
 ### Trivial Changes
