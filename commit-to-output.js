@@ -33,6 +33,7 @@ export const formatType = {
   SHA: 'sha',
   PLAINTEXT: 'plaintext',
   MARKDOWN: 'markdown',
+  SEQUENCE: 'sequence',
   SIMPLE: 'simple',
   MESSAGEONLY: 'messageonly'
 }
@@ -60,7 +61,6 @@ function toStringPlaintext (data) {
 
 function toStringSimple (data) {
   let s = ''
-  s += `* [${data.sha.substr(0, 10)}] - `
   s += (data.semver || []).length ? `(${data.semver.join(', ').toUpperCase()}) ` : ''
   s += data.revert ? 'Revert "' : ''
   s += data.group ? `${data.group}: ` : ''
@@ -68,8 +68,11 @@ function toStringSimple (data) {
   s += data.revert ? '" ' : ' '
   s += data.author ? `(${data.author}) ` : ''
   s += data.pr ? data.prUrl : ''
-  s = s.trim()
+  return s.trim()
+}
 
+function toStringSimpleWithListMarker (data) {
+  const s = `* [${data.sha.substr(0, 10)}] - ${toStringSimple(data)}`
   return (data.semver && data.semver.length)
     ? chalk.green.bold(s)
     : (data.group === 'doc'
@@ -119,6 +122,8 @@ export function commitToOutput (commit, format, ghId, commitUrl) {
   data.cveId = commit.cveId
 
   if (format === formatType.SIMPLE) {
+    return toStringSimpleWithListMarker(data)
+  } else if (format === formatType.SEQUENCE) {
     return toStringSimple(data)
   } else if (format === formatType.PLAINTEXT) {
     return toStringPlaintext(data)

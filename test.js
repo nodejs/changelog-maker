@@ -44,6 +44,18 @@ test('test simple', (t) => {
 `)
   t.end()
 })
+test('test sequence', (t) => {
+  t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release --format=sequence'),
+    `pick cc442b65343cd1bb7cb4ecc3c6e729b4e4625f97 # (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715
+pick 4f2b7f8136358bc3ecd720e33457fdeff9581733 # deps: use strip-ansi instead of chalk.stripColor (Rod Vagg)
+pick 6898501e18f231db40a84b511d2a6a4b8f5f17f3 # deps: update deps, introduce test & lint deps (Rod Vagg)
+pick 9c700d29104b5a22fcf79ba21f5f009d7f1cdfc5 # feature: refactor and improve --commit-url (Rod Vagg)
+pick 50945246557b4a25133435b106d0e5dd5d88a9be # feature: make the commit url configurable via an additional argument (Jim Nielsen) https://github.com/nodejs/changelog-maker/pull/55
+pick 42f248cf8904224a585e9f3834cc1283713c56cf # src: use \`standard\` for linting (Rod Vagg)
+pick 64a8fdef3c35627ca50c48e9acb80c57a3f6d2a2 # test: basic test infrastructure (Rod Vagg)
+`)
+  t.end()
+})
 
 test('test plaintext', (t) => {
   t.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --plaintext'),

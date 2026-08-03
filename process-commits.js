@@ -50,6 +50,8 @@ export async function processCommits (argv, ghId, list) {
 
   if (format === formatType.SHA) {
     list = list.map((commit) => `${commit.sha.substr(0, 10)}`)
+  } else if (format === formatType.SEQUENCE) {
+    list = list.map((commit) => `pick ${commit.sha} # ${commitToOutput(commit, format, ghId, commitUrl)}`)
   } else if (
     format === formatType.PLAINTEXT ||
     format === formatType.MESSAGEONLY
