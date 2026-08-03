@@ -1,3 +1,9 @@
+## [4.4.50](https://github.com/nodejs/changelog-maker/compare/v4.4.49...v4.4.50) (2026-08-03)
+
+### Trivial Changes
+
+* **deps:** bump chalk from 5.6.2 to 6.0.0 ([#259](https://github.com/nodejs/changelog-maker/issues/259)) ([3da14b1](https://github.com/nodejs/changelog-maker/commit/3da14b101a858433eed34a861c787ea08eb470fd))
+
 ## [4.4.49](https://github.com/nodejs/changelog-maker/compare/v4.4.48...v4.4.49) (2026-08-03)
 
 ### Trivial Changes
