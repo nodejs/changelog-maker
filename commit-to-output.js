@@ -59,7 +59,7 @@ function toStringPlaintext (data) {
   return `  * ${s.trim()}`
 }
 
-function toStringSimple (data) {
+function toStringSimple (data, withLabels = false) {
   let s = ''
   s += (data.semver || []).length ? `(${data.semver.join(', ').toUpperCase()}) ` : ''
   s += data.revert ? 'Revert "' : ''
@@ -68,6 +68,7 @@ function toStringSimple (data) {
   s += data.revert ? '" ' : ' '
   s += data.author ? `(${data.author}) ` : ''
   s += data.pr ? data.prUrl : ''
+  if (withLabels) s += ' (' + data.labels.join(', ') + ')'
   return s.trim()
 }
 
@@ -113,6 +114,7 @@ export function commitToOutput (commit, format, ghId, commitUrl) {
   data.sha = commit.sha
   data.shaUrl = commitUrl.replace(/\{ghUser\}/g, ghId.user).replace(/\{ghRepo\}/g, ghId.repo).replace(/\{ref\}/g, ref)
   data.semver = commit.labels && commit.labels.filter((l) => l.includes('semver'))
+  data.labels = commit.labels
   data.revert = isRevert(commit.summary)
   data.group = toGroups(commit.summary)
   data.summary = cleanGroupSummary(cleanRevertSummary(commit.summary))
@@ -124,7 +126,7 @@ export function commitToOutput (commit, format, ghId, commitUrl) {
   if (format === formatType.SIMPLE) {
     return toStringSimpleWithListMarker(data)
   } else if (format === formatType.SEQUENCE) {
-    return toStringSimple(data)
+    return toStringSimple(data, true)
   } else if (format === formatType.PLAINTEXT) {
     return toStringPlaintext(data)
   } else if (format === formatType.MESSAGEONLY) {
