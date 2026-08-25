@@ -2,16 +2,15 @@
 // Run `./changelog-maker.js` by itself to set this up.
 
 import { dirname, join } from 'path'
-import { execSync } from 'child_process'
+import { spawnSync } from 'child_process'
 import { test } from 'tap'
 import chalk from 'chalk'
 
 const __dirname = dirname(new URL(import.meta.url).pathname)
 
 function exec (args) {
-  const stdout = execSync(`"${process.execPath}" ${join(__dirname, 'changelog-maker.js')} ${args}`).toString()
-
-  return stdout
+  const result = spawnSync(process.execPath, [join(__dirname, 'changelog-maker.js'), ...args.split(' ')], { encoding: 'utf8' })
+  return result.stdout
 }
 
 test('test basic commit block', (t) => {
