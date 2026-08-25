@@ -1,3 +1,10 @@
+## [4.4.51](https://github.com/nodejs/changelog-maker/compare/v4.4.50...v4.4.51) (2026-08-25)
+
+### Trivial Changes
+
+* **deps:** bump ip-address from 10.2.0 to 10.4.0 ([#261](https://github.com/nodejs/changelog-maker/issues/261)) ([3860287](https://github.com/nodejs/changelog-maker/commit/3860287510607234769245b5fda28a0bed0eef64))
+* **deps:** bump js-yaml from 4.2.0 to 4.3.1 ([#262](https://github.com/nodejs/changelog-maker/issues/262)) ([bfbdc01](https://github.com/nodejs/changelog-maker/commit/bfbdc0153b06b6e3ef5fd35df4338799b8aab263))
+
 ## [4.4.50](https://github.com/nodejs/changelog-maker/compare/v4.4.49...v4.4.50) (2026-08-03)
 
 ### Trivial Changes
