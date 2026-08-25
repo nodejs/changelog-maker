@@ -1,3 +1,9 @@
+## [4.4.52](https://github.com/nodejs/changelog-maker/compare/v4.4.51...v4.4.52) (2026-08-25)
+
+### Trivial Changes
+
+* **deps:** bump brace-expansion ([#264](https://github.com/nodejs/changelog-maker/issues/264)) ([611cc5b](https://github.com/nodejs/changelog-maker/commit/611cc5b84f437439d3c8b987a04d4e66b28915e2))
+
 ## [4.4.51](https://github.com/nodejs/changelog-maker/compare/v4.4.50...v4.4.51) (2026-08-25)
 
 ### Trivial Changes
