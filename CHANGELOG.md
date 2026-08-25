@@ -1,3 +1,13 @@
+## [5.0.0](https://github.com/nodejs/changelog-maker/compare/v4.4.52...v5.0.0) (2026-08-25)
+
+### ⚠ BREAKING CHANGES
+
+* --sha, --plaintext, -p, --markdown, --md, --messageonly and --mo are no longer supported, use --format instead.
+
+### Code Refactoring
+
+* replace minimist with `node:util` `parseArgs` ([#263](https://github.com/nodejs/changelog-maker/issues/263)) ([784bb2f](https://github.com/nodejs/changelog-maker/commit/784bb2f1d94bc486c787e87a778db031ed243a93))
+
 ## [4.4.52](https://github.com/nodejs/changelog-maker/compare/v4.4.51...v4.4.52) (2026-08-25)
 
 ### Trivial Changes
