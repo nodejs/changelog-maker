@@ -68,7 +68,7 @@ function toStringSimple (data, withLabels = false) {
   s += data.revert ? '" ' : ' '
   s += data.author ? `(${data.author}) ` : ''
   s += data.pr ? data.prUrl : ''
-  if (withLabels) s += ' (' + data.labels.join(', ') + ')'
+  if (withLabels && data.labels?.length) s += ' (' + data.labels.join(', ') + ')'
   return s.trim()
 }
 
