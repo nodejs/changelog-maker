@@ -8,18 +8,11 @@ import { collectCommitLabels } from './collect-commit-labels.js'
 import { findMatchingPrs } from './find-matching-prs.js'
 
 function getFormat (argv) {
-  if (argv.format && Object.values(formatType).includes(argv.format)) {
-    return argv.format
-  } else if (argv.sha) {
-    return formatType.SHA
-  } else if (argv.plaintext || argv.p) {
-    return formatType.PLAINTEXT
-  } else if (argv.markdown || argv.md) {
-    return formatType.MARKDOWN
-  } else if (argv.messageonly || argv.mo) {
-    return formatType.MESSAGEONLY
+  if (!argv.format) {
+    return formatType.SIMPLE
   }
-  return formatType.SIMPLE
+  if (!Object.values(formatType).includes(argv.format)) throw new Error(`Unknown format: ${argv.format}`)
+  return argv.format
 }
 
 async function printCommits (list) {

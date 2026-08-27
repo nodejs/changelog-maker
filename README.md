@@ -44,7 +44,7 @@ npm i changelog-maker -g
 
 ## Usage
 
-**`changelog-maker [--plaintext|p] [--markdown|md] [--sha] [--group|-g] [--reverse] [--find-matching-prs] [--commit-url=<url/with/{ref}>] [--start-ref=<ref>] [--end-ref=<ref>] [github-user[, github-project]]`**
+**`changelog-maker [--format=<format>] [--group|-g] [--reverse] [--find-matching-prs] [--commit-url=<url/with/{ref}>] [--start-ref=<ref>] [--end-ref=<ref>] [github-user[, github-project]]`**
 
 `github-user` and `github-project` should point to the GitHub repository that can be used to find the `PR-URL` data if just an issue number is provided and will also impact how the PR-URL issue numbers are displayed
 
@@ -55,10 +55,6 @@ npm i changelog-maker -g
   - `plaintext`:         a very simple form, without commit details, implies `--group`.
   - `markdown`:          a Markdown formatted from, with links and proper escaping.
   - `messageonly`:       displays the commit message only, implies `--group`
-* `--sha`:             same as `--format=sha`.
-* `--plaintext`:       same as `--format=plaintext`.
-* `--markdown`:        same as `--format=markdown`.
-* `--messageonly`:     same as `--format=messageonly`.
 * `--group`:           reorder commits so that they are listed in groups where the `xyz:` prefix of the commit message defines the group. Commits are listed in original order _within_ group.
 * `--reverse`:         reverse the order of commits when printed, does not work with `--reverse`
 * `--commit-url`:      pass in a url template which will be used to generate commit URLs for a repository not hosted in Github. `{ref}` is the placeholder that will be replaced with the commit, i.e. `--commit-url=https://gitlab.com/myUser/myRepo/commit/{ref}`
@@ -66,7 +62,7 @@ npm i changelog-maker -g
 * `--end-ref=<ref>`:   use the given git `<ref>` as a end-point rather than the _now_. The `<ref>` can be anything commit-ish including a commit sha, tag, branch name.
 * `--filter-release`:  exclude Node-style release commits from the list. e.g. "Working on v1.0.0" or "2015-10-21 Version 2.0.0" and also "npm version X" style commits containing _only_ an `x.y.z` semver designator.
 * `--sequence-drop=<label1>[,<label2>[,…]]`: when `--format=sequence`, will output the commits belonging to a PR with a label listed here as `drop` instead of `pick`. This can be useful for human backporter to understand why a specific commit does not apply cleanly, to spot which commit might be creating conflicts.
-* `--find-matching-prs`: use the GitHub API to find the pull requests that match commits that don't have the `PR-URL` metadata in their message text. Without metadata, it may be necessary to also pass the org/user and repo name on the commandline (as the `github-user` and `github-project` arguments as demonstrated above, it may also be necessary to use `--find-matching-prs=true` in this case).
+* `--find-matching-prs`: use the GitHub API to find the pull requests that match commits that don't have the `PR-URL` metadata in their message text. Without metadata, it may be necessary to also pass the org/user and repo name on the commandline (as the `github-user` and `github-project` arguments as demonstrated above).
 * `--quiet` or `-q`:   do not print to `process.stdout`
 * `--all` or `-a`:     process all commits since beginning, instead of last tag.
 * `--help` or `-h`:    show usage and help.

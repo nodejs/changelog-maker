@@ -15,7 +15,7 @@ function exec (args) {
 }
 
 test('test basic commit block', (t) => {
-  t.equal(exec('--md --start-ref=v1.3.9 --end-ref=v1.3.10'),
+  t.equal(exec('--format=markdown --start-ref=v1.3.9 --end-ref=v1.3.10'),
     `* \\[[\`e28b3f2813\`](https://github.com/nodejs/changelog-maker/commit/e28b3f2813)] - 1.3.10 (Rod Vagg)
 * \\[[\`ace3af943e\`](https://github.com/nodejs/changelog-maker/commit/ace3af943e)] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
 * \\[[\`25ec5428bc\`](https://github.com/nodejs/changelog-maker/commit/25ec5428bc)] - default to repo scope always - revert previous changes (James Young)
@@ -26,7 +26,7 @@ test('test basic commit block', (t) => {
 })
 
 test('test filter-release', (t) => {
-  t.equal(exec('--md --start-ref=v1.3.9 --end-ref=v1.3.10 --filter-release'),
+  t.equal(exec('--format=markdown --start-ref=v1.3.9 --end-ref=v1.3.10 --filter-release'),
     `* \\[[\`ace3af943e\`](https://github.com/nodejs/changelog-maker/commit/ace3af943e)] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
 * \\[[\`25ec5428bc\`](https://github.com/nodejs/changelog-maker/commit/25ec5428bc)] - default to repo scope always - revert previous changes (James Young)
 * \\[[\`424d6c22c1\`](https://github.com/nodejs/changelog-maker/commit/424d6c22c1)] - add --private arg to set repo scope, update readme (James Young)
@@ -72,7 +72,7 @@ drop cc442b65343cd1bb7cb4ecc3c6e729b4e4625f97 # (SEMVER-MINOR) minor nit (Rod Va
 })
 
 test('test plaintext', (t) => {
-  t.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --plaintext'),
+  t.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --format=plaintext'),
     `feature:
   * refactor and improve --commit-url (Rod Vagg)
 test:
@@ -82,7 +82,7 @@ test:
 })
 
 test('test messageonly', (t) => {
-  t.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --messageonly'),
+  t.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --format=messageonly'),
     `feature:
   * refactor and improve --commit-url
 test:
@@ -105,7 +105,7 @@ test('test group, semver labels, PR-URL', (t) => {
 })
 
 test('test simple group, semver labels, PR-URL', (t) => {
-  t.equal(exec('--md --start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
+  t.equal(exec('--format=markdown --start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
     `* \\[[\`cc442b6534\`](https://github.com/nodejs/changelog-maker/commit/cc442b6534)] - **(SEMVER-MINOR)** minor nit (Rod Vagg) [nodejs/node#23715](https://github.com/nodejs/node/pull/23715)
 * \\[[\`4f2b7f8136\`](https://github.com/nodejs/changelog-maker/commit/4f2b7f8136)] - **deps**: use strip-ansi instead of chalk.stripColor (Rod Vagg)
 * \\[[\`6898501e18\`](https://github.com/nodejs/changelog-maker/commit/6898501e18)] - **deps**: update deps, introduce test & lint deps (Rod Vagg)
@@ -118,7 +118,7 @@ test('test simple group, semver labels, PR-URL', (t) => {
 })
 
 test('test blank commit-url', (t) => {
-  let actual = exec('--md --start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=http://foo.bar/').split('\n')
+  let actual = exec('--format=markdown --start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=http://foo.bar/').split('\n')
   actual.splice(0, actual.length - 3)
   actual = actual.join('\n')
   t.equal(actual,
@@ -129,7 +129,7 @@ test('test blank commit-url', (t) => {
 })
 
 test('test blank commit-url', (t) => {
-  let actual = exec('--md --start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/').split('\n')
+  let actual = exec('--format=markdown --start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/').split('\n')
   actual.splice(0, actual.length - 3)
   actual = actual.join('\n')
   t.equal(actual,
@@ -141,7 +141,7 @@ test('test blank commit-url', (t) => {
 
 test('test backtick strings in commit messages', (t) => {
   t.equal(
-    exec('--md --start-ref=ce886b5130 --end-ref=0717fdc946 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
+    exec('--format=markdown --start-ref=ce886b5130 --end-ref=0717fdc946 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
     `* \\[[\`0717fdc946\`](https://yeehaw.com/0717fdc946/0717fdc946/nodejs/changelog-maker/)] - **test**: \\\`commit\\_msg\\\` with an unescaped \\\` backtick char (Antoine du Hamel)
 * \\[[\`9f1d897c88\`](https://yeehaw.com/9f1d897c88/9f1d897c88/nodejs/changelog-maker/)] - **test**: \\\`commit\\_msg\\\` with an escaped \\\\\\\` backtick char (Antoine du Hamel)
 * \\[[\`4a3154bde0\`](https://yeehaw.com/4a3154bde0/4a3154bde0/nodejs/changelog-maker/)] - **test**: \`commit_msg\` starting with a backtick string (Antoine du Hamel)
@@ -155,7 +155,7 @@ test('test backtick strings in commit messages', (t) => {
 
 test('test markdown punctuation chars in commit message and author name', (t) => {
   t.equal(
-    exec('--md --start-ref=f12fe589c4 --end-ref=f12fe589c4 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
+    exec('--format=markdown --start-ref=f12fe589c4 --end-ref=f12fe589c4 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
     `* \\[[\`f12fe589c4\`](https://yeehaw.com/f12fe589c4/f12fe589c4/nodejs/changelog-maker/)] - **group\\_with\\_underscore**: test commit message (Author\\_name\\_with\\_underscore)
 `)
   t.end()
@@ -163,14 +163,14 @@ test('test markdown punctuation chars in commit message and author name', (t) =>
 
 test('test find-matching-prs', (t) => {
   t.equal(
-    exec('--start-ref=a059bc7ca9 --end-ref=a059bc7ca9 --find-matching-prs=true nodejs changelog-maker'),
+    exec('--start-ref=a059bc7ca9 --end-ref=a059bc7ca9 --find-matching-prs nodejs changelog-maker'),
     `* [a059bc7ca9] - chore(deps): remove package-lock.json (Rod Vagg) https://github.com/nodejs/changelog-maker/pull/118
 `)
   t.end()
 })
 
 test('test group, CVE-ID', (t) => {
-  const out = exec('--md --start-ref=43d428b3d2 --end-ref=43d428b3d2 --group --filter-release')
+  const out = exec('--format=markdown --start-ref=43d428b3d2 --end-ref=43d428b3d2 --group --filter-release')
   t.equal(
     out,
     `* \\[[\`43d428b3d2\`](https://github.com/nodejs/changelog-maker/commit/43d428b3d2)] - **(CVE-2024-22020)** **feat**: add cveId support to commmit output (RafaelGSS) [nodejs/node#55819](https://github.com/nodejs/node/pull/55819)
@@ -180,7 +180,7 @@ test('test group, CVE-ID', (t) => {
 
 test('test conventionalcommit style', (t) => {
   // testing that we capture `foo(bar)` as a group in `foo(bar): message`, not just `foo` in `foo: message`
-  const out = exec('--md --start-ref=35b762c7 --end-ref=375e0b7d')
+  const out = exec('--format=markdown --start-ref=35b762c7 --end-ref=375e0b7d')
   t.equal(
     out,
     `* \\[[\`375e0b7d48\`](https://github.com/nodejs/changelog-maker/commit/375e0b7d48)] - **test(cc,yay)**: add test case for conventional commits (Rod Vagg)
@@ -197,7 +197,7 @@ test('test conventionalcommit style', (t) => {
 })
 
 test('test plaintext, CVE-ID', (t) => {
-  const out = exec('--start-ref=43d428b3d2 --end-ref=43d428b3d2 --group --filter-release --plaintext')
+  const out = exec('--start-ref=43d428b3d2 --end-ref=43d428b3d2 --group --filter-release --format=plaintext')
   t.equal(
     out,
     `feat:

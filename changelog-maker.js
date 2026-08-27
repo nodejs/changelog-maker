@@ -2,29 +2,43 @@
 
 import _debug from 'debug'
 import process from 'process'
-import minimist from 'minimist'
 import pkgtoId from 'pkg-to-id'
 import { existsSync, readFileSync } from 'fs'
 import { join } from 'path'
+import { parseArgs } from 'util'
 import { processCommits } from './process-commits.js'
 import { commitToList } from './commit-to-list.js'
 
 const debug = _debug('changelog-maker')
 
-const argv = minimist(process.argv.slice(2))
-const help = argv.h || argv.help
+const { values, positionals } = parseArgs({
+  allowPositionals: true,
+  options: {
+    all: { type: 'boolean', short: 'a' },
+    'commit-url': { type: 'string' },
+    'end-ref': { type: 'string' },
+    'filter-release': { type: 'boolean' },
+    'find-matching-prs': { type: 'boolean' },
+    format: { type: 'string' },
+    group: { type: 'boolean', short: 'g' },
+    help: { type: 'boolean', short: 'h' },
+    quiet: { type: 'boolean', short: 'q' },
+    reverse: { type: 'boolean' },
+    'start-ref': { type: 'string' }
+  }
+})
 
 const pkgFile = join(process.cwd(), 'package.json')
 const pkgData = existsSync(pkgFile) ? JSON.parse(readFileSync(pkgFile)) : {}
 const pkgId = pkgtoId(pkgData)
 
 const ghId = {
-  user: argv._[0] || pkgId.user || 'nodejs',
-  repo: argv._[1] || (pkgId.name && stripScope(pkgId.name)) || 'node'
+  user: positionals[0] || pkgId.user || 'nodejs',
+  repo: positionals[1] || (pkgId.name && stripScope(pkgId.name)) || 'node'
 }
 debug(ghId)
 
-if (help) {
+if (values.help) {
   showUsage()
   process.exit(0)
 }
@@ -44,8 +58,8 @@ function showUsage () {
 }
 
 async function run () {
-  const commitList = await commitToList(ghId, argv)
-  await processCommits(argv, ghId, commitList)
+  const commitList = await commitToList(ghId, values)
+  await processCommits(values, ghId, commitList)
 }
 
 run().catch((err) => {
