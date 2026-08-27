@@ -33,6 +33,7 @@ export const formatType = {
   SHA: 'sha',
   PLAINTEXT: 'plaintext',
   MARKDOWN: 'markdown',
+  SEQUENCE: 'sequence',
   SIMPLE: 'simple',
   MESSAGEONLY: 'messageonly'
 }
@@ -58,9 +59,8 @@ function toStringPlaintext (data) {
   return `  * ${s.trim()}`
 }
 
-function toStringSimple (data) {
+function toStringSimple (data, withLabels = false) {
   let s = ''
-  s += `* [${data.sha.substr(0, 10)}] - `
   s += (data.semver || []).length ? `(${data.semver.join(', ').toUpperCase()}) ` : ''
   s += data.revert ? 'Revert "' : ''
   s += data.group ? `${data.group}: ` : ''
@@ -68,8 +68,12 @@ function toStringSimple (data) {
   s += data.revert ? '" ' : ' '
   s += data.author ? `(${data.author}) ` : ''
   s += data.pr ? data.prUrl : ''
-  s = s.trim()
+  if (withLabels && data.labels?.length) s += ' (' + data.labels.join(', ') + ')'
+  return s.trim()
+}
 
+function toStringSimpleWithListMarker (data) {
+  const s = `* [${data.sha.substr(0, 10)}] - ${toStringSimple(data)}`
   return (data.semver && data.semver.length)
     ? chalk.green.bold(s)
     : (data.group === 'doc'
@@ -110,6 +114,7 @@ export function commitToOutput (commit, format, ghId, commitUrl) {
   data.sha = commit.sha
   data.shaUrl = commitUrl.replace(/\{ghUser\}/g, ghId.user).replace(/\{ghRepo\}/g, ghId.repo).replace(/\{ref\}/g, ref)
   data.semver = commit.labels && commit.labels.filter((l) => l.includes('semver'))
+  data.labels = commit.labels
   data.revert = isRevert(commit.summary)
   data.group = toGroups(commit.summary)
   data.summary = cleanGroupSummary(cleanRevertSummary(commit.summary))
@@ -119,7 +124,9 @@ export function commitToOutput (commit, format, ghId, commitUrl) {
   data.cveId = commit.cveId
 
   if (format === formatType.SIMPLE) {
-    return toStringSimple(data)
+    return toStringSimpleWithListMarker(data)
+  } else if (format === formatType.SEQUENCE) {
+    return toStringSimple(data, true)
   } else if (format === formatType.PLAINTEXT) {
     return toStringPlaintext(data)
   } else if (format === formatType.MESSAGEONLY) {

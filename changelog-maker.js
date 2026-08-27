@@ -18,6 +18,7 @@ const { values, positionals } = parseArgs({
     'commit-url': { type: 'string' },
     'end-ref': { type: 'string' },
     'filter-release': { type: 'boolean' },
+    'sequence-drop': { type: 'string' },
     'find-matching-prs': { type: 'boolean' },
     format: { type: 'string' },
     group: { type: 'boolean', short: 'g' },

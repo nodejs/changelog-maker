@@ -49,6 +49,7 @@ npm i changelog-maker -g
 `github-user` and `github-project` should point to the GitHub repository that can be used to find the `PR-URL` data if just an issue number is provided and will also impact how the PR-URL issue numbers are displayed
 
 * `--format`:          dictates what formatting the output will have. Possible options are: `simple`, `markdown`, `plaintext`, `messageonly` and `sha`. The default is to print a `simple` output suitable for stdout.
+  - `sequence`:          hybrid format that can be pasted directly in the sequence editor of a `git rebase --interactive` session, without retaining info such as commit title, author, labels, PR URL.
   - `simple`:            don't print full markdown output, good for console printing without the additional fluff.
   - `sha`:               print only the 10-character truncated commit hashes.
   - `plaintext`:         a very simple form, without commit details, implies `--group`.
@@ -60,6 +61,7 @@ npm i changelog-maker -g
 * `--start-ref=<ref>`: use the given git `<ref>` as a starting point rather than the _last tag_. The `<ref>` can be anything commit-ish including a commit sha, tag, branch name. If you specify a `--start-ref` argument the commit log will not be pruned so that version commits and `working on <version>` commits are left in the list.
 * `--end-ref=<ref>`:   use the given git `<ref>` as a end-point rather than the _now_. The `<ref>` can be anything commit-ish including a commit sha, tag, branch name.
 * `--filter-release`:  exclude Node-style release commits from the list. e.g. "Working on v1.0.0" or "2015-10-21 Version 2.0.0" and also "npm version X" style commits containing _only_ an `x.y.z` semver designator.
+* `--sequence-drop=<label1>[,<label2>[,…]]`: when `--format=sequence`, will output the commits belonging to a PR with a label listed here as `drop` instead of `pick`. This can be useful for human backporter to understand why a specific commit does not apply cleanly, to spot which commit might be creating conflicts.
 * `--find-matching-prs`: use the GitHub API to find the pull requests that match commits that don't have the `PR-URL` metadata in their message text. Without metadata, it may be necessary to also pass the org/user and repo name on the commandline (as the `github-user` and `github-project` arguments as demonstrated above).
 * `--quiet` or `-q`:   do not print to `process.stdout`
 * `--all` or `-a`:     process all commits since beginning, instead of last tag.
