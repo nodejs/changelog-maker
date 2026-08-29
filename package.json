@@ -50,12 +50,11 @@
     "@semantic-release/release-notes-generator": "^14.0.1",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "semantic-release": "^25.0.0",
-    "standard": "^17.1.0",
-    "tap": "^21.0.1"
+    "standard": "^17.1.0"
   },
   "scripts": {
     "lint": "standard",
-    "unit": "tap --disable-coverage",
+    "unit": "node --test",
     "build": "true",
     "test:ci": "npm run test",
     "test": "npm run lint && npm run unit"
