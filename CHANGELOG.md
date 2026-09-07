@@ -1,3 +1,9 @@
+## [5.0.1](https://github.com/nodejs/changelog-maker/compare/v5.0.0...v5.0.1) (2026-09-07)
+
+### Tests
+
+* replace tap with Node.js test runner ([#266](https://github.com/nodejs/changelog-maker/issues/266)) ([a0a4963](https://github.com/nodejs/changelog-maker/commit/a0a496365cdd624e1c0c3cc6a94250deed538313))
+
 ## [5.0.0](https://github.com/nodejs/changelog-maker/compare/v4.4.52...v5.0.0) (2026-08-25)
 
 ### ⚠ BREAKING CHANGES
