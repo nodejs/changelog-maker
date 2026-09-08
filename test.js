@@ -5,7 +5,7 @@ import { dirname, join } from 'path'
 import { execSync } from 'child_process'
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import chalk from 'chalk'
+import { styleText } from 'node:util'
 
 const __dirname = dirname(new URL(import.meta.url).pathname)
 
@@ -63,7 +63,7 @@ test:
 
 test('test group, semver labels, PR-URL', () => {
   assert.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
-  `${chalk.green.bold('* [cc442b6534] - (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715')}
+  `${styleText(['green', 'bold'], '* [cc442b6534] - (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715')}
 * [4f2b7f8136] - deps: use strip-ansi instead of chalk.stripColor (Rod Vagg)
 * [6898501e18] - deps: update deps, introduce test & lint deps (Rod Vagg)
 * [9c700d2910] - feature: refactor and improve --commit-url (Rod Vagg)
