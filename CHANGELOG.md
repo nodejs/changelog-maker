@@ -1,3 +1,9 @@
+## [5.0.2](https://github.com/nodejs/changelog-maker/compare/v5.0.1...v5.0.2) (2026-09-08)
+
+### Trivial Changes
+
+* **deps:** replace strip-ansi with util.stripVTControlCharacters ([#271](https://github.com/nodejs/changelog-maker/issues/271)) ([ce0d09f](https://github.com/nodejs/changelog-maker/commit/ce0d09fda1f0312b8482ce4cb914cd42ffa2563e))
+
 ## [5.0.1](https://github.com/nodejs/changelog-maker/compare/v5.0.0...v5.0.1) (2026-09-07)
 
 ### Tests
