@@ -1,3 +1,13 @@
+## [5.0.4](https://github.com/nodejs/changelog-maker/compare/v5.0.3...v5.0.4) (2026-09-08)
+
+### Code Refactoring
+
+* replace chalk with util.styleText ([#272](https://github.com/nodejs/changelog-maker/issues/272)) ([66dc9df](https://github.com/nodejs/changelog-maker/commit/66dc9dfc3a3a7bc0c501d1096b2d3baeea49ebf6))
+
+### Trivial Changes
+
+* **deps:** bump tar and npm ([#269](https://github.com/nodejs/changelog-maker/issues/269)) ([8d484bb](https://github.com/nodejs/changelog-maker/commit/8d484bbbb4bf4bf783768fdc5482cf3f9fc5b1a1))
+
 ## [5.0.3](https://github.com/nodejs/changelog-maker/compare/v5.0.2...v5.0.3) (2026-09-08)
 
 ### Trivial Changes
