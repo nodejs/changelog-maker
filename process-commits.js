@@ -1,9 +1,8 @@
-import { stripVTControlCharacters } from 'node:util'
+import { stripVTControlCharacters, styleText } from 'node:util'
 import { commitToOutput, formatType } from './commit-to-output.js'
 import { groupCommits } from './group-commits.js'
 import { toGroups } from './groups.js'
 import { formatMarkdown } from './format.js'
-import { supportsColor } from 'chalk'
 import { collectCommitLabels } from './collect-commit-labels.js'
 import { findMatchingPrs } from './find-matching-prs.js'
 
@@ -16,6 +15,7 @@ function getFormat (argv) {
 }
 
 async function printCommits (list) {
+  const supportsColor = styleText('green', 'test') !== 'test'
   for (let commit of list) {
     if (!supportsColor) {
       commit = stripVTControlCharacters(commit)
