@@ -1,10 +1,10 @@
 import _debug from 'debug'
-import process from 'process'
+import { spawn } from 'node:child_process'
+import { once } from 'node:events'
 import { createInterface } from 'node:readline'
 import { Readable, pipeline as _pipeline } from 'stream'
 import { promisify } from 'util'
 import commitStream from 'commit-stream'
-import gitexec from 'gitexec'
 import { isReleaseCommit } from './groups.js'
 
 const debug = _debug('changelog-maker')
@@ -62,15 +62,20 @@ export async function commitToList (ghId, argv) {
   debug('%s', _gitcmd)
 
   let commitList = []
+  const child = spawn(_gitcmd, { shell: true, stdio: ['ignore', 'pipe', 'inherit'] })
+  const exit = once(child, 'close')
   await pipeline(
-    gitexec.exec(process.cwd(), _gitcmd),
-    (source) => Readable.from(createInterface({ input: source, crlfDelay: Infinity })),
+    Readable.from(createInterface({ input: child.stdout, crlfDelay: Infinity })),
     commitStream(ghId.user, ghId.repo),
     async function * (source) {
       for await (const commit of source) {
         commitList.push(commit)
       }
     })
+  const [code] = await exit
+  if (code) {
+    throw new Error(`git command [${_gitcmd}] exited with code ${code}`)
+  }
   commitList = organiseCommits(argv, commitList)
   return commitList
 }
