@@ -1,3 +1,9 @@
+## [5.0.5](https://github.com/nodejs/changelog-maker/compare/v5.0.4...v5.0.5) (2026-09-16)
+
+### Trivial Changes
+
+* **deps:** bump js-yaml from 4.3.1 to 4.3.2 ([#274](https://github.com/nodejs/changelog-maker/issues/274)) ([f30073a](https://github.com/nodejs/changelog-maker/commit/f30073ade0d6fc4f42ecf6054e0fa35990a62ec7))
+
 ## [5.0.4](https://github.com/nodejs/changelog-maker/compare/v5.0.3...v5.0.4) (2026-09-08)
 
 ### Code Refactoring
