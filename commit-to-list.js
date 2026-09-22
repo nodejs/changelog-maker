@@ -1,10 +1,10 @@
 import _debug from 'debug'
 import process from 'process'
-import { pipeline as _pipeline } from 'stream'
+import { createInterface } from 'node:readline'
+import { Readable, pipeline as _pipeline } from 'stream'
 import { promisify } from 'util'
 import commitStream from 'commit-stream'
 import gitexec from 'gitexec'
-import split2 from 'split2'
 import { isReleaseCommit } from './groups.js'
 
 const debug = _debug('changelog-maker')
@@ -64,7 +64,7 @@ export async function commitToList (ghId, argv) {
   let commitList = []
   await pipeline(
     gitexec.exec(process.cwd(), _gitcmd),
-    split2(),
+    (source) => Readable.from(createInterface({ input: source, crlfDelay: Infinity })),
     commitStream(ghId.user, ghId.repo),
     async function * (source) {
       for await (const commit of source) {
