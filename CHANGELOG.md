@@ -1,3 +1,9 @@
+## [5.0.8](https://github.com/nodejs/changelog-maker/compare/v5.0.7...v5.0.8) (2026-10-02)
+
+### Trivial Changes
+
+* **deps-dev:** bump brace-expansion from 1.1.18 to 1.1.21 ([#278](https://github.com/nodejs/changelog-maker/issues/278)) ([4e5c800](https://github.com/nodejs/changelog-maker/commit/4e5c8009eaf526544f66fcbdc5b021e7a747146f))
+
 ## [5.0.7](https://github.com/nodejs/changelog-maker/compare/v5.0.6...v5.0.7) (2026-10-02)
 
 ### Trivial Changes
