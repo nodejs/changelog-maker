@@ -1,3 +1,9 @@
+## [5.0.7](https://github.com/nodejs/changelog-maker/compare/v5.0.6...v5.0.7) (2026-10-02)
+
+### Trivial Changes
+
+* **deps-dev:** bump the npm-minor-patch group across 1 directory with 2 updates ([#275](https://github.com/nodejs/changelog-maker/issues/275)) ([9a335eb](https://github.com/nodejs/changelog-maker/commit/9a335eb08a54154ee1f712169196d26bb9a6cd56))
+
 ## [5.0.6](https://github.com/nodejs/changelog-maker/compare/v5.0.5...v5.0.6) (2026-10-02)
 
 ### Trivial Changes
