@@ -1,3 +1,9 @@
+## [5.0.9](https://github.com/nodejs/changelog-maker/compare/v5.0.8...v5.0.9) (2026-10-19)
+
+### Trivial Changes
+
+* **deps-dev:** bump handlebars from 4.7.9 to 4.7.10 ([#280](https://github.com/nodejs/changelog-maker/issues/280)) ([f36712c](https://github.com/nodejs/changelog-maker/commit/f36712cd42f086b83a3add61a8f47b4b22acc8e1))
+
 ## [5.0.8](https://github.com/nodejs/changelog-maker/compare/v5.0.7...v5.0.8) (2026-10-02)
 
 ### Trivial Changes
