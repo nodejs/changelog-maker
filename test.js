@@ -6,6 +6,7 @@ import { execSync } from 'child_process'
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { styleText } from 'node:util'
+import { isReleaseCommit } from './groups.js'
 
 const __dirname = dirname(new URL(import.meta.url).pathname)
 
@@ -164,4 +165,21 @@ test('test plaintext, CVE-ID', () => {
     `feat:
   * (CVE-2024-22020) add cveId support to commmit output (RafaelGSS) https://github.com/nodejs/node/pull/55819
 `)
+})
+
+test('test isReleaseCommit, Alpha', () => {
+  assert.equal(isReleaseCommit('2026-10-20, Version 27.0.0-alpha.0.0.0 (Alpha)'), true)
+  assert.equal(isReleaseCommit('2026-11-03, Version 27.0.0-alpha.1.2.3 (Alpha)'), true)
+  assert.equal(isReleaseCommit('Working on v27.0.0-alpha.0.0.1'), true)
+  assert.equal(isReleaseCommit('Working on 27.0.0-alpha.1.2.3'), true)
+})
+
+test('test isReleaseCommit, non-release commits', () => {
+  assert.equal(isReleaseCommit('2026-10-20, Version 27.0.0-beta.0.0.0 (Alpha)'), false)
+  assert.equal(isReleaseCommit('2026-10-20, Version 27.0.0-alpha.0.0.0 (Beta)'), false)
+  assert.equal(isReleaseCommit('Working on v27.0.0-beta.0.0.1'), false)
+  assert.equal(isReleaseCommit('Working on v27.0.0-alpha.0.0'), false)
+  assert.equal(isReleaseCommit('Working on v27.0.0-alpha.0.0.1 and more'), false)
+  assert.equal(isReleaseCommit('doc: add 27.0.0-alpha.0.0.0 to changelog'), false)
+  assert.equal(isReleaseCommit('feature: refactor and improve --commit-url'), false)
 })
