@@ -1,3 +1,9 @@
+## [5.0.10](https://github.com/nodejs/changelog-maker/compare/v5.0.9...v5.0.10) (2026-10-20)
+
+### Bug Fixes
+
+* recognise alpha release commits ([#279](https://github.com/nodejs/changelog-maker/issues/279)) ([b7ec40b](https://github.com/nodejs/changelog-maker/commit/b7ec40bc7c73bac48bcf839428ead141dfa2d86e))
+
 ## [5.0.9](https://github.com/nodejs/changelog-maker/compare/v5.0.8...v5.0.9) (2026-10-19)
 
 ### Trivial Changes
