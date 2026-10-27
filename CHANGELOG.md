@@ -1,3 +1,9 @@
+## [5.0.11](https://github.com/nodejs/changelog-maker/compare/v5.0.10...v5.0.11) (2026-10-27)
+
+### Trivial Changes
+
+* **deps:** bump undici ([#281](https://github.com/nodejs/changelog-maker/issues/281)) ([ea42f28](https://github.com/nodejs/changelog-maker/commit/ea42f281b1500ed7ffc3ded96cda70220d6658e5))
+
 ## [5.0.10](https://github.com/nodejs/changelog-maker/compare/v5.0.9...v5.0.10) (2026-10-20)
 
 ### Bug Fixes
