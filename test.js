@@ -6,6 +6,7 @@ import { execSync } from 'child_process'
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { styleText } from 'node:util'
+import { commitToOutput, formatType } from './commit-to-output.js'
 import { forEachConcurrent } from './for-each-concurrent.js'
 import { isReleaseCommit } from './groups.js'
 
@@ -200,4 +201,29 @@ test('test isReleaseCommit, non-release commits', () => {
   assert.equal(isReleaseCommit('Working on v27.0.0-alpha.0.0.1 and more'), false)
   assert.equal(isReleaseCommit('doc: add 27.0.0-alpha.0.0.0 to changelog'), false)
   assert.equal(isReleaseCommit('feature: refactor and improve --commit-url'), false)
+})
+
+test('test plaintext revert, with group', () => {
+  const commit = {
+    sha: 'e28b3f2813d6e8b5c4b3a2f1e0d9c8b7a6f5e4d3',
+    summary: 'Revert "fs: fix thing"',
+    author: { name: 'A' },
+    prUrl: 'https://github.com/nodejs/node/pull/1'
+  }
+  assert.equal(
+    commitToOutput(commit, formatType.PLAINTEXT, { user: 'nodejs', repo: 'node' }, '{ref}'),
+    '  * Revert "fs: fix thing" (A) https://github.com/nodejs/node/pull/1'
+  )
+})
+
+test('test plaintext revert, without group', () => {
+  const commit = {
+    sha: 'e28b3f2813d6e8b5c4b3a2f1e0d9c8b7a6f5e4d3',
+    summary: 'Revert "fix thing"',
+    author: { name: 'A' }
+  }
+  assert.equal(
+    commitToOutput(commit, formatType.PLAINTEXT, { user: 'nodejs', repo: 'node' }, '{ref}'),
+    '  * Revert "fix thing" (A)'
+  )
 })
