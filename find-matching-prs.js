@@ -1,5 +1,3 @@
-'use strict'
-
 import { auth } from './auth.js'
 import { graphql } from '@octokit/graphql'
 import async from 'async'
