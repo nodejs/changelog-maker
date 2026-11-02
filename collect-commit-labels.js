@@ -1,5 +1,3 @@
-'use strict'
-
 import { auth } from './auth.js'
 import { get as ghget } from 'ghissues'
 import { forEachConcurrent } from './for-each-concurrent.js'
