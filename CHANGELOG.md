@@ -1,3 +1,99 @@
+## [5.0.14](https://github.com/nodejs/changelog-maker/compare/v5.0.13...v5.0.14) (2026-11-02)
+
+### Code Refactoring
+
+* replace remark-preset-lint-node with remark-gfm ([#285](https://github.com/nodejs/changelog-maker/issues/285)) ([49cbe37](https://github.com/nodejs/changelog-maker/commit/49cbe37a432fd2379a6c38096b488ea0042aecfd))
+
+### Trivial Changes
+
+* **deps:** remove plugins bundled with semantic-release ([#286](https://github.com/nodejs/changelog-maker/issues/286)) ([50a128d](https://github.com/nodejs/changelog-maker/commit/50a128d38ec31784e9f62f4daa8bac1fd17d24c6))
+
+## [5.0.13](https://github.com/nodejs/changelog-maker/compare/v5.0.12...v5.0.13) (2026-11-02)
+
+### Code Refactoring
+
+* replace split2 with node:readline ([#273](https://github.com/nodejs/changelog-maker/issues/273)) ([5d5162c](https://github.com/nodejs/changelog-maker/commit/5d5162ccbc5a1ad55175609223d5002e662e2a68))
+
+### Trivial Changes
+
+* **deps:** bump the npm-minor-patch group with 3 updates ([#283](https://github.com/nodejs/changelog-maker/issues/283)) ([02f066e](https://github.com/nodejs/changelog-maker/commit/02f066e60ab632857ec917888136ccdf3eeadd3e))
+
+## [5.0.12](https://github.com/nodejs/changelog-maker/compare/v5.0.11...v5.0.12) (2026-11-02)
+
+### Trivial Changes
+
+* **deps:** bump actions/setup-node ([#282](https://github.com/nodejs/changelog-maker/issues/282)) ([e62d949](https://github.com/nodejs/changelog-maker/commit/e62d949afb960170077c00823b52b82bbf03cf8c))
+
+## [5.0.11](https://github.com/nodejs/changelog-maker/compare/v5.0.10...v5.0.11) (2026-10-27)
+
+### Trivial Changes
+
+* **deps:** bump undici ([#281](https://github.com/nodejs/changelog-maker/issues/281)) ([ea42f28](https://github.com/nodejs/changelog-maker/commit/ea42f281b1500ed7ffc3ded96cda70220d6658e5))
+
+## [5.0.10](https://github.com/nodejs/changelog-maker/compare/v5.0.9...v5.0.10) (2026-10-20)
+
+### Bug Fixes
+
+* recognise alpha release commits ([#279](https://github.com/nodejs/changelog-maker/issues/279)) ([b7ec40b](https://github.com/nodejs/changelog-maker/commit/b7ec40bc7c73bac48bcf839428ead141dfa2d86e))
+
+## [5.0.9](https://github.com/nodejs/changelog-maker/compare/v5.0.8...v5.0.9) (2026-10-19)
+
+### Trivial Changes
+
+* **deps-dev:** bump handlebars from 4.7.9 to 4.7.10 ([#280](https://github.com/nodejs/changelog-maker/issues/280)) ([f36712c](https://github.com/nodejs/changelog-maker/commit/f36712cd42f086b83a3add61a8f47b4b22acc8e1))
+
+## [5.0.8](https://github.com/nodejs/changelog-maker/compare/v5.0.7...v5.0.8) (2026-10-02)
+
+### Trivial Changes
+
+* **deps-dev:** bump brace-expansion from 1.1.18 to 1.1.21 ([#278](https://github.com/nodejs/changelog-maker/issues/278)) ([4e5c800](https://github.com/nodejs/changelog-maker/commit/4e5c8009eaf526544f66fcbdc5b021e7a747146f))
+
+## [5.0.7](https://github.com/nodejs/changelog-maker/compare/v5.0.6...v5.0.7) (2026-10-02)
+
+### Trivial Changes
+
+* **deps-dev:** bump the npm-minor-patch group across 1 directory with 2 updates ([#275](https://github.com/nodejs/changelog-maker/issues/275)) ([9a335eb](https://github.com/nodejs/changelog-maker/commit/9a335eb08a54154ee1f712169196d26bb9a6cd56))
+
+## [5.0.6](https://github.com/nodejs/changelog-maker/compare/v5.0.5...v5.0.6) (2026-10-02)
+
+### Trivial Changes
+
+* **deps:** bump undici ([#277](https://github.com/nodejs/changelog-maker/issues/277)) ([c2ace36](https://github.com/nodejs/changelog-maker/commit/c2ace367fc5acffd31a35a87b1c4d11a5e5ebe7f))
+
+## [5.0.5](https://github.com/nodejs/changelog-maker/compare/v5.0.4...v5.0.5) (2026-09-16)
+
+### Trivial Changes
+
+* **deps:** bump js-yaml from 4.3.1 to 4.3.2 ([#274](https://github.com/nodejs/changelog-maker/issues/274)) ([f30073a](https://github.com/nodejs/changelog-maker/commit/f30073ade0d6fc4f42ecf6054e0fa35990a62ec7))
+
+## [5.0.4](https://github.com/nodejs/changelog-maker/compare/v5.0.3...v5.0.4) (2026-09-08)
+
+### Code Refactoring
+
+* replace chalk with util.styleText ([#272](https://github.com/nodejs/changelog-maker/issues/272)) ([66dc9df](https://github.com/nodejs/changelog-maker/commit/66dc9dfc3a3a7bc0c501d1096b2d3baeea49ebf6))
+
+### Trivial Changes
+
+* **deps:** bump tar and npm ([#269](https://github.com/nodejs/changelog-maker/issues/269)) ([8d484bb](https://github.com/nodejs/changelog-maker/commit/8d484bbbb4bf4bf783768fdc5482cf3f9fc5b1a1))
+
+## [5.0.3](https://github.com/nodejs/changelog-maker/compare/v5.0.2...v5.0.3) (2026-09-08)
+
+### Trivial Changes
+
+* **deps:** bump the npm-minor-patch group across 1 directory with 4 updates ([#270](https://github.com/nodejs/changelog-maker/issues/270)) ([c4b7184](https://github.com/nodejs/changelog-maker/commit/c4b7184870f520099ed72b0007d1eb899dc684a6))
+
+## [5.0.2](https://github.com/nodejs/changelog-maker/compare/v5.0.1...v5.0.2) (2026-09-08)
+
+### Trivial Changes
+
+* **deps:** replace strip-ansi with util.stripVTControlCharacters ([#271](https://github.com/nodejs/changelog-maker/issues/271)) ([ce0d09f](https://github.com/nodejs/changelog-maker/commit/ce0d09fda1f0312b8482ce4cb914cd42ffa2563e))
+
+## [5.0.1](https://github.com/nodejs/changelog-maker/compare/v5.0.0...v5.0.1) (2026-09-07)
+
+### Tests
+
+* replace tap with Node.js test runner ([#266](https://github.com/nodejs/changelog-maker/issues/266)) ([a0a4963](https://github.com/nodejs/changelog-maker/commit/a0a496365cdd624e1c0c3cc6a94250deed538313))
+
 ## [5.0.0](https://github.com/nodejs/changelog-maker/compare/v4.4.52...v5.0.0) (2026-08-25)
 
 ### ⚠ BREAKING CHANGES

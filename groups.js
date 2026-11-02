@@ -30,8 +30,8 @@ It doesn't cover false positives though.
 */
 
 export function isReleaseCommit (summary) {
-  return /^Working on v?\d{1,2}\.\d{1,3}\.\d{1,3}$/.test(summary) ||
-    /^\d{4}-\d{2}-\d{2},? (Node\.js|Version) v?\d{1,2}\.\d{1,3}\.\d{1,3} (["'][A-Za-z ]+["'] )?\((Current|Stable|LTS|Maintenance)\)/.test(summary) ||
+  return /^Working on v?\d{1,2}\.\d{1,3}\.\d{1,3}(-alpha\.\d{1,3}\.\d{1,3}\.\d{1,3})?$/.test(summary) ||
+    /^\d{4}-\d{2}-\d{2},? (Node\.js|Version) v?\d{1,2}\.\d{1,3}\.\d{1,3}(-alpha\.\d{1,3}\.\d{1,3}\.\d{1,3})? (["'][A-Za-z ]+["'] )?\((Current|Stable|LTS|Maintenance|Alpha)\)/.test(summary) ||
     /^\d{4}-\d{2}-\d{2},? io.js v\d{1,2}\.\d{1,3}\.\d{1,3} Release/.test(summary) ||
     /^\d+\.\d+\.\d+$/.test(summary) // `npm version X` style commit
 }

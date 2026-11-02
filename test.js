@@ -3,8 +3,11 @@
 
 import { dirname, join } from 'path'
 import { execSync } from 'child_process'
-import { test } from 'tap'
-import chalk from 'chalk'
+import assert from 'node:assert/strict'
+import { test } from 'node:test'
+import { styleText } from 'node:util'
+import { forEachConcurrent } from './for-each-concurrent.js'
+import { isReleaseCommit } from './groups.js'
 
 const __dirname = dirname(new URL(import.meta.url).pathname)
 
@@ -14,39 +17,36 @@ function exec (args) {
   return stdout
 }
 
-test('test basic commit block', (t) => {
-  t.equal(exec('--format=markdown --start-ref=v1.3.9 --end-ref=v1.3.10'),
+test('test basic commit block', () => {
+  assert.equal(exec('--format=markdown --start-ref=v1.3.9 --end-ref=v1.3.10'),
     `* \\[[\`e28b3f2813\`](https://github.com/nodejs/changelog-maker/commit/e28b3f2813)] - 1.3.10 (Rod Vagg)
 * \\[[\`ace3af943e\`](https://github.com/nodejs/changelog-maker/commit/ace3af943e)] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
 * \\[[\`25ec5428bc\`](https://github.com/nodejs/changelog-maker/commit/25ec5428bc)] - default to repo scope always - revert previous changes (James Young)
 * \\[[\`424d6c22c1\`](https://github.com/nodejs/changelog-maker/commit/424d6c22c1)] - add --private arg to set repo scope, update readme (James Young)
 * \\[[\`7c8c5e6215\`](https://github.com/nodejs/changelog-maker/commit/7c8c5e6215)] - 1.3.9 (Rod Vagg)
 `)
-  t.end()
 })
 
-test('test filter-release', (t) => {
-  t.equal(exec('--format=markdown --start-ref=v1.3.9 --end-ref=v1.3.10 --filter-release'),
+test('test filter-release', () => {
+  assert.equal(exec('--format=markdown --start-ref=v1.3.9 --end-ref=v1.3.10 --filter-release'),
     `* \\[[\`ace3af943e\`](https://github.com/nodejs/changelog-maker/commit/ace3af943e)] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
 * \\[[\`25ec5428bc\`](https://github.com/nodejs/changelog-maker/commit/25ec5428bc)] - default to repo scope always - revert previous changes (James Young)
 * \\[[\`424d6c22c1\`](https://github.com/nodejs/changelog-maker/commit/424d6c22c1)] - add --private arg to set repo scope, update readme (James Young)
 `)
-  t.end()
 })
 
-test('test simple', (t) => {
-  t.equal(exec('--start-ref=v1.3.9 --end-ref=v1.3.10'),
+test('test simple', () => {
+  assert.equal(exec('--start-ref=v1.3.9 --end-ref=v1.3.10'),
     `* [e28b3f2813] - 1.3.10 (Rod Vagg)
 * [ace3af943e] - Merge pull request #13 from jamsyoung/private-repo-support (Rod Vagg)
 * [25ec5428bc] - default to repo scope always - revert previous changes (James Young)
 * [424d6c22c1] - add --private arg to set repo scope, update readme (James Young)
 * [7c8c5e6215] - 1.3.9 (Rod Vagg)
 `)
-  t.end()
 })
 
-test('test sequence', (t) => {
-  t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release --format=sequence'),
+test('test sequence', () => {
+  assert.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release --format=sequence'),
     `pick cc442b65343cd1bb7cb4ecc3c6e729b4e4625f97 # (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715 (semver-minor, build, i18n-api)
 pick 4f2b7f8136358bc3ecd720e33457fdeff9581733 # deps: use strip-ansi instead of chalk.stripColor (Rod Vagg)
 pick 6898501e18f231db40a84b511d2a6a4b8f5f17f3 # deps: update deps, introduce test & lint deps (Rod Vagg)
@@ -55,11 +55,10 @@ pick 50945246557b4a25133435b106d0e5dd5d88a9be # feature: make the commit url con
 pick 42f248cf8904224a585e9f3834cc1283713c56cf # src: use \`standard\` for linting (Rod Vagg)
 pick 64a8fdef3c35627ca50c48e9acb80c57a3f6d2a2 # test: basic test infrastructure (Rod Vagg)
 `)
-  t.end()
 })
 
-test('test sequence-drop', (t) => {
-  t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release --format=sequence --reverse --sequence-drop=semver-minor'),
+test('test sequence-drop', () => {
+  assert.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release --format=sequence --reverse --sequence-drop=semver-minor'),
     `pick 64a8fdef3c35627ca50c48e9acb80c57a3f6d2a2 # test: basic test infrastructure (Rod Vagg)
 pick 42f248cf8904224a585e9f3834cc1283713c56cf # src: use \`standard\` for linting (Rod Vagg)
 pick 50945246557b4a25133435b106d0e5dd5d88a9be # feature: make the commit url configurable via an additional argument (Jim Nielsen) https://github.com/nodejs/changelog-maker/pull/55
@@ -68,32 +67,29 @@ pick 6898501e18f231db40a84b511d2a6a4b8f5f17f3 # deps: update deps, introduce tes
 pick 4f2b7f8136358bc3ecd720e33457fdeff9581733 # deps: use strip-ansi instead of chalk.stripColor (Rod Vagg)
 drop cc442b65343cd1bb7cb4ecc3c6e729b4e4625f97 # (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715 (semver-minor, build, i18n-api)
 `)
-  t.end()
 })
 
-test('test plaintext', (t) => {
-  t.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --format=plaintext'),
+test('test plaintext', () => {
+  assert.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --format=plaintext'),
     `feature:
   * refactor and improve --commit-url (Rod Vagg)
 test:
   * update refs for testing (Rod Vagg)
 `)
-  t.end()
 })
 
-test('test messageonly', (t) => {
-  t.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --format=messageonly'),
+test('test messageonly', () => {
+  assert.equal(exec('--start-ref=9c700d2 --end-ref=dd937e9 --group --filter-release --format=messageonly'),
     `feature:
   * refactor and improve --commit-url
 test:
   * update refs for testing
 `)
-  t.end()
 })
 
-test('test group, semver labels, PR-URL', (t) => {
-  t.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
-  `${chalk.green.bold('* [cc442b6534] - (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715')}
+test('test group, semver labels, PR-URL', () => {
+  assert.equal(exec('--start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
+  `${styleText(['green', 'bold'], '* [cc442b6534] - (SEMVER-MINOR) minor nit (Rod Vagg) https://github.com/nodejs/node/pull/23715')}
 * [4f2b7f8136] - deps: use strip-ansi instead of chalk.stripColor (Rod Vagg)
 * [6898501e18] - deps: update deps, introduce test & lint deps (Rod Vagg)
 * [9c700d2910] - feature: refactor and improve --commit-url (Rod Vagg)
@@ -101,11 +97,10 @@ test('test group, semver labels, PR-URL', (t) => {
 * [42f248cf89] - src: use \`standard\` for linting (Rod Vagg)
 * [64a8fdef3c] - test: basic test infrastructure (Rod Vagg)
 `)
-  t.end()
 })
 
-test('test simple group, semver labels, PR-URL', (t) => {
-  t.equal(exec('--format=markdown --start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
+test('test simple group, semver labels, PR-URL', () => {
+  assert.equal(exec('--format=markdown --start-ref=v2.2.7 --end-ref=9c700d29 --group --filter-release'),
     `* \\[[\`cc442b6534\`](https://github.com/nodejs/changelog-maker/commit/cc442b6534)] - **(SEMVER-MINOR)** minor nit (Rod Vagg) [nodejs/node#23715](https://github.com/nodejs/node/pull/23715)
 * \\[[\`4f2b7f8136\`](https://github.com/nodejs/changelog-maker/commit/4f2b7f8136)] - **deps**: use strip-ansi instead of chalk.stripColor (Rod Vagg)
 * \\[[\`6898501e18\`](https://github.com/nodejs/changelog-maker/commit/6898501e18)] - **deps**: update deps, introduce test & lint deps (Rod Vagg)
@@ -114,33 +109,30 @@ test('test simple group, semver labels, PR-URL', (t) => {
 * \\[[\`42f248cf89\`](https://github.com/nodejs/changelog-maker/commit/42f248cf89)] - **src**: use \`standard\` for linting (Rod Vagg)
 * \\[[\`64a8fdef3c\`](https://github.com/nodejs/changelog-maker/commit/64a8fdef3c)] - **test**: basic test infrastructure (Rod Vagg)
 `)
-  t.end()
 })
 
-test('test blank commit-url', (t) => {
+test('test blank commit-url', () => {
   let actual = exec('--format=markdown --start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=http://foo.bar/').split('\n')
   actual.splice(0, actual.length - 3)
   actual = actual.join('\n')
-  t.equal(actual,
+  assert.equal(actual,
     `* \\[[\`cc442b6534\`](http://foo.bar/)] - **(SEMVER-MINOR)** minor nit (Rod Vagg) [nodejs/node#23715](https://github.com/nodejs/node/pull/23715)
 * \\[[\`5094524655\`](http://foo.bar/)] - **feature**: make the commit url configurable via an additional argument (Jim Nielsen) [#55](https://github.com/nodejs/changelog-maker/pull/55)
 `)
-  t.end()
 })
 
-test('test blank commit-url', (t) => {
+test('test blank commit-url', () => {
   let actual = exec('--format=markdown --start-ref=v2.2.7 --end-ref=9c700d29 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/').split('\n')
   actual.splice(0, actual.length - 3)
   actual = actual.join('\n')
-  t.equal(actual,
+  assert.equal(actual,
     `* \\[[\`cc442b6534\`](https://yeehaw.com/cc442b6534/cc442b6534/nodejs/changelog-maker/)] - **(SEMVER-MINOR)** minor nit (Rod Vagg) [nodejs/node#23715](https://github.com/nodejs/node/pull/23715)
 * \\[[\`5094524655\`](https://yeehaw.com/5094524655/5094524655/nodejs/changelog-maker/)] - **feature**: make the commit url configurable via an additional argument (Jim Nielsen) [#55](https://github.com/nodejs/changelog-maker/pull/55)
 `)
-  t.end()
 })
 
-test('test backtick strings in commit messages', (t) => {
-  t.equal(
+test('test backtick strings in commit messages', () => {
+  assert.equal(
     exec('--format=markdown --start-ref=ce886b5130 --end-ref=0717fdc946 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
     `* \\[[\`0717fdc946\`](https://yeehaw.com/0717fdc946/0717fdc946/nodejs/changelog-maker/)] - **test**: \\\`commit\\_msg\\\` with an unescaped \\\` backtick char (Antoine du Hamel)
 * \\[[\`9f1d897c88\`](https://yeehaw.com/9f1d897c88/9f1d897c88/nodejs/changelog-maker/)] - **test**: \\\`commit\\_msg\\\` with an escaped \\\\\\\` backtick char (Antoine du Hamel)
@@ -150,38 +142,34 @@ test('test backtick strings in commit messages', (t) => {
 * \\[[\`699ce8c377\`](https://yeehaw.com/699ce8c377/699ce8c377/nodejs/changelog-maker/)] - **test**: commit\\_msg with \`back_tick\` string (Antoine du Hamel)
 * \\[[\`ce886b5130\`](https://yeehaw.com/ce886b5130/ce886b5130/nodejs/changelog-maker/)] - **test**: commit\\_msg with \`backtick\` string (Antoine du Hamel)
 `)
-  t.end()
 })
 
-test('test markdown punctuation chars in commit message and author name', (t) => {
-  t.equal(
+test('test markdown punctuation chars in commit message and author name', () => {
+  assert.equal(
     exec('--format=markdown --start-ref=f12fe589c4 --end-ref=f12fe589c4 --filter-release --commit-url=https://yeehaw.com/{ref}/{ref}/{ghUser}/{ghRepo}/'),
     `* \\[[\`f12fe589c4\`](https://yeehaw.com/f12fe589c4/f12fe589c4/nodejs/changelog-maker/)] - **group\\_with\\_underscore**: test commit message (Author\\_name\\_with\\_underscore)
 `)
-  t.end()
 })
 
-test('test find-matching-prs', (t) => {
-  t.equal(
+test('test find-matching-prs', () => {
+  assert.equal(
     exec('--start-ref=a059bc7ca9 --end-ref=a059bc7ca9 --find-matching-prs nodejs changelog-maker'),
     `* [a059bc7ca9] - chore(deps): remove package-lock.json (Rod Vagg) https://github.com/nodejs/changelog-maker/pull/118
 `)
-  t.end()
 })
 
-test('test group, CVE-ID', (t) => {
+test('test group, CVE-ID', () => {
   const out = exec('--format=markdown --start-ref=43d428b3d2 --end-ref=43d428b3d2 --group --filter-release')
-  t.equal(
+  assert.equal(
     out,
     `* \\[[\`43d428b3d2\`](https://github.com/nodejs/changelog-maker/commit/43d428b3d2)] - **(CVE-2024-22020)** **feat**: add cveId support to commmit output (RafaelGSS) [nodejs/node#55819](https://github.com/nodejs/node/pull/55819)
 `)
-  t.end()
 })
 
-test('test conventionalcommit style', (t) => {
+test('test conventionalcommit style', () => {
   // testing that we capture `foo(bar)` as a group in `foo(bar): message`, not just `foo` in `foo: message`
   const out = exec('--format=markdown --start-ref=35b762c7 --end-ref=375e0b7d')
-  t.equal(
+  assert.equal(
     out,
     `* \\[[\`375e0b7d48\`](https://github.com/nodejs/changelog-maker/commit/375e0b7d48)] - **test(cc,yay)**: add test case for conventional commits (Rod Vagg)
 * \\[[\`6d6ef98c14\`](https://github.com/nodejs/changelog-maker/commit/6d6ef98c14)] - **feat(conventionalcommits)**: make group matching regexp cover CC style (Rod Vagg)
@@ -193,15 +181,47 @@ test('test conventionalcommit style', (t) => {
 * \\[[\`43d428b3d2\`](https://github.com/nodejs/changelog-maker/commit/43d428b3d2)] - **(CVE-2024-22020)** **feat**: add cveId support to commmit output (RafaelGSS) [nodejs/node#55819](https://github.com/nodejs/node/pull/55819)
 * \\[[\`35b762c78a\`](https://github.com/nodejs/changelog-maker/commit/35b762c78a)] - **chore(release)**: 4.1.1 \\[skip ci] (semantic-release-bot)
 `)
-  t.end()
 })
 
-test('test plaintext, CVE-ID', (t) => {
+test('test plaintext, CVE-ID', () => {
   const out = exec('--start-ref=43d428b3d2 --end-ref=43d428b3d2 --group --filter-release --format=plaintext')
-  t.equal(
+  assert.equal(
     out,
     `feat:
   * (CVE-2024-22020) add cveId support to commmit output (RafaelGSS) https://github.com/nodejs/node/pull/55819
 `)
-  t.end()
+})
+
+test('test forEachConcurrent starts items in order and limits concurrency', async () => {
+  const items = Array.from({ length: 20 }, (_, i) => i)
+  const started = []
+  let active = 0
+  let maxActive = 0
+
+  await forEachConcurrent(items, 3, async (item) => {
+    started.push(item)
+    maxActive = Math.max(maxActive, ++active)
+    await new Promise(setImmediate)
+    active--
+  })
+
+  assert.deepEqual(started, items)
+  assert.equal(maxActive, 3)
+})
+
+test('test isReleaseCommit, Alpha', () => {
+  assert.equal(isReleaseCommit('2026-10-20, Version 27.0.0-alpha.0.0.0 (Alpha)'), true)
+  assert.equal(isReleaseCommit('2026-11-03, Version 27.0.0-alpha.1.2.3 (Alpha)'), true)
+  assert.equal(isReleaseCommit('Working on v27.0.0-alpha.0.0.1'), true)
+  assert.equal(isReleaseCommit('Working on 27.0.0-alpha.1.2.3'), true)
+})
+
+test('test isReleaseCommit, non-release commits', () => {
+  assert.equal(isReleaseCommit('2026-10-20, Version 27.0.0-beta.0.0.0 (Alpha)'), false)
+  assert.equal(isReleaseCommit('2026-10-20, Version 27.0.0-alpha.0.0.0 (Beta)'), false)
+  assert.equal(isReleaseCommit('Working on v27.0.0-beta.0.0.1'), false)
+  assert.equal(isReleaseCommit('Working on v27.0.0-alpha.0.0'), false)
+  assert.equal(isReleaseCommit('Working on v27.0.0-alpha.0.0.1 and more'), false)
+  assert.equal(isReleaseCommit('doc: add 27.0.0-alpha.0.0.0 to changelog'), false)
+  assert.equal(isReleaseCommit('feature: refactor and improve --commit-url'), false)
 })

@@ -1,9 +1,8 @@
-import stripAnsi from 'strip-ansi'
+import { stripVTControlCharacters, styleText } from 'node:util'
 import { commitToOutput, formatType } from './commit-to-output.js'
 import { groupCommits } from './group-commits.js'
 import { toGroups } from './groups.js'
 import { formatMarkdown } from './format.js'
-import { supportsColor } from 'chalk'
 import { collectCommitLabels } from './collect-commit-labels.js'
 import { findMatchingPrs } from './find-matching-prs.js'
 
@@ -16,9 +15,10 @@ function getFormat (argv) {
 }
 
 async function printCommits (list) {
+  const supportsColor = styleText('green', 'test') !== 'test'
   for (let commit of list) {
     if (!supportsColor) {
-      commit = stripAnsi(commit)
+      commit = stripVTControlCharacters(commit)
     }
     process.stdout.write(`${commit}\n`)
   }
@@ -66,7 +66,7 @@ export async function processCommits (argv, ghId, list) {
     list = await Promise.all(list.map(async (commit) => {
       let output = commitToOutput(commit, format, ghId, commitUrl)
       if (format === formatType.MARKDOWN) {
-        output = stripAnsi(output)
+        output = stripVTControlCharacters(output)
         return (await formatMarkdown(output)).replace(/\n$/, '')
       }
       return output

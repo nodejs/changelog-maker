@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+import { styleText } from 'node:util'
 import { isRevert, cleanSummary as cleanRevertSummary } from './reverts.js'
 import { toGroups, cleanSummary as cleanGroupSummary } from './groups.js'
 
@@ -75,9 +75,9 @@ function toStringSimple (data, withLabels = false) {
 function toStringSimpleWithListMarker (data) {
   const s = `* [${data.sha.substr(0, 10)}] - ${toStringSimple(data)}`
   return (data.semver && data.semver.length)
-    ? chalk.green.bold(s)
+    ? styleText(['green', 'bold'], s)
     : (data.group === 'doc'
-        ? chalk.grey(s)
+        ? styleText('grey', s)
         : s)
 }
 
@@ -95,9 +95,9 @@ function toStringMarkdown (data) {
   s = s.trim()
 
   return (data.semver && data.semver.length)
-    ? chalk.green.bold(s)
+    ? styleText(['green', 'bold'], s)
     : (data.group === 'doc'
-        ? chalk.grey(s)
+        ? styleText('grey', s)
         : s)
 }
 
