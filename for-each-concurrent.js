@@ -1,5 +1,3 @@
-'use strict'
-
 // Call `worker` for each item, in order, with at most `concurrency` in flight.
 export async function forEachConcurrent (items, concurrency, worker) {
   const iterator = items.values()
