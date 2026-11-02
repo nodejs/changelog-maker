@@ -2,7 +2,7 @@
 
 import { auth } from './auth.js'
 import { get as ghget } from 'ghissues'
-import async from 'async'
+import { forEachConcurrent } from './for-each-concurrent.js'
 
 export async function collectCommitLabels (list) {
   const sublist = list.filter((commit) => {
@@ -17,18 +17,16 @@ export async function collectCommitLabels (list) {
 
   const cache = {}
 
-  const q = async.queue((commit, next) => {
+  await forEachConcurrent(sublist, 15, (commit) => {
     function onFetch (err, issue) {
       if (err) {
         console.error('Error fetching issue #%s: %s', commit.ghIssue, err.message)
-        return next()
+        return
       }
 
       if (issue.labels) {
         commit.labels = issue.labels.map((label) => label.name)
       }
-
-      next()
     }
 
     if (commit.ghUser === 'iojs') {
@@ -40,9 +38,6 @@ export async function collectCommitLabels (list) {
     // to the cache that all commits with the same ghIssue value will use.
     const key = `${commit.ghUser}/${commit.ghProject}#${commit.ghIssue}`
     cache[key] = cache[key] || ghget(authData, commit.ghUser, commit.ghProject, commit.ghIssue)
-    cache[key].then((val) => onFetch(null, val), (err) => onFetch(err))
-  }, 15)
-
-  q.push(sublist)
-  await q.drain()
+    return cache[key].then((val) => onFetch(null, val), (err) => onFetch(err))
+  })
 }
