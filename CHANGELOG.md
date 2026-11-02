@@ -1,3 +1,13 @@
+## [5.0.14](https://github.com/nodejs/changelog-maker/compare/v5.0.13...v5.0.14) (2026-11-02)
+
+### Code Refactoring
+
+* replace remark-preset-lint-node with remark-gfm ([#285](https://github.com/nodejs/changelog-maker/issues/285)) ([49cbe37](https://github.com/nodejs/changelog-maker/commit/49cbe37a432fd2379a6c38096b488ea0042aecfd))
+
+### Trivial Changes
+
+* **deps:** remove plugins bundled with semantic-release ([#286](https://github.com/nodejs/changelog-maker/issues/286)) ([50a128d](https://github.com/nodejs/changelog-maker/commit/50a128d38ec31784e9f62f4daa8bac1fd17d24c6))
+
 ## [5.0.13](https://github.com/nodejs/changelog-maker/compare/v5.0.12...v5.0.13) (2026-11-02)
 
 ### Code Refactoring
