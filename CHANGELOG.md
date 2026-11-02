@@ -1,3 +1,13 @@
+## [5.0.13](https://github.com/nodejs/changelog-maker/compare/v5.0.12...v5.0.13) (2026-11-02)
+
+### Code Refactoring
+
+* replace split2 with node:readline ([#273](https://github.com/nodejs/changelog-maker/issues/273)) ([5d5162c](https://github.com/nodejs/changelog-maker/commit/5d5162ccbc5a1ad55175609223d5002e662e2a68))
+
+### Trivial Changes
+
+* **deps:** bump the npm-minor-patch group with 3 updates ([#283](https://github.com/nodejs/changelog-maker/issues/283)) ([02f066e](https://github.com/nodejs/changelog-maker/commit/02f066e60ab632857ec917888136ccdf3eeadd3e))
+
 ## [5.0.12](https://github.com/nodejs/changelog-maker/compare/v5.0.11...v5.0.12) (2026-11-02)
 
 ### Trivial Changes
