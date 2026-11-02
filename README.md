@@ -49,7 +49,7 @@ npm i changelog-maker -g
 `github-user` and `github-project` should point to the GitHub repository that can be used to find the `PR-URL` data if just an issue number is provided and will also impact how the PR-URL issue numbers are displayed
 
 * `--format`:          dictates what formatting the output will have. Possible options are:
-  - `sequence`:          hybrid format that can be pasted directly in the sequence editor of a `git rebase --interactive` session, without retaining info such as commit title, author, labels, PR URL.
+  - `sequence`:          hybrid format that can be pasted directly in the sequence editor of a `git rebase --interactive` session, with commit title, author, labels and PR URL as comments compatible with interactive rebase input.
   - `simple`:            don't print full markdown output, good for console printing without the additional fluff. **This is default**.
   - `sha`:               print only the 10-character truncated commit hashes.
   - `plaintext`:         a very simple form, without commit details, implies `--group`.

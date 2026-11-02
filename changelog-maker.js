@@ -25,6 +25,13 @@ const { values, positionals } = parseArgs({
     help: { type: 'boolean', short: 'h' },
     quiet: { type: 'boolean', short: 'q' },
     reverse: { type: 'boolean' },
+    'find-matching-prs': { type: 'boolean' },
+    format: { type: 'string' },
+    group: { type: 'boolean', short: 'g' },
+    help: { type: 'boolean', short: 'h' },
+    quiet: { type: 'boolean', short: 'q' },
+    reverse: { type: 'boolean' },
+    'sequence-drop': { type: 'string' },
     'start-ref': { type: 'string' }
   }
 })
