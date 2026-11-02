@@ -2,7 +2,7 @@
 
 import { auth } from './auth.js'
 import { graphql } from '@octokit/graphql'
-import async from 'async'
+import { forEachConcurrent } from './for-each-concurrent.js'
 
 // Query to find the first 4 pull requests that include the commit that we're
 // concerned about. We'll filter them and take the first one that was MERGED
@@ -43,7 +43,7 @@ export async function findMatchingPrs (ghId, list) {
   const headers = { authorization: `token ${authData.token}` }
   const cache = {}
 
-  const q = async.queue(async (commit, next) => {
+  await forEachConcurrent(sublist, 15, async (commit) => {
     if (commit.ghUser === 'iojs') {
       commit.ghUser = 'nodejs' // forcibly rewrite as the GH API doesn't do it for us
     }
@@ -64,9 +64,5 @@ export async function findMatchingPrs (ghId, list) {
       }
     })()
     await cache[commit.sha]
-    next()
-  }, 15)
-
-  q.push(sublist)
-  await q.drain()
+  })
 }

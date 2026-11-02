@@ -6,6 +6,7 @@ import { execSync } from 'child_process'
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { styleText } from 'node:util'
+import { forEachConcurrent } from './for-each-concurrent.js'
 import { isReleaseCommit } from './groups.js'
 
 const __dirname = dirname(new URL(import.meta.url).pathname)
@@ -165,6 +166,23 @@ test('test plaintext, CVE-ID', () => {
     `feat:
   * (CVE-2024-22020) add cveId support to commmit output (RafaelGSS) https://github.com/nodejs/node/pull/55819
 `)
+})
+
+test('test forEachConcurrent starts items in order and limits concurrency', async () => {
+  const items = Array.from({ length: 20 }, (_, i) => i)
+  const started = []
+  let active = 0
+  let maxActive = 0
+
+  await forEachConcurrent(items, 3, async (item) => {
+    started.push(item)
+    maxActive = Math.max(maxActive, ++active)
+    await new Promise(setImmediate)
+    active--
+  })
+
+  assert.deepEqual(started, items)
+  assert.equal(maxActive, 3)
 })
 
 test('test isReleaseCommit, Alpha', () => {
