@@ -1,3 +1,9 @@
+## [5.0.12](https://github.com/nodejs/changelog-maker/compare/v5.0.11...v5.0.12) (2026-11-02)
+
+### Trivial Changes
+
+* **deps:** bump actions/setup-node ([#282](https://github.com/nodejs/changelog-maker/issues/282)) ([e62d949](https://github.com/nodejs/changelog-maker/commit/e62d949afb960170077c00823b52b82bbf03cf8c))
+
 ## [5.0.11](https://github.com/nodejs/changelog-maker/compare/v5.0.10...v5.0.11) (2026-10-27)
 
 ### Trivial Changes
