@@ -63,7 +63,7 @@ export async function commitToList (ghId, argv) {
 
   let commitList = []
   const child = spawn(_gitcmd, { shell: true, stdio: ['ignore', 'pipe', 'inherit'] })
-  const [[code]] = await Promise.all([
+  const [[code, signal]] = await Promise.all([
     once(child, 'close'),
     pipeline(
       Readable.from(createInterface({ input: child.stdout, crlfDelay: Infinity })),
@@ -74,8 +74,8 @@ export async function commitToList (ghId, argv) {
         }
       })
   ])
-  if (code) {
-    throw new Error(`git command [${_gitcmd}] exited with code ${code}`)
+  if (code || signal) {
+    throw new Error(`git command [${_gitcmd}] exited with ${signal ? `signal ${signal}` : `code ${code}`}`)
   }
   commitList = organiseCommits(argv, commitList)
   return commitList
