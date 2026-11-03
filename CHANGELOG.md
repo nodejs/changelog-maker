@@ -1,3 +1,14 @@
+## [5.1.0](https://github.com/nodejs/changelog-maker/compare/v5.0.14...v5.1.0) (2026-11-03)
+
+### Features
+
+* add `sequence` format ([#249](https://github.com/nodejs/changelog-maker/issues/249)) ([3f5defd](https://github.com/nodejs/changelog-maker/commit/3f5defd64240eb64a497ca14dc30248bbe41e0df))
+
+### Code Refactoring
+
+* remove redundant 'use strict' from ES modules ([#288](https://github.com/nodejs/changelog-maker/issues/288)) ([7487189](https://github.com/nodejs/changelog-maker/commit/74871894736ed4a55f3e1db93e525a50381a9a1a))
+* replace async.queue with a shared helper ([#287](https://github.com/nodejs/changelog-maker/issues/287)) ([9736ef6](https://github.com/nodejs/changelog-maker/commit/9736ef6b1334cb16cd0bfe9b7a4caea9278382d3))
+
 ## [5.0.14](https://github.com/nodejs/changelog-maker/compare/v5.0.13...v5.0.14) (2026-11-02)
 
 ### Code Refactoring
