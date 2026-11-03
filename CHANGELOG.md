@@ -1,3 +1,9 @@
+## [5.1.1](https://github.com/nodejs/changelog-maker/compare/v5.1.0...v5.1.1) (2026-11-03)
+
+### Bug Fixes
+
+* close quote and drop empty group in plaintext reverts ([#289](https://github.com/nodejs/changelog-maker/issues/289)) ([56ddb4a](https://github.com/nodejs/changelog-maker/commit/56ddb4a7fb2505c74641c2eb563acc3fdda1cf2e))
+
 ## [5.1.0](https://github.com/nodejs/changelog-maker/compare/v5.0.14...v5.1.0) (2026-11-03)
 
 ### Features
