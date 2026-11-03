@@ -63,16 +63,17 @@ export async function commitToList (ghId, argv) {
 
   let commitList = []
   const child = spawn(_gitcmd, { shell: true, stdio: ['ignore', 'pipe', 'inherit'] })
-  const exit = once(child, 'close')
-  await pipeline(
-    Readable.from(createInterface({ input: child.stdout, crlfDelay: Infinity })),
-    commitStream(ghId.user, ghId.repo),
-    async function * (source) {
-      for await (const commit of source) {
-        commitList.push(commit)
-      }
-    })
-  const [code] = await exit
+  const [[code]] = await Promise.all([
+    once(child, 'close'),
+    pipeline(
+      Readable.from(createInterface({ input: child.stdout, crlfDelay: Infinity })),
+      commitStream(ghId.user, ghId.repo),
+      async function * (source) {
+        for await (const commit of source) {
+          commitList.push(commit)
+        }
+      })
+  ])
   if (code) {
     throw new Error(`git command [${_gitcmd}] exited with code ${code}`)
   }
