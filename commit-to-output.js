@@ -48,7 +48,7 @@ function toStringPlaintext (data) {
   s += (data.semver || []).length ? `(${data.semver.join(', ').toUpperCase()}) ` : ''
 
   if (data.revert) {
-    s += `Revert "${data.group}: ${data.summary} `
+    s += `Revert "${data.group ? `${data.group}: ` : ''}${data.summary}" `
   } else {
     s += `${data.summary} `
   }
