@@ -24,6 +24,7 @@ const { values, positionals } = parseArgs({
     help: { type: 'boolean', short: 'h' },
     quiet: { type: 'boolean', short: 'q' },
     reverse: { type: 'boolean' },
+    'sequence-drop': { type: 'string' },
     'start-ref': { type: 'string' }
   }
 })
