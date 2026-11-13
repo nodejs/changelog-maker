@@ -2,14 +2,13 @@ import _debug from 'debug'
 import { spawn } from 'node:child_process'
 import { once } from 'node:events'
 import { createInterface } from 'node:readline'
-import { Readable, pipeline as _pipeline } from 'stream'
-import { promisify } from 'util'
+import { Readable } from 'node:stream'
+import { pipeline } from 'node:stream/promises'
 import commitStream from 'commit-stream'
 import { isReleaseCommit } from './groups.js'
 
 const debug = _debug('changelog-maker')
 
-const pipeline = promisify(_pipeline)
 const gitcmd = 'git log --pretty=full --since="{{sincecmd}}" --until="{{untilcmd}}"'
 const commitdatecmd = '$(git show -s --format=%cd `{{refcmd}}`)'
 const untilcmd = ''
