@@ -1,5 +1,4 @@
 import { auth } from './auth.js'
-import { get as ghget } from 'ghissues'
 import { forEachConcurrent } from './for-each-concurrent.js'
 
 export async function collectCommitLabels (list) {
@@ -24,7 +23,15 @@ export async function collectCommitLabels (list) {
     // from hitting the network at the same time, immediately assign a Promise
     // to the cache that all commits with the same ghIssue value will use.
     const key = `${commit.ghUser}/${commit.ghProject}#${commit.ghIssue}`
-    cache[key] = cache[key] || ghget(authData, commit.ghUser, commit.ghProject, commit.ghIssue)
+    cache[key] = cache[key] || fetch(`https://api.github.com/repos/${commit.ghUser}/${commit.ghProject}/issues/${commit.ghIssue}`, {
+      headers: { accept: 'application/vnd.github+json', authorization: `Bearer ${authData.token}` }
+    }).then(async (res) => {
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(`Error from GitHub: ${data.message ?? res.statusText}`)
+      }
+      return data
+    })
 
     try {
       const issue = await cache[key]
