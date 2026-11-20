@@ -26,7 +26,7 @@
   "preferGlobal": true,
   "dependencies": {
     "@octokit/graphql": "^9.0.3",
-    "commit-stream": "^2.2.0",
+    "commit-stream": "^3.0.3",
     "debug": "^4.3.4",
     "ghauth": "^7.0.0",
     "ghissues": "^2.0.0",
