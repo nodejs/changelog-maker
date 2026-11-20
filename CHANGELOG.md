@@ -1,3 +1,9 @@
+## [5.1.3](https://github.com/nodejs/changelog-maker/compare/v5.1.2...v5.1.3) (2026-11-20)
+
+### Trivial Changes
+
+* **deps:** bump commit-stream from 2.2.0 to 3.0.3 ([#291](https://github.com/nodejs/changelog-maker/issues/291)) ([2203b3b](https://github.com/nodejs/changelog-maker/commit/2203b3b7495a420d6bd5417925a7e404c70781a2))
+
 ## [5.1.2](https://github.com/nodejs/changelog-maker/compare/v5.1.1...v5.1.2) (2026-11-20)
 
 ### Trivial Changes
