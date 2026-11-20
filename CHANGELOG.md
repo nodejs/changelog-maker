@@ -1,3 +1,9 @@
+## [5.1.2](https://github.com/nodejs/changelog-maker/compare/v5.1.1...v5.1.2) (2026-11-20)
+
+### Trivial Changes
+
+* replace gitexec with node:child_process.spawn ([#290](https://github.com/nodejs/changelog-maker/issues/290)) ([15a425c](https://github.com/nodejs/changelog-maker/commit/15a425ce80857e868feed3fa25bc420cf771997f))
+
 ## [5.1.1](https://github.com/nodejs/changelog-maker/compare/v5.1.0...v5.1.1) (2026-11-03)
 
 ### Bug Fixes
