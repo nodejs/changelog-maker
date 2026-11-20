@@ -102,7 +102,10 @@ function toStringMarkdown (data) {
 }
 
 function toStringMessageOnly (data) {
-  return `  * ${data.cveId ? '(' + data.cveId + ') ' : ''}${data.summary.trim()}`
+  const summary = data.revert
+    ? `Revert "${data.group ? `${data.group}: ` : ''}${data.summary.trim()}"`
+    : data.summary.trim()
+  return `  * ${data.cveId ? '(' + data.cveId + ') ' : ''}${summary}`
 }
 
 export function commitToOutput (commit, format, ghId, commitUrl) {

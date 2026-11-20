@@ -251,3 +251,28 @@ test('test plaintext revert, without group', () => {
     '  * Revert "fix thing" (A)'
   )
 })
+
+test('test messageonly revert, with group', () => {
+  const commit = {
+    sha: 'e28b3f2813d6e8b5c4b3a2f1e0d9c8b7a6f5e4d3',
+    summary: 'Revert "fs: fix thing"',
+    author: { name: 'A' },
+    prUrl: 'https://github.com/nodejs/node/pull/1'
+  }
+  assert.equal(
+    commitToOutput(commit, formatType.MESSAGEONLY, { user: 'nodejs', repo: 'node' }, '{ref}'),
+    '  * Revert "fs: fix thing"'
+  )
+})
+
+test('test messageonly revert, without group', () => {
+  const commit = {
+    sha: 'e28b3f2813d6e8b5c4b3a2f1e0d9c8b7a6f5e4d3',
+    summary: 'Revert "fix thing"',
+    author: { name: 'A' }
+  }
+  assert.equal(
+    commitToOutput(commit, formatType.MESSAGEONLY, { user: 'nodejs', repo: 'node' }, '{ref}'),
+    '  * Revert "fix thing"'
+  )
+})
